@@ -9,13 +9,13 @@
 namespace ZhyuVueCurd;
 
 use Illuminate\Support\ServiceProvider;
-use ZhyuVueCurd\Commands\MakeRepositoryCommand;
+use ZhyuVueCurd\Commands\MakeServiceCommand;
 
 
 class ZhyuServiceProvider extends ServiceProvider
 {
     protected $commands = [
-        MakeRepositoryCommand::class,
+        MakeServiceCommand::class,
     ];
 
     public function register(){

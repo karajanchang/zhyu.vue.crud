@@ -7,49 +7,56 @@ use InvalidArgumentException;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 
-class MakeRepositoryCommand extends GeneratorCommand
+class MakeServiceCommand extends GeneratorCommand
 {
+    /**
+     * The name of the module.
+     *
+     * @var string
+     */
+    private $moduleName = null;
+
     /**
      * The name of the tag.
      *
      * @var string
      */
-    private $tagName = '';
+    private $tagName = null;
 
     /**
      * The name of the model.
      *
      * @var string
      */
-    private $modelName = '';
+    private $repositoryName = '';
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'zhyu:vue:repository {name} {--m=} {--tag=}';
+    protected $signature = 'zhyu:vue:service {name} {--r=} {--with-tag} {--tag=} {--module=}';
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'zhyu:vue:repository';
+    protected $name = 'zhyu:vue:service';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new repository class';
+    protected $description = 'Create a new service class';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Repository';
+    protected $type = 'Service';
 
     /**
      * Get the stub file for the generator.
@@ -58,7 +65,7 @@ class MakeRepositoryCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/repository.stub';
+        return __DIR__.'/stubs/service.stub';
     }
 
     /**
@@ -69,24 +76,40 @@ class MakeRepositoryCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
+        $namespace = $rootNamespace.'\Service';
+
+        if(!is_null($this->moduleName)){
+            $namespace.='\\'.$this->moduleName;
+        }
         if(!is_null($this->tagName)){
 
-            return $rootNamespace.'\Repositories\\'.$this->tagName;
+            $namespace.='\\'.$this->tagName;
         }
 
-        return $rootNamespace.'\Repositories';
+        return $namespace;
     }
 
     public function handle()
     {
-        if(!$this->option('m')){
-            throw new InvalidOptionException('Missing required option --m for model name');
+        if(!$this->option('r')){
+            throw new InvalidOptionException('Missing required option --r for repository name');
         }
-        $this->modelName = ucwords($this->option('m'));
+
 
         $tag = (string) $this->option('tag');
         if(strlen($tag)>0) {
             $this->tagName = ucwords($tag);
+        }
+
+        if(!is_null($this->tagName) && $this->option('with-tag')===true){
+            $this->repositoryName = $this->tagName.'\\'.ucwords($this->option('r'));
+        }else{
+            $this->repositoryName = ucwords($this->option('r'));
+        }
+
+        $module = (string) $this->option('module');
+        if(strlen($module)){
+            $this->moduleName = ucwords($module);
         }
 
         parent::handle();
@@ -103,12 +126,12 @@ class MakeRepositoryCommand extends GeneratorCommand
     protected function replaceClass($stub, $name)
     {
         if(!$this->argument('name')){
-            throw new InvalidArgumentException("Missing required argument repository name");
+            throw new InvalidArgumentException("Missing required argument of service name");
         }
 
         $stub = parent::replaceClass($stub, $name);
 
-        return str_replace('DummyModel', $this->modelName, $stub);
+        return str_replace('DummyRepository', $this->repositoryName, $stub);
     }
 
 }
