@@ -8,14 +8,14 @@
 
 namespace ZhyuVueCurd;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use ZhyuVueCurd\Commands\MakeRepositoryCommand;
 
 
 class ZhyuServiceProvider extends ServiceProvider
 {
     protected $commands = [
+        MakeRepositoryCommand::class,
     ];
 
     public function register(){
@@ -55,7 +55,7 @@ class ZhyuServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            Zhyu\ZhyuServiceProvider::class,
+            ZhyuServiceProvider::class,
         ];
     }
 
