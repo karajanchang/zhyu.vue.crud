@@ -1,0 +1,26 @@
+<?php
+namespace DummyNamespace;
+
+
+use ZhyuVueCurd\Http\Controllers\CRULInterface;
+use ZhyuVueCurd\Http\Controllers\CRULTrait;
+use ZhyuVueCurd\Http\Controllers\CurlController;
+use App\Service\DummyService;
+
+class DummyClass extends CurlController implements CRULInterface
+{
+    use CRULTrait;
+
+    protected $module = 'DummyModule.';
+    protected $tag = 'DummyTag';
+
+    /*
+     * Service 設定
+     */
+    public function service()
+    {
+
+        return DummyMapService::class;
+    }
+
+}

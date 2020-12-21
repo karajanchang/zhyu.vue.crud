@@ -61,7 +61,7 @@ class CurlController extends Controller
      * 列表
      */
     public function index(){
-        $this->tableBind($this->tag)->index();
+        $this->tableBind($this->module, $this->tag)->index();
 
         return $this->view($this->module.$this->tag.'.index');
     }
@@ -70,7 +70,7 @@ class CurlController extends Controller
      * 新增
      */
     public function create(){
-        $this->tableBind($this->tag)->form();
+        $this->tableBind($this->module, $this->tag)->form();
 
         return $this->view($this->module.$this->tag.'.form');
     }
@@ -79,7 +79,7 @@ class CurlController extends Controller
      * 儲存
      */
     public function store(Request $request){
-        $this->tableBind($this->tag)->form();
+        $this->tableBind($this->module, $this->tag)->form();
 
         $this->validate($request, $this->rules_store());
 
@@ -106,7 +106,7 @@ class CurlController extends Controller
     public function edit(int $id){
         $model = app($this->service())->findById($id);
 
-        $this->tableBind($this->tag)->form($model);
+        $this->tableBind($this->module, $this->tag)->form($model);
         $this->validateModel($model);
 
         $tags = explode('.', str_replace('-', '_', $this->tag));
@@ -175,8 +175,8 @@ class CurlController extends Controller
     /*
      * Bind 一個 tatable
      */
-    protected function tableBind(string $tag){
-        $this->tableService = TableServiceBind::bind($tag);
+    protected function tableBind(string $module, string $tag){
+        $this->tableService = TableServiceBind::bind($module, $tag);
 
         return $this->tableService;
     }

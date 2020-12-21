@@ -1,0 +1,61 @@
+
+<?php
+
+return [
+    'model' =>DummyModel::class,
+    'title' => 'DummyTitle',
+    'index_buttons' => [
+        'width' => 200,
+        'update' => [
+            'label' => '修改',
+            'url' => 'DummyUrl/{id}/edit',
+            'css' => 'is-info',
+        ],
+        'delete' => [
+            'label' => '刪除',
+            'url' => 'DummyUrl/{id}',
+            'css' => 'is-danger',
+        ],
+    ],
+    'form_buttons' => [
+        'cancel' => [
+            'label' => '取消',
+            'url' => 'DummyUrl',
+            'css' => 'is-default',
+        ],
+        'submit' => [
+            'label' => '送出',
+            'css' => 'is-primary',
+        ],
+    ],
+    'columns' => [
+        /*
+        'name' =>
+            [
+                'name' => 'name',
+                'type' => 'select',
+                'rules' => [
+                    'store' =>  'required|integer',
+                    'update' =>  'required|integer',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+                'relation' => [
+                    'table' => 'members',
+                    'name' => 'member',
+                    'column' => 'name',
+                ],
+            ],
+        */
+    ],
+    'joins' => [
+        /*
+        'fac_members_id' => [
+            'members', 'posts.members_id', '=', 'members.id'
+        ],
+        */
+    ],
+];

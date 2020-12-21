@@ -22,9 +22,9 @@ class DummyClass extends AbstractCurlService
      *
      * @return string
      */
-    protected function repository()
+    public function repository()
     {
-        return DummyRepository::class;
+        return DummyOnlyRepository::class;
     }
 
     private function processParams(array $params, bool $is_update = false){
