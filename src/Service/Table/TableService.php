@@ -13,9 +13,17 @@ class TableService
     public $model;
     private static $service;
 
-    public function __construct(string $tag)
+    public function __construct(string $module = null, string $tag = null)
     {
-        $this->config = config('columns.'.$tag);
+        $dir = 'columns';
+        if(!is_null($module)){
+            $dir .= '.' . $module;
+        }
+        if(!is_null($tag)){
+            $dir .= '.' . $tag;
+        }
+
+        $this->config = config($dir);
         if(is_null($this->config)){
             throw new \Exception('Please create config of columns schema first!');
         }
