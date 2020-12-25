@@ -9,12 +9,16 @@
 namespace ZhyuVueCurd;
 
 use Illuminate\Support\ServiceProvider;
+use ZhyuVueCurd\Commands\MakeColumnsCommand;
+use ZhyuVueCurd\Commands\MakeControllerCommand;
 use ZhyuVueCurd\Commands\MakeServiceCommand;
 
 
 class ZhyuServiceProvider extends ServiceProvider
 {
     protected $commands = [
+        MakeControllerCommand::class,
+        MakeColumnsCommand::class,
         MakeServiceCommand::class,
     ];
 
