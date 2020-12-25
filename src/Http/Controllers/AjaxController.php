@@ -4,10 +4,10 @@
 namespace ZhyuVueCurd\Http\Controllers;
 
 
-use App\Helper\GetTableColumnsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Zhyu\Repositories\Eloquents\Repository;
+use ZhyuVueCurd\Helper\GetTableColumnsTrait;
 
 class AjaxController extends Controller
 {
