@@ -11,7 +11,7 @@ class DummyClass extends CurlController implements CRULInterface
 {
     use CRULTrait;
 
-    protected $module = 'DummyModule.';
+    protected $module = 'DummyModule';
     protected $tag = 'DummyTag';
 
     /*
