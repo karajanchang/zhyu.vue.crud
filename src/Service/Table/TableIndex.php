@@ -11,12 +11,19 @@ class TableIndex extends TableAbstract implements InterfaceTable
     protected $table_type = 'index';
 
     public function header() : string{
+        $config_draggable = '
+            draggable
+            @dragstart="dragstart"
+            @drop="drop"
+            @dragover="dragover"
+            @dragleave="dragleave"
+        ';
 
         $this->header = '
             <b-table
+                '.$config_draggable.'
                 :data="data"
                 :loading="loading"
-
                 paginated
                 backend-pagination
                 hoverable
@@ -59,22 +66,17 @@ class TableIndex extends TableAbstract implements InterfaceTable
         return $this->footer;
     }
 
-    private function makeButton($type) : ?ButtonIndex{
-        if(!isset($this->config['index_buttons'][$type])){
 
-            return null;
-        }
-        return app(ButtonIndex::class, [ 'model' => $this->model, 'type' => $type, 'params' => $this->config['index_buttons'][$type]  ]);
-    }
 
     public function buttons() : string{
+        $tag = 'index_buttons';
+        $width = $this->config[$tag]['width'] ?? 200;
         $str ='
-            <b-table-column label="" width="200">
-                    <section>
-                    '.$this->makeButton('update').'
-                    '.$this->makeButton('delete').'
-                    </section>
-                </b-table-column>
+            <b-table-column label="" width="'.$width.'">
+                <section>
+                    '.$this->makeButtons(ButtonIndex::class, $tag).'
+                </section>
+            </b-table-column>
         ';
 
         return $str;
@@ -94,6 +96,7 @@ class TableIndex extends TableAbstract implements InterfaceTable
                     continue;
                 }
                 $str.= $this->column($field);
+                //dd($this->columns, $field, $column, $allColumns);
             }
             $str.= $this->buttons();
         }

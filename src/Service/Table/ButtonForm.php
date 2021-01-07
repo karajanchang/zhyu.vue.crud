@@ -8,21 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ButtonForm
 {
-    private $model;
-    private $table_name;
-    private $type;
-    private $params = [];
+    use ButtonTrait;
 
-    public function __construct(Model $model , string $type, array $params)
-    {
-        $this->model = $model;
-        $this->table_name = $model->getTable();
-        $this->type = $type;
-        $this->params = $params;
-    }
 
     private function makeUrl(){
-        $default_url = $this->type == 'cancel' ? '/'.$this->table_name : null;
+        $default_url = $this->type == 'cancel' ? '/'.$this->model_name : null;
 
         return isset($this->params['url']) ?  url($this->params['url']) : ($default_url);
     }

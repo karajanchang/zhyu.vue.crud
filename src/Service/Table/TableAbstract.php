@@ -4,6 +4,7 @@
 namespace ZhyuVueCurd\Service\Table;
 
 
+use http\QueryString;
 use ZhyuVueCurd\Helper\GetTableColumnsTrait;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
@@ -85,6 +86,21 @@ class TableAbstract implements \ArrayAccess, Arrayable
         $columns = $this->makeColumn();
 
         return 'window.Model ='. json_encode($columns);
+    }
+
+    protected function makeButtons(string $buttonClass, string $tag) : ?string{
+        if(!isset($this->config[$tag]) && !is_array($this->config[$tag])) return null;
+
+        $str = '<div class="buttons">';
+        array_map(function($configs) use($buttonClass, &$str){
+            if(is_array($configs)) {
+                $type = $configs['type'] ?? 'primary';
+                $str .= app($buttonClass, ['model' => $this->model, 'type' => $type, 'params' => $configs]);
+            }
+        }, $this->config[$tag]);
+        $str .= '</div>';
+
+        return $str;
     }
 
     private function makeColumn() : array{

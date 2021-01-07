@@ -33,16 +33,13 @@ class TableForm extends TableAbstract implements InterfaceTable
         return $this->footer;
     }
 
-    private function makeButton($type) : ButtonForm{
-
-        return app(ButtonForm::class, [ 'model' => $this->model, 'type' => $type, 'params' => $this->config['form_buttons'][$type]  ]);
-    }
-
     public function buttons() : string{
+        $tag = 'form_buttons';
+        $width = $this->config[$tag]['width'] ?? 200;
+
         $str ='
             <div class="buttons">
-                    '.$this->makeButton('cancel').'
-                    '.$this->makeButton('submit').'
+                    '.$this->makeButtons(ButtonForm::class, $tag).'
             </div>
         ';
 

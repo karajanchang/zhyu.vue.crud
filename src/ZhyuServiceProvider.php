@@ -9,9 +9,19 @@
 namespace ZhyuVueCurd;
 
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use ZhyuVueCurd\Commands\MakeColumnsCommand;
 use ZhyuVueCurd\Commands\MakeControllerCommand;
 use ZhyuVueCurd\Commands\MakeServiceCommand;
+use ZhyuVueCurd\Helper\ConfigsHelper;
+use ZhyuVueCurd\Http\Livewire\Admin\ConfigForm;
+use ZhyuVueCurd\Http\Livewire\Admin\ConfigList;
+use ZhyuVueCurd\Http\Livewire\Admin\ConfigNameValue;
+use ZhyuVueCurd\Http\Livewire\Admin\ConfigSetValue;
+use ZhyuVueCurd\Http\Livewire\Admin\LeftMenu;
+use ZhyuVueCurd\Http\Livewire\Admin\MenuBreadcrumb;
+use ZhyuVueCurd\Http\Livewire\Admin\TableIndex;
+use ZhyuVueCurd\Http\Livewire\Admin\TableRowDrag;
 
 
 class ZhyuServiceProvider extends ServiceProvider
@@ -31,11 +41,16 @@ class ZhyuServiceProvider extends ServiceProvider
             return app()->make(\Zhyu\Helpers\ZhyuGate::class);
         });
         */
+        $this->app->bind('Configs',function() {
+
+            return new ConfigsHelper();
+        });
 
         $this->registerAliases();
     }
 
     public function boot(){
+        $this->loadViewsFrom(__DIR__.'/views', 'ZhyuVueCurd');
         if ($this->isLumen()) {
             require_once 'Lumen.php';
         }
@@ -43,6 +58,18 @@ class ZhyuServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands($this->commands);
         }
+
+        /*
+         * 註冊 livewire compnnents
+         */
+        Livewire::component('admin.config-form', ConfigForm::class);
+        Livewire::component('admin.config-list', ConfigList::class);
+        Livewire::component('admin.config-name-value', ConfigNameValue::class);
+        Livewire::component('admin.config-set-value', ConfigSetValue::class);
+        Livewire::component('admin.left-menu', LeftMenu::class);
+        Livewire::component('admin.menu-breadcrumb', MenuBreadcrumb::class);
+        Livewire::component('admin.table-index', TableIndex::class);
+        Livewire::component('admin.table-row-drag', TableRowDrag::class);
     }
 
     protected function loadFunctions(){
@@ -73,7 +100,7 @@ class ZhyuServiceProvider extends ServiceProvider
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-//            $loader->alias('ZhyuCurl', \Zhyu\Facades\ZhyuCurl::class);
+            $loader->alias('Configs', \ZhyuVueCurd\Facades\ConfigsFacades::class);
         }
     }
 

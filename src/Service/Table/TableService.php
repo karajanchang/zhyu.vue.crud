@@ -22,7 +22,6 @@ class TableService
         if(!is_null($tag)){
             $dir .= '.' . $tag;
         }
-
         $this->config = config($dir);
         if(is_null($this->config)){
             throw new \Exception('Please create config of columns schema first!');

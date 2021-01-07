@@ -6,6 +6,7 @@ namespace ZhyuVueCurd\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Zhyu\Facades\ZhyuTool;
 use Zhyu\Repositories\Eloquents\Repository;
 use ZhyuVueCurd\Helper\GetTableColumnsTrait;
 
@@ -24,17 +25,17 @@ class AjaxController extends Controller
 
 
 
-    public function index($tag){
+    public function index($module = null, $tag){
         $capFunctionName = $this->capName($tag);
         if(method_exists($this, $capFunctionName)){
 
-           return $this->{$capFunctionName}();
+            return $this->{$capFunctionName}();
         }
 
-        $repository = $this->getRepository($capFunctionName);
+        $repository = $this->getRepository($capFunctionName, $module);
         if(!class_exists($repository)) throw new \Exception('Please create repository class first: '.$repository);
 
-        $qb = $this->parseSelect($tag, $repository);
+        $qb = $this->parseSelect($tag, $repository, $module);
 
         return $this->rowsOrderby($qb);
     }
@@ -42,10 +43,10 @@ class AjaxController extends Controller
     /*
      * 拿到repository
      */
-    private function getRepository($capFunctionName) : string{
+    private function getRepository($capFunctionName, $module = null) : string{
         if(strstr($capFunctionName, '.')) {
             $caps = explode('.', $capFunctionName);
-            $repository = 'App\Repositories';
+            $repository = 'App\Repositories'.'\\'.$module;
             foreach ($caps as $cap) {
                 $repository .= '\\' . $this->parseIfHasDot($cap);
             }
@@ -55,11 +56,11 @@ class AjaxController extends Controller
                 return $repository;
             }
 
-            $capFunctionName = $this->parseIfHasDot($capFunctionName);
+            $capFunctionName = $this->parseIfHasDot($capFunctionName, $module);
             $repository = 'App\Repositories\\' . $capFunctionName . 'Repository';
 
         }else{
-            $repository = 'App\Repositories\\'.$capFunctionName.'Repository';
+            $repository = 'App\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
         }
         return $repository;
     }
@@ -67,7 +68,11 @@ class AjaxController extends Controller
     /*
      * 若其值為 material.brand  ==> MaterialBrand
      */
-    private function parseIfHasDot($capFunctionName, bool $isUcFirst = true, bool $isAsFolder = false) : string{
+    private function parseIfHasDot($capFunctionName, $module = null, bool $isUcFirst = true, bool $isAsFolder = false) : string{
+        if(!is_null($module)){
+            $capFunctionName = $module.'.'.$capFunctionName;
+        }
+
         $capFunctionNames = explode('.', $capFunctionName);
         $replace = $isAsFolder===true ? '/' : '';
         $res = join($replace,
@@ -78,7 +83,7 @@ class AjaxController extends Controller
                 }
 
                 return $row;
-        }, $capFunctionNames));
+            }, $capFunctionNames));
 
         return $res;
     }
@@ -89,18 +94,19 @@ class AjaxController extends Controller
     }
 
 
-    private function parseSelect(string $tag, string $repository){
-        $tag = $this->parseIfHasDot($tag, false, true);
+    private function parseSelect(string $tag, string $repository, string $module = null){
+        $tag = $this->parseIfHasDot($tag, $module, false, true);
+
         $this->config = include base_path('config/columns/'.$tag.'.php');
         $rep = app($repository);
-        if(isset($this->config['joins'])){
+        if(isset($this->config['joins']) && count($this->config['joins'])){
             $qb = $rep->getModel();
             $this->table = $qb->getTable();
             $columns = $this->getTableColumns($this->table);
             $selects = [];
             foreach($this->config['columns'] as $col => $column){
                 if(!in_array($col, $columns)){
-                   continue;
+                    continue;
                 }
                 if(isset($column['relation'])) {
                     $col = DB::raw($column['relation']['table'] . '.' . $column['relation']['column'] . ' as ' . $col);
@@ -111,7 +117,9 @@ class AjaxController extends Controller
                     array_push($selects, $this->table.'.id');
                 }
                 array_push($selects, $col);
+
             }
+
             foreach($this->config['joins'] as $col => $joins){
                 $qb = call_user_func_array([$qb, 'join'], $joins);
             }
@@ -129,7 +137,7 @@ class AjaxController extends Controller
 
     private function rowsOrderby($qb){
         if($qb instanceof Repository){
-           $qb = $qb->getModel();
+            $qb = $qb->getModel();
         }
         //dd($qb);
         $all = $this->request->all();
@@ -153,10 +161,23 @@ class AjaxController extends Controller
                 }
             }
         }
-        //dump($qb->toSql());
+        //dump($qb, 'GGGGGG');
+        if(isset($all['query'])) {
+            $this->processQuery($qb, $all['query']);
+        }
+//        dd($qb->toSql(), $qb->getBindings());
         $rows = $qb->paginate();
 
         return $rows;
+    }
+
+    private function processQuery($qb, string $query = null){
+        if(is_null($query)) return ;
+
+        $querys = ZhyuTool::urlMakeQuery('#')->decode($query);
+        foreach($querys as $column => $qs) {
+            $qb->where($column, $qs['0'], $qs['1']);
+        }
     }
 
 }

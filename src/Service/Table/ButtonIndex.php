@@ -8,22 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ButtonIndex
 {
-    private $model;
-    private $table_name;
-    private $type;
-    private $params = [];
+    use ButtonTrait;
 
-    public function __construct(Model $model , string $type, array $params)
-    {
-        $this->model = $model;
-        $this->table_name = $model->getTable();
-        $this->type = $type;
-        $this->params = $params;
-    }
-
+    
     private function makeUrl(){
-        $default_url = $this->type == 'update' ? '/'.$this->table_name.'/edit' : '/'.$this->table_name.'/{id}';
-//        dd(url($this->params['url']), $default_url);
+        $default_url = $this->type == 'update' ? '/'.strtolower($this->model_name).'/edit' : '/'.strtolower($this->model_name).'/{id}';
 
         return isset($this->params['url']) ?  url($this->params['url']) : url($default_url);
     }

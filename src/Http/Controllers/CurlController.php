@@ -4,6 +4,7 @@
 namespace ZhyuVueCurd\Http\Controllers;
 
 
+use Illuminate\Support\Facades\View;
 use ZhyuVueCurd\Helper\TableServiceBind;
 use ZhyuVueCurd\Helper\TraitLogging;
 use Illuminate\Database\Eloquent\Model;
@@ -63,16 +64,17 @@ class CurlController extends Controller
     public function index(){
         $this->tableBind($this->module, $this->tag)->index();
 
-        return $this->view($this->module.$this->tag.'.index');
+        return $this->view($this->module.'.'.$this->tag.'.index', $params);
     }
 
     /*
      * 新增
      */
     public function create(){
+
         $this->tableBind($this->module, $this->tag)->form();
 
-        return $this->view($this->module.$this->tag.'.form');
+        return $this->view($this->module.'.'.$this->tag.'.form');
     }
 
     /*
@@ -112,9 +114,9 @@ class CurlController extends Controller
         $tags = explode('.', str_replace('-', '_', $this->tag));
         $tag = $tags[ (count($tags)-1)];
 
-        $this->setEditUrl(route($this->module.$this->tag.'.update', [ $tag => $model ]));
+        $this->setEditUrl(route($this->module.'.'.$this->tag.'.update', [ $tag => $model ]));
 
-        return $this->view($this->module.$this->tag.'.form');
+        return $this->view($this->module.'.'.$this->tag.'.form');
     }
 
 
@@ -125,7 +127,7 @@ class CurlController extends Controller
     public function update(int $id, Request $request)
     {
         $model = app($this->service())->findById($id);
-        $this->tableBind($this->tag)->form($model);
+        $this->tableBind($this->module, $this->tag)->form($model);
         $this->validateModel($model);
 
         $this->validate($request, $this->rules_update($model));
@@ -219,17 +221,21 @@ class CurlController extends Controller
     protected function view(string $view_name, array $params = []){
         $views = explode('.', $view_name);
 
+//        dd($view_name, 'vendor.curl.'.$views[(count($views)-1)], $views);
+
         return view()->first([
-                                $view_name,
-                                'vendor.curl.'.$views[(count($views)-1)],
-                        ],
-                        array_merge(
-                            $params,
-                            $this->groupUrls(),
-                            [ 'tableService' => $this->tableService ],
-                            [ 'row' => $this->tableService->model ]
-                        )
-            );
+            $view_name,
+            'ZhyuVueCurd::curl.index',
+            'vendor.curl.'.$views[(count($views)-1)],
+
+        ],
+            array_merge(
+                $params,
+                $this->groupUrls(),
+                [ 'tableService' => $this->tableService ],
+                [ 'row' => $this->tableService->model ]
+            )
+        );
     }
 
     /*
@@ -254,7 +260,7 @@ class CurlController extends Controller
      */
     public function createUrl() : string{
 
-        return route($this->module.$this->tag .'.create');
+        return route($this->module.'.'.$this->tag .'.create');
     }
 
     /*
@@ -262,7 +268,7 @@ class CurlController extends Controller
      */
     public function storeUrl() : string{
 
-        return route($this->module.$this->tag .'.store');
+        return route($this->module.'.'.$this->tag .'.store');
     }
 
     /*
@@ -270,7 +276,7 @@ class CurlController extends Controller
      */
     public function dataUrl() : string{
 
-        return route('vendor.ajax.'.$this->tag, [ 'tag' => $this->tag ]);
+        return route('vendor.ajax.'.$this->module.'.'.$this->tag, [ 'module' => $this->module, 'tag' => $this->tag ]);
     }
 
     /*
@@ -278,14 +284,14 @@ class CurlController extends Controller
     */
     public function indexUrl() : string{
 
-        return route($this->module.$this->tag .'.index');
+        return route($this->module.'.'.$this->tag .'.index');
     }
 
     private function error(string $msg = null){
 
         return response()->json([
-                                    'errors' => $msg
-                                ],
-                        Response::HTTP_BAD_REQUEST);
+            'errors' => $msg
+        ],
+            Response::HTTP_BAD_REQUEST);
     }
 }
