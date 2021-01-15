@@ -5,7 +5,7 @@ namespace ZhyuVueCurd\Service\Table\Column;
 
 
 
-class Date extends Input implements InterfaceColumn
+class Datetime extends Input implements InterfaceColumn
 {
     use TraitColumn;
 
