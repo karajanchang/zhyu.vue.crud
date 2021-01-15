@@ -82,6 +82,6 @@ class ConfigSetValue extends Component
     {
         $view = 'livewire.admin.config-set-value';
 
-        return view()->first(['vendor.'.$view, $view]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view]);
     }
 }

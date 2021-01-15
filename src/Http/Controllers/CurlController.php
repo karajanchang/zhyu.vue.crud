@@ -4,6 +4,7 @@
 namespace ZhyuVueCurd\Http\Controllers;
 
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use ZhyuVueCurd\Helper\TableServiceBind;
 use ZhyuVueCurd\Helper\TraitLogging;
@@ -64,7 +65,7 @@ class CurlController extends Controller
     public function index(){
         $this->tableBind($this->module, $this->tag)->index();
 
-        return $this->view($this->module.'.'.$this->tag.'.index', $params);
+        return $this->view($this->module.'.'.$this->tag.'.index');
     }
 
     /*
@@ -136,6 +137,7 @@ class CurlController extends Controller
         try {
             if ($lock->get()) {
                 $res = app($this->service())->update($model);
+                Log::info(__CLASS__.'::'.__METHOD__.' res: ', [$res]);
 
                 return $res;
             }
@@ -220,14 +222,12 @@ class CurlController extends Controller
      */
     protected function view(string $view_name, array $params = []){
         $views = explode('.', $view_name);
-
-//        dd($view_name, 'vendor.curl.'.$views[(count($views)-1)], $views);
+//        dump($view_name);
 
         return view()->first([
             $view_name,
-            'ZhyuVueCurd::curl.index',
             'vendor.curl.'.$views[(count($views)-1)],
-
+            'ZhyuVueCurd::curl.'.$views[(count($views)-1)],
         ],
             array_merge(
                 $params,
@@ -275,7 +275,9 @@ class CurlController extends Controller
      * 定義網址 - data
      */
     public function dataUrl() : string{
+//        dump($this->module, $this->tag);
 
+//        dump($a);
         return route('vendor.ajax.'.$this->module.'.'.$this->tag, [ 'module' => $this->module, 'tag' => $this->tag ]);
     }
 
@@ -293,5 +295,26 @@ class CurlController extends Controller
             'errors' => $msg
         ],
             Response::HTTP_BAD_REQUEST);
+    }
+
+    public function getModule() : string{
+
+        return $this->module;
+    }
+
+    public function getTag() : string{
+
+        return $this->tag;
+    }
+
+    public function getLastTag(){
+        $tags = explode('.', $this->tag);
+
+        return array_pop((array_slice($tags, -1)));
+    }
+
+    public function getModel(){
+
+        return $this->tableService->model;
     }
 }

@@ -25,13 +25,13 @@ class AjaxController extends Controller
 
 
 
-    public function index($module = null, $tag){
+    public function index($module, $tag = null){
         $capFunctionName = $this->capName($tag);
+
         if(method_exists($this, $capFunctionName)){
 
             return $this->{$capFunctionName}();
         }
-
         $repository = $this->getRepository($capFunctionName, $module);
         if(!class_exists($repository)) throw new \Exception('Please create repository class first: '.$repository);
 
@@ -62,6 +62,7 @@ class AjaxController extends Controller
         }else{
             $repository = 'App\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
         }
+
         return $repository;
     }
 

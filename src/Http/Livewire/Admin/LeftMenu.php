@@ -15,7 +15,7 @@ class LeftMenu extends Component
     {
         $view = 'livewire.admin.left-menu';
 
-        return view()->first(['vendor.'.$view, $view], [
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view], [
             'menus' => $this->getMenus(),
         ]);
     }

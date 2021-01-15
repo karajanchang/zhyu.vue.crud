@@ -12,6 +12,8 @@ class TableIndex extends Component
     {
         $view = 'livewire.admin.table-index';
 
-        return view()->first(['vendor.'.$view, $view], ['tableService' => $this->tableService]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view], [
+            'tableService' => $this->tableService
+        ]);
     }
 }

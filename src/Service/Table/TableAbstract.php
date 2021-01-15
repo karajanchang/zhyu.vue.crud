@@ -4,7 +4,9 @@
 namespace ZhyuVueCurd\Service\Table;
 
 
+use Carbon\Carbon;
 use http\QueryString;
+use Illuminate\Support\Facades\Schema;
 use ZhyuVueCurd\Helper\GetTableColumnsTrait;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
@@ -84,9 +86,32 @@ class TableAbstract implements \ArrayAccess, Arrayable
         $this->makeJs2($this->columns);
 
         $columns = $this->makeColumn();
+        $ccs = [];
+        $js = 'window.Model={';
+        foreach($columns as $column => $value){
+            if(isset($this->config['columns'][$column]['type']) && strtolower($this->config['columns'][$column]['type'])=='date'){
+                if(isset($columns['id'])) {
+                    $ccs[] = '"' . $column . '": ' . 'new Date(\'' . $value . '\')';
+                }else{
+                    $ccs[] = '"' . $column . '": ' . 'new Date()';
+                }
+            }else{
+                if(is_string($value)) {
+                    $ccs [] = '"' . $column . '": "' . $value . '"';
+                }elseif(is_null($value)){
+                    $ccs [] = '"' . $column . '": "' . $value . '"';
+                }else{
+                    $ccs [] = '"' . $column . '": ' . $value;
+                }
+            }
+        }
 
-        return 'window.Model ='. json_encode($columns);
+        $js .= join(',', $ccs).'};';
+
+//        return 'window.Model ='. json_encode($columns);
+        return $js;
     }
+
 
     protected function makeButtons(string $buttonClass, string $tag) : ?string{
         if(!isset($this->config[$tag]) && !is_array($this->config[$tag])) return null;

@@ -26,7 +26,9 @@ class MenuBreadcrumb extends Component
         $this->getParent($this->parent_id);
         $view = 'livewire.admin.menu-breadcrumb';
 
-        return view()->first(['vendor.'.$view, $view], ['parents' => $this->parents]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view], [
+            'parents' => $this->parents
+        ]);
     }
 
 }

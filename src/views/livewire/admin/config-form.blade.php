@@ -25,7 +25,7 @@
                     <div class="level-item has-text-centered">
                         <b-field label="標籤" @error('configs.tag') type="is-danger"
                                  message="請輸入標籤" @enderror>
-                            <b-input value="" name="tag" maxlength="50" wire:model="configs.tag"></b-input>
+                            <b-input value="" name="tag" maxlength="30" wire:model="configs.tag"></b-input>
                         </b-field>
                     </div>
 

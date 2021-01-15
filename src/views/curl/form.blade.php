@@ -1,4 +1,4 @@
-@extends('vendor.layouts.base')
+@extends('ZhyuVueCurd::layouts.base')
 
 
 @push("js")
@@ -6,6 +6,7 @@
 @endpush
 
 @push("js_append")
+
     <script type="text/javascript">
         {!! $tableService->js() !!}
     </script>
@@ -13,6 +14,7 @@
     <script type="text/javascript">
         {!! $tableService->js2() !!}
     </script>
+
 @endpush
 
 
@@ -23,4 +25,5 @@
         </section>
     </div>
 
+    <script src="/js/date.js"></script>
 @stop

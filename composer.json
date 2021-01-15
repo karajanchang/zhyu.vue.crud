@@ -48,15 +48,6 @@
   },
   "scripts": {
     "post-root-package-install": [
-      "@php -r \"file_exists('resources/views/vendor/livewire/admin') || mkdir('resources/views/vendor/livewire/admin', 0755, true);\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/config-form.blade.php', 'resources/views/vendor/livewire/admin/config-form.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/config-list.blade.php', 'resources/views/vendor/livewire/admin/config-list.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/config-name-value.blade.php', 'resources/views/vendor/livewire/admin/config-name-value.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/config-set-value.blade.php', 'resources/views/vendor/livewire/admin/config-set-value.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/left-menu.blade.php', 'resources/views/vendor/livewire/admin/left-menu.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/menu-breadcrumb.blade.php', 'resources/views/vendor/livewire/admin/menu-breadcrumb.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/table-index.blade.php', 'resources/views/vendor/livewire/admin/table-index.blade.php');\"",
-      "@php -r \"copy('vendor/zhyu/vue.crud/src/views/livewire/admin/table-row-drag.blade.php', 'resources/views/vendor/livewire/admin/table-row-drag.blade.php');\""
     ]
   }
 }

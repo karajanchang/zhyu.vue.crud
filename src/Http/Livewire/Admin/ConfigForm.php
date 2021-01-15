@@ -58,6 +58,6 @@ class ConfigForm extends Component
     {
         $view = 'livewire.admin.config-form';
 
-        return view()->first(['vendor.'.$view, $view]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view]);
     }
 }

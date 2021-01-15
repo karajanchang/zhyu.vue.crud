@@ -41,7 +41,7 @@ class ConfigList extends Component
         $rows = $this->getRows();
         $view = 'livewire.admin.config-list';
 
-        return view()->first(['vendor.'.$view, $view], [
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view], [
             'rows' => $rows,
         ]);
     }

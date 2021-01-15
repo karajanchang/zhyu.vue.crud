@@ -1,31 +1,34 @@
-
 <?php
 
 return [
-    'model' =>DummyModel::class,
+    'model' => \App\Models\DummyModel::class,
     'title' => 'DummyTitle',
     'index_buttons' => [
         'width' => 200,
-        'update' => [
+        [
             'label' => '修改',
             'url' => 'DummyUrl/{id}/edit',
             'css' => 'is-info',
+            'type'=> 'update',
         ],
-        'delete' => [
+        [
             'label' => '刪除',
             'url' => 'DummyUrl/{id}',
             'css' => 'is-danger',
+            'type'=> 'delete',
         ],
     ],
     'form_buttons' => [
-        'cancel' => [
+        [
             'label' => '取消',
             'url' => 'DummyUrl',
             'css' => 'is-default',
+            'type'=> 'cancel',
         ],
-        'submit' => [
+        [
             'label' => '送出',
             'css' => 'is-primary',
+            'type'=> 'submit',
         ],
     ],
     'columns' => [

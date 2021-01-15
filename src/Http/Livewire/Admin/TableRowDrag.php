@@ -17,7 +17,7 @@ class TableRowDrag extends Component
         $this->getRows($source);
 //        dump($source, $dest, $sourceId, $destId);
         $orderby = 1;
-        if($this->rows->count() > 0) {
+        if($this->rows->count() > 0 && isset($srouce->orderby)) {
             foreach ($this->rows as $row) {
                 if($orderby==$sourceId){
                     $row->orderby = $destId;
@@ -58,6 +58,6 @@ class TableRowDrag extends Component
     {
         $view = 'livewire.admin.table-row-drag';
 
-        return view()->first(['vendor.'.$view, $view]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view]);
     }
 }

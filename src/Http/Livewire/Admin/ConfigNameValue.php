@@ -76,6 +76,6 @@ class ConfigNameValue extends Component
     {
         $view = 'livewire.admin.config-name-value';
 
-        return view()->first(['vendor.'.$view, $view]);
+        return view()->first([$view, 'vendor.'.$view, 'ZhyuVueCurd::'.$view]);
     }
 }

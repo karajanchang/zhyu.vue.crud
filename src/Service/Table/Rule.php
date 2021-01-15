@@ -83,6 +83,16 @@ class Rule
         return $rule;
     }
 
+    /**
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    
+
     /*
     public function offsetExists($offset){
 

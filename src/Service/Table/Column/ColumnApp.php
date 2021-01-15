@@ -49,7 +49,6 @@ class ColumnApp
         $luts = include $lut_file;
         $content = Collection::make($luts);
 
-
         $now = Carbon::now();
         Cache::put($key, $content, $now->addDays(1));
 

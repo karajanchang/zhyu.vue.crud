@@ -66,10 +66,4 @@ class TableForm extends TableAbstract implements InterfaceTable
         return $str;
     }
 
-
-
-
-
-
-
 }

@@ -4,6 +4,8 @@
 namespace ZhyuVueCurd\Service;
 
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -14,8 +16,36 @@ trait TraitCurlService
         return $this->repository->find($id);
     }
 
+    /*
+     * 處理date 和 datetime
+     */
+    private function processAllColumn(Model $model, array &$all){
+        $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($model->getTable());
+        foreach($columns as $name => $column){
+            if(isset($all[$name])) {
+                if ($column->getType() instanceof \Doctrine\DBAL\Types\DateType) {
+                    $dt = new Carbon($all[$name]);
+                    $all[$name] = $dt->format('Y-m-d');
+                }
+                if ($column->getType() instanceof \Doctrine\DBAL\Types\DateTimeType) {
+                    $dt = new Carbon($all[$name]);
+                    $all[$name] = $dt->format('Y-m-d H:i:s');
+                }
+                if ($column->getType() instanceof \Doctrine\DBAL\Types\BooleanType) {
+                    $all[$name] = $all[$name] ?? false;
+                }
+            }
+        }
+
+        Log::info('processDateColumn: ', [$all]);
+
+        return $all;
+    }
+
     public function store(){
         $all = $this->getParams(false);
+        $this->processAllColumn(app(app($this->repository())->model()), $all);
+
         if(method_exists($this->repository, 'insertByParams')){
 
             return $this->repository->insertByParams($all);
@@ -26,12 +56,14 @@ trait TraitCurlService
 
     public function update(Model $model){
         $all = $this->getParams(true);
+        $this->processDateColumn($model, $all);
+
         if(method_exists($this->repository, 'updateByParams')){
 
             return $this->repository->updateByParams($model->id, $all);
         }
-
-        return $this->repository->update($model->id, $all);
+        $res = $this->repository->update($model->id, $all);
+        return $res;
     }
 
     public function destroy(Model $model){
