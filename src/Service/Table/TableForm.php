@@ -16,7 +16,7 @@ class TableForm extends TableAbstract implements InterfaceTable
     }
 
     public function start() : string{
-        $this->start = '<form @submit.prevent="onSubmit">';
+        $this->start = '<form @submit.prevent="onSubmit" id="form">';
 
         return $this->start;
     }

@@ -108,6 +108,8 @@ class TableAbstract implements \ArrayAccess, Arrayable
 
         $js .= join(',', $ccs).'};';
 
+        $js .= 'window.ckeditorColumns = [\'body\'];';
+
 //        return 'window.Model ='. json_encode($columns);
         return $js;
     }
