@@ -37,7 +37,7 @@ trait TraitCurlService
             }
         }
 
-        Log::info('processDateColumn: ', [$all]);
+        Log::info('processAllColumn: ', [$all]);
 
         return $all;
     }
@@ -56,7 +56,7 @@ trait TraitCurlService
 
     public function update(Model $model){
         $all = $this->getParams(true);
-        $this->processDateColumn($model, $all);
+        $this->processAllColumn($model, $all);
 
         if(method_exists($this->repository, 'updateByParams')){
 
