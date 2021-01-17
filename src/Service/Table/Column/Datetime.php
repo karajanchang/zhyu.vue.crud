@@ -18,15 +18,12 @@ class Datetime extends Input implements InterfaceColumn
                 v-model="Model.'.$this->field.'"
                 locale="zh"
                 placeholder="Click to select..."
-                icon="calendar-today"
-                trap-focus>
+                >
             </b-datetimepicker>
         </b-field>';
 
 
         $str.=$this->ValidationProviderFooter();
-
-
 
         return $str;
     }

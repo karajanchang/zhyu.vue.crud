@@ -3,6 +3,7 @@
 return [
     'checkbox' => \ZhyuVueCurd\Service\Table\Column\Checkbox::class,
     'date' => \ZhyuVueCurd\Service\Table\Column\Date::class,
+    'datetime' => \ZhyuVueCurd\Service\Table\Column\Datetime::class,
     'file' => \ZhyuVueCurd\Service\Table\Column\File::class,
     'hidden' => \ZhyuVueCurd\Service\Table\Column\Hidden::class,
     'image' => \ZhyuVueCurd\Service\Table\Column\Image::class,
