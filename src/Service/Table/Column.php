@@ -139,6 +139,7 @@ class Column implements \ArrayAccess
         app(ColumnApp::class)->bind($this->type, true);
         $columnService = app(ColumnService::class);
         $columnService
+                    ->model($this->model)
                     ->name($this->name)
                     ->field($this->field)
                     ->rule($this->makeRule())

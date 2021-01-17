@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 trait TraitColumn
 {
     private function getModelName(){
+        /*
         $model = $this->rule->getModel();
         $class = explode('\\', get_class($model));
         $class_name = array_pop($class);
@@ -16,6 +17,8 @@ trait TraitColumn
 
             return strtolower($class_name);
         }
+        */
+        return $this->model->getTable();
     }
 
     private function getAction(){

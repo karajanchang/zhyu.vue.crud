@@ -11,6 +11,12 @@ class ColumnService
         $this->column = $column;
     }
 
+    public function model($model){
+        $this->column->model = $model;
+
+        return $this;
+    }
+
     public function name($name){
         $this->column->name = $name;
 

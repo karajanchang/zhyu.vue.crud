@@ -16,7 +16,7 @@ class Image extends Input implements InterfaceColumn
 
         $str.='<input type="file" @change="uploadFile(\''.$dir.'\',\''.$this->field.'\')" ref="'.$this->field.'">';
 
-        if($action=='edit') {
+        if($action=='edit' && isset($this->model->id) && strlen($this->model->{$this->field}) > 0) {
             $str .= '<b-image :src="getImgUrl(\'/storage/\'+Model.' . $this->field . ')"></b-image>';
         }
 

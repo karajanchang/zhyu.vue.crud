@@ -90,7 +90,7 @@ class TableAbstract implements \ArrayAccess, Arrayable
         $js = 'window.Model={';
         foreach($columns as $column => $value){
             $datetime_columns = ['date', 'datetime'];
-            if( isset($this->config['columns'][$column]['type']) && in_array($this->config['columns'][$column]['type'], $datetime_columns) ){
+            if( isset($this->config['columns'][$column]['type']) && in_array(strtolower($this->config['columns'][$column]['type']), $datetime_columns) ){
                 if(isset($columns['id'])) {
                     $ccs[] = '"' . $column . '": ' . 'new Date(\'' . $value . '\')';
                 }else{
@@ -109,7 +109,11 @@ class TableAbstract implements \ArrayAccess, Arrayable
 
         $js .= join(',', $ccs).'};';
 
-        $js .= 'window.ckeditorColumns = [\'body\'];';
+        foreach($columns as $column => $value) {
+            if( isset($this->config['columns'][$column]['type']) && strtolower($this->config['columns'][$column]['type'])=='richtext' ) {
+                $js .= 'window.ckeditorColumns = [\''.$column.'\'];';
+            }
+        }
 
 //        return 'window.Model ='. json_encode($columns);
         return $js;
@@ -165,9 +169,9 @@ class TableAbstract implements \ArrayAccess, Arrayable
         foreach($this->columns as $column => $dd) {
             if (is_array($dd->relation) && !empty($dd->relation['table']) && !empty($dd->relation['column']) && !empty($dd->relation['name'])) {
                 $url = url(route('vendor.ajax.select', [
-                    'table' => $dd->relation['table'],
-                    'column' => $dd->relation['column'],
-                ],
+                                                                'table' => $dd->relation['table'],
+                                                                'column' => $dd->relation['column'],
+                                                            ],
                         ));
                 //$consoleLog = env('APP_DEBUG')===true ? 'console.log(res.data);' : '';
                 $consoleLog = '';
