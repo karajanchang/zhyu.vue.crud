@@ -29,7 +29,7 @@
     <div id="app" class="container">
         <div class="buttons">
             @if(!is_null($urls['create']))
-                @if((int) $parent_id >0 )
+                @if(isset($parent_id) && (int) $parent_id >0 )
                     <b-button type="is-primary" onclick="location.href='{{ $urls['create'] }}?parent_id={{$parent_id}}'">新增</b-button>
                 @else
                     <b-button type="is-primary" onclick="location.href='{{ $urls['create'] }}'">新增</b-button>
