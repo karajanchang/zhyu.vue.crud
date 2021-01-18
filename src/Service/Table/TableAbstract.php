@@ -98,9 +98,9 @@ class TableAbstract implements \ArrayAccess, Arrayable
                 }
             }else{
                 if(is_string($value)) {
-                    $ccs [] = '"' . $column . '": "' . $value . '"';
+                    $ccs [] = '"' . $column . '": `' . $value . '`';
                 }elseif(is_null($value)){
-                    $ccs [] = '"' . $column . '": "' . $value . '"';
+                    $ccs [] = '"' . $column . '": `' . $value . '`';
                 }else{
                     $ccs [] = '"' . $column . '": ' . $value;
                 }
@@ -109,11 +109,13 @@ class TableAbstract implements \ArrayAccess, Arrayable
 
         $js .= join(',', $ccs).'};';
 
+        $ckeditor_editorColumns = [];
         foreach($columns as $column => $value) {
             if( isset($this->config['columns'][$column]['type']) && strtolower($this->config['columns'][$column]['type'])=='richtext' ) {
-                $js .= 'window.ckeditorColumns = [\''.$column.'\'];';
+                $ckeditor_editorColumns[] = '\''.$column.'\'';
             }
         }
+        $js .= 'window.ckeditorColumns = ['.join(',', $ckeditor_editorColumns).'];';
 
 //        return 'window.Model ='. json_encode($columns);
         return $js;
@@ -169,9 +171,9 @@ class TableAbstract implements \ArrayAccess, Arrayable
         foreach($this->columns as $column => $dd) {
             if (is_array($dd->relation) && !empty($dd->relation['table']) && !empty($dd->relation['column']) && !empty($dd->relation['name'])) {
                 $url = url(route('vendor.ajax.select', [
-                                                                'table' => $dd->relation['table'],
-                                                                'column' => $dd->relation['column'],
-                                                            ],
+                    'table' => $dd->relation['table'],
+                    'column' => $dd->relation['column'],
+                ],
                         ));
                 //$consoleLog = env('APP_DEBUG')===true ? 'console.log(res.data);' : '';
                 $consoleLog = '';
