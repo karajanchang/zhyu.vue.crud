@@ -45,16 +45,19 @@ class AjaxController extends Controller
      */
     private function getRepository($capFunctionName, $module = null) : string{
         if(strstr($capFunctionName, '.')) {
+
             $caps = explode('.', $capFunctionName);
-            $repository = 'App\Repositories'.'\\'.$module;
+            $repository = 'App\Repositories'.'\\'.ucfirst($module);
             foreach ($caps as $cap) {
                 $repository .= '\\' . $this->parseIfHasDot($cap);
             }
+
             $repository .= 'Repository';
             if (class_exists($repository)) {
 
                 return $repository;
             }
+
 
             $capFunctionName = $this->parseIfHasDot($capFunctionName, $module);
             $repository = 'App\Repositories\\' . $capFunctionName . 'Repository';
@@ -75,12 +78,37 @@ class AjaxController extends Controller
         }
 
         $capFunctionNames = explode('.', $capFunctionName);
+
         $replace = $isAsFolder===true ? '/' : '';
         $res = join($replace,
             array_map(function ($row) use($isUcFirst){
                 if($isUcFirst===true) {
 
                     return ucfirst($row);
+                }
+
+                return $row;
+            }, $capFunctionNames));
+
+        return $res;
+    }
+
+    /*
+     * 若其值為 material.brand  ==> MaterialBrand
+     */
+    private function parseIfHasDotColumn($capFunctionName, $module = null, bool $isUcFirst = true, bool $isAsFolder = false) : string{
+        if(!is_null($module)){
+            $capFunctionName = $module.'.'.$capFunctionName;
+        }
+
+        $capFunctionNames = explode('.', $capFunctionName);
+
+        $replace = $isAsFolder===true ? '/' : '';
+        $res = join($replace,
+            array_map(function ($row) use($isUcFirst){
+                if($isUcFirst===true) {
+
+                    return $row;
                 }
 
                 return $row;
@@ -97,6 +125,7 @@ class AjaxController extends Controller
 
     private function parseSelect(string $tag, string $repository, string $module = null){
         $tag = $this->parseIfHasDot($tag, $module, false, true);
+
 
         $this->config = include base_path('config/columns/'.$tag.'.php');
         $rep = app($repository);
