@@ -139,14 +139,14 @@ class Column implements \ArrayAccess
         app(ColumnApp::class)->bind($this->type, true);
         $columnService = app(ColumnService::class);
         $columnService
-                    ->model($this->model)
-                    ->name($this->name)
-                    ->field($this->field)
-                    ->rule($this->makeRule())
-                    ->relation($this->relation)
-                    ->values($this->values)
-                    ->rulesOnlyBackend($this->rules_only_backend)
-                    ;
+            ->model($this->model)
+            ->name($this->name)
+            ->field($this->field)
+            ->rule($this->makeRule())
+            ->relation($this->relation)
+            ->values($this->values)
+            ->rulesOnlyBackend($this->rules_only_backend)
+        ;
 
         return (string) $columnService;
     }
@@ -156,10 +156,28 @@ class Column implements \ArrayAccess
 
         $paramsString = $this->params2string();
 
-        return '
-        <b-table-column field="'.$this->field.'" label="'.$this->name.'" '.$paramsString.'>
-            {{ props.row.'.$this->field.' }}
-        </b-table-column>
-        ';
+        if($this->type=='checkbox') {
+            return
+                '<b-table-column field="'.$this->field.'" label="'.$this->name.'" '.$paramsString.'>
+                    <b-icon :icon="booleanIcon(props.row.'.$this->field.')" :type="booleanType(props.row.'.$this->field.')"></b-icon>
+                </b-table-column>';
+        }elseif($this->type=='file') {
+            return
+                '<b-table-column field="'.$this->field.'" label="'.$this->name.'" '.$paramsString.'>
+                    <a :href="storageUrl(props.row.'.$this->field.')" target="_blank">按下預覽</a>
+                </b-table-column>';
+        }elseif($this->type=='image'){
+
+            return
+                '<b-table-column field="'.$this->field.'" label="'.$this->name.'" '.$paramsString.'>
+                    <img :src="storageUrl(props.row.'.$this->field.')"/>
+                </b-table-column>';
+        }else {
+
+            return
+                '<b-table-column field="' . $this->field . '" label="' . $this->name . '" ' . $paramsString . '>
+                    {{ props.row.'.$this->field.' }}
+                </b-table-column>';
+        }
     }
 }
