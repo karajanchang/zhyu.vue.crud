@@ -94,7 +94,7 @@ class CurlController extends Controller
                 return $res;
             }
 
-            return $this->error('多次執行，請過 ' . $this->seconds . ' 秒後再試');
+            return $this->responseError('多次執行，請過 ' . $this->seconds . ' 秒後再試', 406);
         }catch (\Exception $e){
             $msg = env('APP_DEBUG') === true ? $e->getMessage() : null;
             $this->logException($e);
@@ -142,7 +142,7 @@ class CurlController extends Controller
                 return $res;
             }
 
-            return $this->error('多次執行，請過 ' . $this->seconds . ' 秒後再試');
+            return $this->responseError('多次執行，請過 ' . $this->seconds . ' 秒後再試', 406);
         }catch (\Exception $e){
             $msg = env('APP_DEBUG') === true ? $e->getMessage() : null;
             $this->logException($e);
@@ -167,7 +167,7 @@ class CurlController extends Controller
                 return $res;
             }
 
-            return $this->error('多次執行，請過 ' . $this->seconds . ' 秒後再試');
+            return $this->responseError('多次執行，請過 ' . $this->seconds . ' 秒後再試', 406);
         }catch (\Exception $e){
             $msg = env('APP_DEBUG') === true ? $e->getMessage() : null;
             $this->logException($e);
@@ -291,10 +291,12 @@ class CurlController extends Controller
 
     private function error(string $msg = null){
 
+        return $this->responseError($msg, Response::HTTP_BAD_REQUEST);
+        /*
         return response()->json([
             'errors' => $msg
         ],
-            Response::HTTP_BAD_REQUEST);
+            Response::HTTP_BAD_REQUEST);*/
     }
 
     public function getModule() : string{
@@ -309,8 +311,9 @@ class CurlController extends Controller
 
     public function getLastTag(){
         $tags = explode('.', $this->tag);
+        $array = array_slice($tags, -1);
 
-        return array_pop((array_slice($tags, -1)));
+        return array_pop($array);
     }
 
     public function getModel(){
