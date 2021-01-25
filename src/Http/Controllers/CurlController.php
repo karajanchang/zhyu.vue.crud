@@ -208,13 +208,21 @@ class CurlController extends Controller
     /*
      * ajax呼叫 返回 錯誤
      */
-    protected function responseError(string $message, int $code){
+    protected function responseError($message, int $code){
+        if(is_string($message)) {
 
+            return response()->json(compact('message'))->setStatusCode($code);
+        }else{
+
+            return response()->json($message)->setStatusCode($code);
+        }
+        /*
         return ['error' => [
             'message' => $message,
             'code' => $code,
         ]
         ];
+        */
     }
 
     /*
