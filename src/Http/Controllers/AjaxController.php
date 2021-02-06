@@ -40,14 +40,25 @@ class AjaxController extends Controller
         return $this->rowsOrderby($qb);
     }
 
+    private function resolveNamespace(string $capFunctionName){
+        $system_namespaces = ['system.menu', 'system.configs', 'system.page', 'system.pagecontent'];
+        if(in_array(strtolower($capFunctionName), $system_namespaces)){
+
+            return 'ZhyuVueCurd';
+        }
+
+        return 'App';
+    }
+
     /*
      * 拿到repository
      */
     private function getRepository($capFunctionName, $module = null) : string{
+        $namespace = $this->resolveNamespace($capFunctionName);
         if(strstr($capFunctionName, '.')) {
 
             $caps = explode('.', $capFunctionName);
-            $repository = 'App\Repositories'.'\\'.ucfirst($module);
+            $repository = $namespace.'\Repositories'.'\\'.ucfirst($module);
             foreach ($caps as $cap) {
                 $repository .= '\\' . $this->parseIfHasDot($cap);
             }
@@ -58,14 +69,12 @@ class AjaxController extends Controller
                 return $repository;
             }
 
-
             $capFunctionName = $this->parseIfHasDot($capFunctionName, $module);
-            $repository = 'App\Repositories\\' . $capFunctionName . 'Repository';
+            $repository = $namespace.'\Repositories\\' . $capFunctionName . 'Repository';
 
         }else{
-            $repository = 'App\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
+            $repository = $namespace.'\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
         }
-
         return $repository;
     }
 
@@ -126,8 +135,12 @@ class AjaxController extends Controller
     private function parseSelect(string $tag, string $repository, string $module = null){
         $tag = $this->parseIfHasDot($tag, $module, false, true);
 
-
-        $this->config = include base_path('config/columns/'.$tag.'.php');
+        $system_tags = ['admin/system/menu', 'admin/system/page'];
+        if(!in_array($tag, $system_tags)) {
+            $this->config = include base_path('config/columns/' . $tag . '.php');
+        }else{
+            $this->config = include base_path('vendor/zhyu/vue.crud/src/config/columns/' . $tag . '.php');
+        }
         $rep = app($repository);
         if(isset($this->config['joins']) && count($this->config['joins'])){
             $qb = $rep->getModel();

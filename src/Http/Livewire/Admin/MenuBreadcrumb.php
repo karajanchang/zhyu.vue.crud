@@ -2,7 +2,7 @@
 
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
-use App\Repositories\Admin\System\MenuRepository;
+use ZhyuVueCurd\Repositories\Admin\System\MenuRepository;
 use Livewire\Component;
 
 class MenuBreadcrumb extends Component

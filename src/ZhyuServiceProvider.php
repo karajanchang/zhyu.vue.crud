@@ -51,6 +51,14 @@ class ZhyuServiceProvider extends ServiceProvider
     }
 
     public function boot(){
+        $this->mergeConfigFrom(
+            __DIR__.'/config/columns/admin/system/menu.php', 'curd.menu'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/config/columns/admin/system/page.php', 'curd.page'
+        );
+
         $this->loadViewsFrom(__DIR__.'/views', 'ZhyuVueCurd');
         if ($this->isLumen()) {
             require_once 'Lumen.php';
@@ -59,6 +67,10 @@ class ZhyuServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands($this->commands);
         }
+
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
 
         /*
          * 註冊 livewire compnnents
@@ -73,6 +85,18 @@ class ZhyuServiceProvider extends ServiceProvider
         Livewire::component('admin.table-row-drag', TableRowDrag::class);
         Livewire::component('admin.page-content-index', PageContentIndex::class);
         Livewire::component('admin.page-content-form', PageContentForm::class);
+
+        $this->publishes([
+            __DIR__.'/assets/css' => public_path('assets/css'),
+            __DIR__.'/assets/js' => public_path('assets/js'),
+        ], 'zhyu.curd.assets');
+
+        $this->publishes([
+            __DIR__.'/assets/vendor' => public_path('vendor'),
+            __DIR__.'/assets/ckeditor' => public_path('ckeditor'),
+            __DIR__.'/assets/ckfinder' => public_path('ckfinder'),
+            __DIR__.'/assets/plugins' => public_path('plugins'),
+        ], 'zhyu.curd.admin');
     }
 
     protected function loadFunctions(){

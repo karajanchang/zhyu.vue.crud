@@ -2,7 +2,7 @@
 
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
-use App\Models\Menu;
+use ZhyuVueCurd\Models\Menu;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 

@@ -4,7 +4,7 @@
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
 
-use App\Models\PageContent;
+use ZhyuVueCurd\Models\PageContent;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 

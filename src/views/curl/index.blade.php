@@ -15,7 +15,7 @@
         window.queryString = '{{$queryString}}';
     </script>
 
-    <script src="{{ asset('/js/datatable.js')}}"></script>
+    <script src="{{ asset('/assets/js/datatable.js')}}"></script>
 
 @endpush
 

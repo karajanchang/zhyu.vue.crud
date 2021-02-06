@@ -2,7 +2,7 @@
 
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
-use App\Models\Config;
+use ZhyuVueCurd\Models\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Component;

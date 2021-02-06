@@ -14,7 +14,7 @@
     <script src="/ckeditor/ckeditor.js"></script>
     <script src="/ckeditor/translations/zh-TW.js"></script>
 
-    <script src="{{ asset('/js/form.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('/assets/js/form.js')}}" type="text/javascript"></script>
 
 
 
@@ -32,5 +32,5 @@
         </section>
     </div>
 
-    <script src="/js/date.js"></script>
+    <script src="/assets/js/date.js"></script>
 @stop

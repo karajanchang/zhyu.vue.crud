@@ -22,7 +22,13 @@ class TableService
         if(!is_null($tag)){
             $dir .= '.' . $tag;
         }
-        $this->config = config($dir);
+
+        $system_tags = [ 'system.menu', 'system.page' ];
+        if(!in_array($tag, $system_tags)){
+            $this->config = config($dir);
+        }else {
+            $this->config = config('curd.menu');
+        }
         if(is_null($this->config)){
             throw new \Exception('Please create config of columns schema first!');
         }

@@ -5,7 +5,6 @@ namespace ZhyuVueCurd\Http\Controllers;
 
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\View;
 use ZhyuVueCurd\Helper\TableServiceBind;
 use ZhyuVueCurd\Helper\TraitLogging;
 use Illuminate\Database\Eloquent\Model;
@@ -297,7 +296,7 @@ class CurlController extends Controller
         return route($this->module.'.'.$this->tag .'.index');
     }
 
-    private function error(string $msg = null){
+    protected function error(string $msg = null){
 
         return $this->responseError($msg, Response::HTTP_BAD_REQUEST);
         /*

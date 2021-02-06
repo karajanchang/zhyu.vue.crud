@@ -2,7 +2,7 @@
 
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
-use App\Models\Config;
+use ZhyuVueCurd\Models\Config;
 use Livewire\Component;
 
 class ConfigList extends Component

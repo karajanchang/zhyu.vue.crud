@@ -2,7 +2,7 @@
 
 namespace ZhyuVueCurd\Http\Livewire\Admin;
 
-use App\Repositories\Admin\System\ConfigValueRepository;
+use ZhyuVueCurd\Repositories\Admin\System\ConfigValueRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
