@@ -6,6 +6,7 @@
 @endpush
 
 @push("js_append")
+    <script src="{{ asset('/assets/js/admin.js')}}" type="text/javascript"></script>
     <script src="{{ asset('/assets/js/form.js')}}" type="text/javascript"></script>
 @endpush
 

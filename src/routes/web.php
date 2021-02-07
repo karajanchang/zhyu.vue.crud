@@ -24,3 +24,17 @@ Route::group( [ 'middleware' => [], 'prefix' => '/admin', 'as' => 'admin.' ], fu
         Route::get('/pagecontent/{page}/{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'edit'])->name('pagecontent.edit');
     });
 });
+
+Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
+    //--一定要有的
+    Route::post('/upload/{dir}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
+    Route::get('/ajax/select/{table}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
+
+    Route::group( [ 'middleware' => [ ], 'prefix' => '/ajax', 'as' => 'ajax.' ], function (){
+        Route::group( [ 'middleware' => [ ], 'prefix' => '/{module}', 'as' => 'admin.' ], function (){
+            Route::get('{tag}/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('system.page');
+            Route::get('{tag}/menu', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('system.menu');
+        });
+    });
+//    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
+});
