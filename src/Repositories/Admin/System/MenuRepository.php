@@ -21,6 +21,55 @@ class MenuRepository extends Repository
         return Menu::class;
     }
 
+    /*
+     * 塞入預設值
+     */
+    public function initFirst(){
+        $admin = $this->create([
+            'title' => 'admin_leftmenu',
+            'ctitle' => '後台左邊選單',
+            'is_can_delete' => 0,
+            'orderby' => 1,
+        ]);
+
+        $system = $this->create([
+            'title' => 'system',
+            'ctitle' => '網站設定',
+            'parent_id' => $admin->id,
+            'icon' => 'view-dashboard',
+            'is_can_delete' => 0,
+            'orderby' => 1,
+        ]);
+
+        $config = $this->create([
+            'title' => 'config',
+            'ctitle' => '設定',
+            'url' => '/admin/system/config',
+            'parent_id' => $system->id,
+            'is_can_delete' => 0,
+            'orderby' => 1,
+        ]);
+
+        $config = $this->create([
+            'title' => 'menu',
+            'ctitle' => '選單管理',
+            'url' => '/admin/system/menu',
+            'parent_id' => $system->id,
+            'is_can_delete' => 0,
+            'orderby' => 2,
+        ]);
+
+        $page = $this->create([
+            'title' => 'page',
+            'ctitle' => '頁面管理',
+            'url' => '/admin/system/page',
+            'parent_id' => $system->id,
+            'is_can_delete' => 0,
+            'orderby' => 3,
+        ]);
+
+    }
+
     public function fetchByParentId(int $parent_id){
 
         return $this->where('id', $parent_id)->first();
