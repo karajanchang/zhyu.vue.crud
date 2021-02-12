@@ -97,6 +97,10 @@ class ZhyuServiceProvider extends ServiceProvider
             __DIR__.'/assets/ckfinder' => public_path('ckfinder'),
             __DIR__.'/assets/plugins' => public_path('plugins'),
         ], 'zhyu.curd.admin');
+
+        $this->publishes([
+            __DIR__.'/views/blocks' => base_path('resources/views/vendor/blocks'),
+        ], 'zhyu.curd.view');
     }
 
     protected function loadFunctions(){

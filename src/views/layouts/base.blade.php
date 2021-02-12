@@ -46,7 +46,7 @@ to get the desired effect
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
-        @include('vendor.blocks.navbar')
+        @includeFirst(['vendor.blocks.navbar', 'ZhyuVueCurd::blocks/navbar'])
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
@@ -60,7 +60,6 @@ to get the desired effect
 
             <!-- Sidebar -->
             <livewire:admin.left-menu />
-{{--            @include('vendor.blocks.sidebar')--}}
             <!-- /.sidebar -->
         </aside>
 
