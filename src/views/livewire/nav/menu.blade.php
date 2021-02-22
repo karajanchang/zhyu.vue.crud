@@ -1,4 +1,4 @@
-<div id="navbar-menu" class="navbar-menu is-size-5">
+<div id="navbar-menu" class="navbar-menu is-size-5" style="width: 80%">
     {{-- The whole world belongs to you --}}
     @foreach($menus as $menu)
         @if($menu->children->count() > 0)
@@ -9,9 +9,11 @@
 
                 <div class="navbar-dropdown is-size-5">
                     @foreach($menu->children as $child)
-                        <a href="{{ $child->url }}" class="navbar-item is-uppercase" tabindex="0" aria-label="{{ $child->ctitle }}">
-                            {{$child->ctitle}}
-                        </a>
+                        @if($child->is_online==1)
+                            <a href="{{ $child->url }}" class="navbar-item is-uppercase" tabindex="0" aria-label="{{ $child->ctitle }}">
+                                {{$child->ctitle}}
+                            </a>
+                        @endif
                     @endforeach
                 </div>
             </div>

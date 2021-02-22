@@ -11,9 +11,9 @@
         <div>
             @if (session()->has('success_message'))
                 <b-notification
-                    type="is-success"
-                    has-icon
-                    aria-close-label="Close notification" closable class="m-5">
+                        type="is-success"
+                        has-icon
+                        aria-close-label="Close notification" closable class="m-5">
                     {{ session('success_message') }}
                 </b-notification>
             @endif
@@ -22,9 +22,9 @@
         <div>
             @if (session()->has('fail_message'))
                 <b-notification
-                    type="is-danger"
-                    has-icon
-                    aria-close-label="Close notification" closable class="m-5">
+                        type="is-danger"
+                        has-icon
+                        aria-close-label="Close notification" closable class="m-5">
                     {{ session('fail_message') }}
                 </b-notification>
             @endif
@@ -37,10 +37,10 @@
                     <div class="field is-grouped">
                         <div class="block">
                             @if($configs->type==2)
-{{--                                @if (is_object($value) && $is_uploaded===true)--}}
-{{--                                    上傳檔案:--}}
-{{--                                    <a href="{{ $value->temporaryUrl() }}" target="_blank">預覽</a>--}}
-{{--                                @endif--}}
+                                {{--                                @if (is_object($value) && $is_uploaded===true)--}}
+                                {{--                                    上傳檔案:--}}
+                                {{--                                    <a href="{{ $value->temporaryUrl() }}" target="_blank">預覽</a>--}}
+                                {{--                                @endif--}}
                                 @if(is_string($value))
                                     <div class="m-5">
                                         <a href="{{Storage::url($value)}}" target="_blank">按下來預覽</a>
@@ -68,6 +68,8 @@
                                         {{ $configValue['value'] }}
                                     </b-radio>
                                 @endforeach
+                            @elseif($configs->type==6)
+                                <textarea wire:model="value" native-value="{{ $configs->value }}" rows="10" cols="50">{{ $configs->value }}</textarea>
                             @else
                                 <b-input wire:model="value" native-value="{{ $configs->value }}">
                             @endif
@@ -77,11 +79,11 @@
             </div>
 
 
-                <div class="field">
-                    <p class="control is-expanded has-text-centered">
-                        <b-button native-type="submit" type="is-info" label="送出"></b-button>
-                    </p>
-                </div>
+            <div class="field">
+                <p class="control is-expanded has-text-centered">
+                    <b-button native-type="submit" type="is-info" label="送出"></b-button>
+                </p>
+            </div>
         </form>
     </div>
 </div>
