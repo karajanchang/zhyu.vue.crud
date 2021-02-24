@@ -66,7 +66,10 @@ class TableIndex extends TableAbstract implements InterfaceTable
         return $this->footer;
     }
 
+    public function defaultOrderby(){
 
+        return 'window.defaultOrderby ='. json_encode($this->config['orderby']). ';';
+    }
 
     public function buttons() : string{
         $tag = 'index_buttons';

@@ -26,8 +26,9 @@
     <script type="text/javascript">
         window.Laravel = {!! json_encode( ['csrfToken' => csrf_token()] ) !!};
         @if(isset($urls))
-            window.urls = {!! json_encode($urls) !!}
+            window.urls = {!! json_encode($urls) !!};
         @endif
+        {!! $tableService->defaultOrderby() !!};
     </script>
 
 
