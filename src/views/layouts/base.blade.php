@@ -28,7 +28,9 @@
         @if(isset($urls))
             window.urls = {!! json_encode($urls) !!};
         @endif
-        {!! $tableService->defaultOrderby() !!};
+        @if(isset($tableService))
+                {!! $tableService->defaultOrderby() !!};
+        @endif
     </script>
 
 
