@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' =>App\Models\Menu::class,
+    'model' => ZhyuVueCurd\Models\Menu::class,
     'title' => '選單管理',
     'index_buttons' => [
         'draggable' => true,

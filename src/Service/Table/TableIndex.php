@@ -68,7 +68,11 @@ class TableIndex extends TableAbstract implements InterfaceTable
 
     public function defaultOrderby(){
 
-        return 'window.defaultOrderby ='. json_encode($this->config['orderby']). ';';
+        if(isset($this->config['orderby'])) {
+            return 'window.defaultOrderby =' . json_encode($this->config['orderby']) . ';';
+        }
+
+        return '';
     }
 
     public function buttons() : string{
@@ -109,11 +113,5 @@ class TableIndex extends TableAbstract implements InterfaceTable
 
         return $str;
     }
-
-
-
-
-
-
 
 }

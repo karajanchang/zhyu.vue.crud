@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => \App\Models\Page::class,
+    'model' => ZhyuVueCurd\Models\Page::class,
     'title' => '頁面管理',
     'index_buttons' => [
         'width' => 200,
