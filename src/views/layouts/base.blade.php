@@ -29,7 +29,15 @@
             window.urls = {!! json_encode($urls) !!};
         @endif
         @if(isset($tableService))
+            @php
+                try{
+            @endphp
                 {!! $tableService->defaultOrderby() !!};
+            @php
+              }catch(Exception $e){
+
+              }
+            @endphp
         @endif
     </script>
 
