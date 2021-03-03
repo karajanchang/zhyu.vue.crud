@@ -128,6 +128,7 @@ to get the desired effect
 
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/gh/livewire/vue@v0.3.x/dist/livewire-vue.js"></script>
+    <script src="{{ asset('/assets/js/admin.js')}}" type="text/javascript"></script>
     @stack('js_append')
 </body>
 </html>
