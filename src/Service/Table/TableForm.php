@@ -33,6 +33,11 @@ class TableForm extends TableAbstract implements InterfaceTable
         return $this->footer;
     }
 
+    public function defaultOrderby(){
+
+        return '';
+    }
+
     public function buttons() : string{
         $tag = 'form_buttons';
         $width = $this->config[$tag]['width'] ?? 200;
