@@ -18,10 +18,13 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+    <link rel="stylesheet" hrf="{{ asset('assets/css/ckeditor.css')}}">
+
 
     @livewireStyles
 
     <link rel="stylesheet" href="{{ asset('/assets/css/app.css')}}">
+    @stack('css')
 
     <script type="text/javascript">
         window.Laravel = {!! json_encode( ['csrfToken' => csrf_token()] ) !!};
