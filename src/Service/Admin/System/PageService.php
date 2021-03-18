@@ -9,13 +9,13 @@
 namespace ZhyuVueCurd\Service\Admin\System;
 
 use ZhyuVueCurd\Repositories\Admin\System\PageRepository;
-use ZhyuVueCurd\Service\AbstractCurlService;
-use ZhyuVueCurd\Service\TraitCurlService;
+use ZhyuVueCurd\Service\AbstractCrulService;
+use ZhyuVueCurd\Service\TraitCrulService;
 
 
-class PageService extends AbstractCurlService
+class PageService extends AbstractCrulService
 {
-    use TraitCurlService;
+    use TraitCrulService;
 
     /*
      * set repository

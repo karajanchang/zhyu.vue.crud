@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use ZhyuVueCurd\Http\Controllers\CRULInterface;
 use ZhyuVueCurd\Http\Controllers\CRULTrait;
-use ZhyuVueCurd\Http\Controllers\CurlController;
+use ZhyuVueCurd\Http\Controllers\CrulController;
 
-class MenuController extends CurlController implements CRULInterface
+class MenuController extends CrulController implements CRULInterface
 {
     use CRULTrait;
 

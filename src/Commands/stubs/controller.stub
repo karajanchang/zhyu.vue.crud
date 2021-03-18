@@ -4,10 +4,10 @@ namespace DummyNamespace;
 
 use ZhyuVueCurd\Http\Controllers\CRULInterface;
 use ZhyuVueCurd\Http\Controllers\CRULTrait;
-use ZhyuVueCurd\Http\Controllers\CurlController;
+use ZhyuVueCurd\Http\Controllers\CrulController;
 use App\Service\DummyService;
 
-class DummyClass extends CurlController implements CRULInterface
+class DummyClass extends CrulController implements CRULInterface
 {
     use CRULTrait;
 

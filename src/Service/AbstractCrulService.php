@@ -6,7 +6,7 @@ namespace ZhyuVueCurd\Service;
 
 use Illuminate\Http\Request;
 
-abstract class AbstractCurlService
+abstract class AbstractCrulService
 {
     /**
      * @var Repository

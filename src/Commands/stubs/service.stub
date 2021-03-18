@@ -9,13 +9,13 @@
 namespace DummyNamespace;
 
 use App\Repositories\DummyRepository;
-use ZhyuVueCurd\Service\AbstractCurlService;
-use ZhyuVueCurd\Service\TraitCurlService;
+use ZhyuVueCurd\Service\AbstractCrulService;
+use ZhyuVueCurd\Service\TraitCrulService;
 
 
-class DummyClass extends AbstractCurlService
+class DummyClass extends AbstractCrulService
 {
-    use TraitCurlService;
+    use TraitCrulService;
 
     /*
      * set repository

@@ -5,9 +5,9 @@ namespace ZhyuVueCurd\Http\Controllers\Admin\System;
 use ZhyuVueCurd\Service\Admin\System\PageService;
 use ZhyuVueCurd\Http\Controllers\CRULInterface;
 use ZhyuVueCurd\Http\Controllers\CRULTrait;
-use ZhyuVueCurd\Http\Controllers\CurlController;
+use ZhyuVueCurd\Http\Controllers\CrulController;
 
-class PageController extends CurlController implements CRULInterface
+class PageController extends CrulController implements CRULInterface
 {
     use CRULTrait;
 

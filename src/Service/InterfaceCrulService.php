@@ -4,7 +4,7 @@
 namespace ZhyuVueCurd\Service;
 
 
-interface InterfaceCurlService
+interface InterfaceCrulService
 {
     public function insertByParams(array $params) : int;
 }

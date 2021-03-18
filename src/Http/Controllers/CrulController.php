@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-class CurlController extends Controller
+class CrulController extends Controller
 {
     use TraitLogging;
     use CRULTrait;
