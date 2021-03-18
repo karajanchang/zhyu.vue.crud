@@ -11,4 +11,5 @@ return [
     'select' => \ZhyuVueCurd\Service\Table\Column\Select::class,
     'radio' => \ZhyuVueCurd\Service\Table\Column\Radio::class,
     'richtext' => \ZhyuVueCurd\Service\Table\Column\Richtext::class,
+    'textarea' => \ZhyuVueCurd\Service\Table\Column\Textarea::class,
 ];
