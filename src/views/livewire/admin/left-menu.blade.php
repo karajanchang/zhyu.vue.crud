@@ -1,7 +1,27 @@
 <div class="sidebar" id="menu">
     <b-menu>
+        @php
+            $menu_active = [];
+        @endphp
         @if($menus->count() > 0)
-            @foreach($menus as $menu)
+            @foreach($menus as $key => $menu)
+                @php
+                    $children = $menu->children;
+                    $menu_active[$key] = false;
+                @endphp
+                @if($children->count() > 0)
+                    @foreach($children as $child)
+                        @if(ifMatchUrl($child->url))
+                            @php
+                                $menu_active[$key] = true;
+                            @endphp
+                            @break
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+            @foreach($menus as $key => $menu)
                 @php
                     $icon_pack = $menu->icon_pack ?? '';
                     $icon = $menu->icon ?? 'view-dashboard';
@@ -9,7 +29,7 @@
                 @endphp
                 @if($children->count() > 0)
                     <b-menu-list label="">
-                        <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(ifMatchUrl($menu->url)) :active="true" @endif expanded>
+                        <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(isset($menu_active[$key]) && $menu_active[$key]===true) :active="true" expanded @endif>
                             <template slot="label" slot-scope="props">
                                 {{ $menu->ctitle }}
                                 <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
