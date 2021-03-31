@@ -3,6 +3,7 @@
 return [
     'model' => \App\Models\DummyModel::class,
     'title' => 'DummyTitle',
+    'orderby' => ['id' => 'asc'],
     'index_buttons' => [
         'width' => 200,
         [

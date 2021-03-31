@@ -67,12 +67,12 @@ class TableIndex extends TableAbstract implements InterfaceTable
     }
 
     public function defaultOrderby(){
-
+        $defaultOrderby = ['id' => 'asc'];
         if(isset($this->config['orderby'])) {
-            return 'window.defaultOrderby =' . json_encode($this->config['orderby']) . ';';
+            $defaultOrderby = $this->config['orderby'];
         }
 
-        return '';
+        return 'window.defaultOrderby =' . json_encode($defaultOrderby) . ';';
     }
 
     public function buttons() : string{

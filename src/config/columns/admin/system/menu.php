@@ -3,6 +3,7 @@
 return [
     'model' => ZhyuVueCurd\Models\Menu::class,
     'title' => '選單管理',
+    //'orderby' => ['id' => 'asc'],
     'index_buttons' => [
         'draggable' => true,
         'width' => 250,
@@ -59,6 +60,20 @@ return [
                 'rules' => [
                     'store' =>  'required|string',
                     'update' =>  'required|string',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+            ],
+        'etitle' =>
+            [
+                'name' => '顯示英文',
+                'type' => 'text',
+                'rules' => [
+                    'store' =>  'nullable|string',
+                    'update' =>  'nullable|string',
                 ],
                 'params' => [
                     'sortable', 'searchable',
