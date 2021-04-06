@@ -52,11 +52,11 @@ class ZhyuServiceProvider extends ServiceProvider
 
     public function boot(){
         $this->mergeConfigFrom(
-            __DIR__.'/config/columns/admin/system/menu.php', 'curd.menu'
+            __DIR__.'/config/columns/admin/system/menu.php', 'zhyu.crud.system.menu'
         );
 
         $this->mergeConfigFrom(
-            __DIR__.'/config/columns/admin/system/page.php', 'curd.page'
+            __DIR__.'/config/columns/admin/system/page.php', 'zhyu.crud.system.page'
         );
 
         $this->loadViewsFrom(__DIR__.'/views', 'ZhyuVueCurd');

@@ -27,8 +27,10 @@ class TableService
         if(!in_array($tag, $system_tags)){
             $this->config = config($dir);
         }else {
-            $this->config = config('curd.menu');
+            $tag = 'zhyu.crud.'.$tag;
+            $this->config = config($tag);
         }
+
         if(is_null($this->config)){
             throw new \Exception('Please create config of columns schema first!');
         }
