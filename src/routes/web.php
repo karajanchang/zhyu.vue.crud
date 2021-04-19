@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group( [ 'middleware' => [], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
+Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
 
     //--logs
     #Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
@@ -33,8 +33,9 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
     Route::group( [ 'middleware' => [ ], 'prefix' => '/ajax', 'as' => 'ajax.' ], function (){
         Route::group( [ 'middleware' => [ ], 'prefix' => '/{module}', 'as' => 'admin.' ], function (){
             Route::group( [ 'middleware' => [ ], 'prefix' => '/system', 'as' => 'system.' ], function (){
-                Route::get('{tag}/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('page');
                 Route::get('{tag}/menu', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('menu');
+                Route::get('{tag}/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('page');
+                Route::get('{tag}/pagecontent', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('pagecontent');
             });
         });
     });

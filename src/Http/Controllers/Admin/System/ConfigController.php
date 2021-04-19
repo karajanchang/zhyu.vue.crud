@@ -27,8 +27,14 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function edit(Config $config){
+    private function getConfigById(int $id){
+
+        return Config::findOrFail($id);
+    }
+
+    public function edit(int $id){
         $title = '修改設定';
+        $config = $this->getConfigById($id);
 
         return view('ZhyuVueCurd::admin.system.config.create', [
             'title' => $title,
@@ -36,8 +42,9 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function namevalue(Config $config){
+    public function namevalue(int $id){
         $title = '設定 - 屬性設定';
+        $config = $this->getConfigById($id);
 
         return view('ZhyuVueCurd::admin.system.config.namevalue', [
             'title' => $title,
@@ -45,8 +52,9 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function setvalue(Config $config){
+    public function setvalue(int $id){
         $title = '設定 - 設定值';
+        $config = $this->getConfigById($id);
 
         $this->clearCache($config->tag);
 

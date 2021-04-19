@@ -14,7 +14,8 @@
 @section("content")
 
     <div id="app" class="container">
-        <b-button type="is-default" onclick="location.href='config'">返回</b-button>
+        <b-button type="is-default" onclick="location.href='{{ route('admin.system.config.index') }}'">返回</b-button>
+        
         <livewire:admin.config-name-value :configs="$configs"/>
     </div>
 
