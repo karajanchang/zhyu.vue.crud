@@ -29,7 +29,7 @@
                 @endphp
                 @if($children->count() > 0)
                     <b-menu-list label="">
-                        <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(isset($menu_active[$key]) && $menu_active[$key]===true) :active="true" expanded @endif>
+                        <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(isset($menu_active[$key]) && $menu_active[$key]===true) :active="true"  @endif :expanded="true" >
                             <template slot="label" slot-scope="props">
                                 {{ $menu->ctitle }}
                                 <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
