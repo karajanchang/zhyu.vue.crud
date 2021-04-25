@@ -7,6 +7,7 @@ namespace ZhyuVueCurd\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use function GuzzleHttp\json_encode;
 
 class UploadController extends Controller
 {
@@ -21,4 +22,17 @@ class UploadController extends Controller
         return $path;
     }
 
+    public function ckeditor(string $table, Request $request){
+
+        Log::info('upload in .............', [$request->all()]);
+        $path = Storage::putFile('public/'.$table, $request->upload);
+        $path = str_replace('public', '', $path);
+
+        Log::info('upload in .............'.$path, [$request->all()]);
+
+        return response()->json([
+            'uploaded' => true,
+            'url' => '/storage/'.$path,
+        ]);
+    }
 }

@@ -15,4 +15,9 @@ class PageContent extends Model
 
         return $this->belongsTo(Page::class);
     }
+
+    public function columns(){
+
+        return $this->hasMany(PageColumn::class);
+    }
 }
