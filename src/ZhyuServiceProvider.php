@@ -47,6 +47,8 @@ class ZhyuServiceProvider extends ServiceProvider
             return new ConfigsHelper();
         });
 
+
+
         $this->registerAliases();
     }
 
@@ -132,6 +134,7 @@ class ZhyuServiceProvider extends ServiceProvider
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
             $loader->alias('Configs', \ZhyuVueCurd\Facades\ConfigsFacades::class);
+            $loader->alias('Image', \Intervention\Image\Facades\Image::class);
         }
     }
 

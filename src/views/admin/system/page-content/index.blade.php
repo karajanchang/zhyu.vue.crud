@@ -67,6 +67,17 @@
         // document.querySelector( '.button-close-modal' ).addEventListener( 'click', () => {
         //     document.getElementById('modal').classList.remove('is-active');
         // });
+        let params = [
+            'height='+screen.height,
+            'width='+screen.width,
+            'fullscreen=yes' // only works in IE, but here for completeness
+        ].join(',');
+        function openFullWindow(url){
+            let popup = window.open(url, 'popup_window', params);
+            popup.moveTo(0,0);
+        }
+
+
 
 
     </script>
@@ -97,7 +108,7 @@
                                 ">
                             @foreach($c->columns as $column)
                                 <div class="column is-{{ $column->size }} @if($column->has_text_centered==1) has-text-centered @endif" style="border:1px #ccc dashed;">
-                                    <div class="parent_relative is-clickable">
+                                    <div class="parent_relative is-clickable" onclick="openFullWindow('{{ route('admin.system.pagecolumn.edit', ['page_content' => $c, 'page_column' => $column]) }}')">
                                         <div class="icon has-text-success icon_plus_fixed is-large">
                                             <i class="fas fa-plus-circle"></i>
                                         </div>

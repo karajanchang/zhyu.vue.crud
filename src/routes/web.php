@@ -22,6 +22,10 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::get('/pagecontent/{page}/index', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'index'])->name('pagecontent.index');
         Route::get('/pagecontent/{page}/create', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'create'])->name('pagecontent.create');
         Route::get('/pagecontent/{page}/{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'edit'])->name('pagecontent.edit');
+
+
+        Route::get('/pagecolumn/{page_column}-{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'edit'])->name('pagecolumn.edit');
+        Route::post('/pagecolumn/{page_column}-{page_content}/save', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'save'])->name('pagecolumn.save');
     });
 });
 

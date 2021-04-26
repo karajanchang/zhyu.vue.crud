@@ -22,6 +22,7 @@
     @livewireStyles
 
     <link rel="stylesheet" href="{{ asset('/assets/css/app.css')}}">
+    @stack('css')
 
     <script type="text/javascript">
         window.Laravel = {!! json_encode( ['csrfToken' => csrf_token()] ) !!};
