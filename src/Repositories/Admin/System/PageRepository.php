@@ -21,4 +21,8 @@ class PageRepository extends Repository
         return Page::class;
     }
 
+    public function findByUri(string $uri){
+
+        return $this->where('uri', $uri)->first();
+    }
 }

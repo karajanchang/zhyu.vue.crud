@@ -54,3 +54,9 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
     });
 //    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
 });
+
+Route::group( [ 'middleware' => ['web'], 'prefix' => '/page', 'as' => 'page.' ], function () {
+    foreach(\Illuminate\Support\Facades\DB::table('pages')->where('is_online', 1)->cursor() as $page) {
+        Route::get('/{slug}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+    }
+});

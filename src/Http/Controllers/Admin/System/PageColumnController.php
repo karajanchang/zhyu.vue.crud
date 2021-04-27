@@ -55,6 +55,8 @@ class PageColumnController extends Controller
 
         $pageColumn->size = (int) $all['size'] ?? 6;
         $pageColumn->has_text_centered = isset($all['has_text_centered']) ? (int) $all['has_text_centered'] : 0;
+        $pageColumn->width = isset($all['width']) ? $all['width'] : null;
+        $pageColumn->height = isset($all['height']) ? $all['height'] : null;
         $pageColumn->alt = (string) $all['alt'] ?? null;
         $pageColumn->url = (string) $all['url'] ?? null;
         $pageColumn->ratio = (string) $all['ratio'] ?? null;

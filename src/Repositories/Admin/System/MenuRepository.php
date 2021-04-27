@@ -76,6 +76,17 @@ class MenuRepository extends Repository
 
     }
 
+    public function menusByMenuId(int $menu_id){
+        $menus = $this->where('parent_id', function($query) use($menu_id){
+            $query->from('menus')->where('id', $menu_id)->select('parent_id');
+        })
+            ->where('is_online', 1)
+            ->get();
+
+        return $menus;
+    }
+
+
     public function menusByTitle(string $title){
 
         return $this->where('parent_id', function($query) use($title){

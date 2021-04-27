@@ -133,6 +133,19 @@
                 </div>
                 <div class="control w80">
                     <div class="inputPre">
+                        圖片寬度
+                    </div>
+                    <input class="input" type="text" name="width" id="width" placeholder="請輸入圖片寬度" value="{{ $pageColumn->width }}">
+
+                </div>
+                <div class="control w80">
+                    <div class="inputPre">
+                        圖片長度
+                    </div>
+                    <input class="input" type="text" name="height" id="height" placeholder="請輸入圖片高度" value="{{ $pageColumn->height }}">
+                </div>
+                <div class="control w80">
+                    <div class="inputPre">
                         圖片比率
                     </div>
                     <input class="input" type="text" name="ratio" placeholder="請輸入圖片比率（3by4 / 4by6 / 4by3 ...）" value="{{ $pageColumn->ratio }}">
