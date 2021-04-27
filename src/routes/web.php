@@ -24,9 +24,16 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::get('/pagecontent/{page}/{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'edit'])->name('pagecontent.edit');
 
 
-        Route::get('/pagecolumn/{page_column}-{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'edit'])->name('pagecolumn.edit');
-        Route::post('/pagecolumn/{page_column}-{page_content}/save', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'save'])->name('pagecolumn.save');
+        Route::get('/pagecolumn/{page_column}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'edit'])->name('pagecolumn.edit');
+        Route::post('/pagecolumn/{page_column}/save', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'save'])->name('pagecolumn.save');
+        Route::delete('/pagecolumn/{page_column}/destroy', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'destroy'])->name('pagecolumn.destroy');
     });
+});
+
+Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], function () {
+    Route::get('/{image}', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@show')->name('show');
+    Route::delete('/{image}/destroy', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroy')->name('destroy');
+    Route::delete('/{page_column}/destroy-column', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroyByColumn')->name('destroy.column');
 });
 
 Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
@@ -46,13 +53,4 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
         });
     });
 //    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
-});
-
-/**
- * 圖片處理
- */
-Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], function () {
-    Route::get('/{image}', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@show')->name('show');
-    Route::delete('/{image}/destroy', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroy')->name('destroy');
-    Route::delete('/{page_column}/destroy-column', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroyByColumn')->name('destroy.column');
 });
