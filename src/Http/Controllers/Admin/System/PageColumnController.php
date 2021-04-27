@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use ZhyuVueCurd\Helper\ProccessUploadTrait;
 use ZhyuVueCurd\Models\PageColumn;
 use ZhyuVueCurd\Models\PageContent;
+use ZhyuVueCurd\Repositories\Admin\System\PageColumnRepository;
 
 class PageColumnController extends Controller
 {
@@ -82,6 +83,12 @@ class PageColumnController extends Controller
         Log::info('pageColumn destroy', [$pageColumn]);
         $this->destroyUpload($pageColumn->pic);
 
+        $count = app(PageColumnRepository::class)->countByPageContentId($pageColumn->pageContent->id);
         $pageColumn->delete();
+
+        //--如果只有一個也刪除了，把這個pageContent也刪除
+        if($count==1){
+            $pageColumn->pageContent->delete();
+        }
     }
 }

@@ -57,6 +57,6 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
 
 Route::group( [ 'middleware' => ['web'], 'prefix' => '/page', 'as' => 'page.' ], function () {
     foreach(\Illuminate\Support\Facades\DB::table('pages')->where('is_online', 1)->cursor() as $page) {
-        Route::get('/{slug}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+        Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
     }
 });
