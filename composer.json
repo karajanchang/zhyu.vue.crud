@@ -36,7 +36,8 @@
     },
     "laravel": {
       "providers": [
-        "ZhyuVueCurd\\ZhyuServiceProvider"
+          "ZhyuVueCurd\\ZhyuServiceProvider",
+          "Intervention\\Image\\ImageServiceProvider"
       ],
       "aliases": {
 

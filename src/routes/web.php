@@ -47,3 +47,12 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
     });
 //    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
 });
+
+/**
+ * 圖片處理
+ */
+Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], function () {
+    Route::get('/{image}', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@show')->name('show');
+    Route::delete('/{image}/destroy', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroy')->name('destroy');
+    Route::delete('/{page_column}/destroy-column', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroyByColumn')->name('destroy.column');
+});

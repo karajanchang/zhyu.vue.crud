@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tw">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,7 @@
 
     <script src="/ckeditor3/ckeditor.js" type="text/javascript"></script>
     <script src="/ckeditor3/translations/zh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
         .ck.ck-editor {
@@ -68,126 +69,175 @@
 
 </head>
 <body>
-    <section id="app" class="section p-5">
-        <div class="container">
-                <form enctype="multipart/form-data" action="{{ route('admin.system.pagecolumn.save', [ 'page_content' => $pageContent , 'page_column' => $pageColumn ]) }}" method="POST">
-                    <div>
-                        <div class="buttons" style="width:200px;margin:0 auto">
-                            <button class="button is-default close-window" type="button">關閉視窗，重新整理</button>
-                        </div>
+<section id="app" class="section p-5">
+    <div class="container">
+        <form enctype="multipart/form-data" action="{{ route('admin.system.pagecolumn.save', [ 'page_column' => $pageColumn ]) }}" method="POST">
+            <div>
+                <div class="buttons" style="width:200px;margin:0 auto">
+                    <button class="button is-default close-window" type="button">關閉視窗，重新整理</button>
+                </div>
+            </div>
+
+            <div class="block m-10 p-10 rounded-full"  style="background-color: #c8eed6">
+                <div class="title">欄位設定</div>
+                <div class="control w80">
+                    <div class="inputPre">
+                        欄位大小
                     </div>
+                    <input class="input" type="text" name="size" placeholder="請輸入欄位大小 1-12數字（必填）" value="{{ $pageColumn->size }}"required>
+                </div>
 
-                    <div class="block m-10 p-10 rounded-full"  style="background-color: #c8eed6">
-                        <div class="title">欄位設定</div>
-                        <div class="control w80">
-                            <div class="inputPre">
-                                欄位大小
-                            </div>
-                            <input class="input" type="text" name="size" placeholder="請輸入欄位大小 1-12數字（必填）" value="{{ $pageColumn->size }}"required>
-                        </div>
+                <div class="control w80">
+                    <label class="checkbox">
+                        <input type="checkbox" name="has_text_centered" @if($pageColumn->has_text_centered==1) checked @endif value="1">文字置中
+                    </label>
+                </div>
+                <div class="control w80">
+                    <button class="button is-danger" type="button" id="destroy-column">刪除此欄位</button>
+                </div>
 
-                        <div class="control w80">
-                            <label class="checkbox">
-                                <input type="checkbox" name="has_text_centered" @if($pageColumn->has_text_centered==1) checked @endif value="1">文字置中
-                            </label>
-                        </div>
-
-                    </div>
-                    <div class="block m-10 p-10 rounded"  style="background-color: #eee">
-                        <div class="title">圖片</div>
-                        <div class="file w80">
-                            <input  type="file" name="pic" id="pic">
-                            <label class="file-label">
-{{--                                <input class="file-input" type="file" name="pic" id="pic">--}}
-                                <span class="file-cta">
-                                    <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
-                                    </span>
-                                    <span class="file-label">選擇圖片</span>
+            </div>
+            <div class="block m-10 p-10 rounded"  style="background-color: #eee">
+                <div class="title">圖片</div>
+                <div class="file w80">
+                    <input  type="file" name="pic" id="pic">
+                    <label class="file-label">
+                        {{--                                <input class="file-input" type="file" name="pic" id="pic">--}}
+                        <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
                                 </span>
-                            </label>
-                        </div>
+                                <span class="file-label">選擇圖片</span>
+                            </span>
+                    </label>
+                </div>
 
-                        @if(!is_null($pageColumn->pic))
-                            <img src="{{ $pageColumn->pic }}" />
-                        @endif
-
-                        <div class="control w80">
-                            <div class="inputPre">
-                                圖片註解
-                            </div>
-                            <input class="input" type="text" name="alt" id="alt" placeholder="請輸入圖片註解（必填）" value="{{ $pageColumn->alt }}">
-                        </div>
-                        <div class="control w80">
-                            <div class="inputPre">
-                                圖片連結
-                            </div>
-                            <input class="input" type="text" name="url" placeholder="請輸入圖片連結網址" value="{{ $pageColumn->url }}">
-                        </div>
-                        <div class="control w80">
-                            <div class="inputPre">
-                                圖片比率
-                            </div>
-                            <input class="input" type="text" name="ratio" placeholder="請輸入圖片比率（3by4 / 4by6 / 4by3 ...）" value="{{ $pageColumn->ratio }}">
-                        </div>
-                        <div class="control w80">
-                            <label class="checkbox">
-                                <input type="checkbox" name="rounded" placeholder="" @if($pageColumn->rounded==1) checked @endif value="1">是否圓角
-                            </label>
-                        </div>
+                @if(!is_null($pageColumn->pic) && strlen($pageColumn->pic) > 0)
+                    <div id="imageDisplayBlock">
+                        <img src="{{ asset('storage/'.$pageColumn->pic) }}" style="max-height: 300px"/>
+                        <button type="button" class="button is-danger m-5" id="deleteImage">刪除圖片</button>
                     </div>
+                @endif
 
-                    <div>
-                        <div class="block m-10 p-10"  style="background-color: #fff">
-                            <div class="title">內容</div>
-                            <textarea id="body" name="body" class="body">{{ $pageColumn->body }}</textarea>
-                        </div>
-
-                        <div class="buttons" style="width:300px;margin:0 auto">
-                            <button class="button is-link" type="submit">送出</button>
-                            <button class="button is-default close-window" type="button">關閉視窗，重新整理</button>
-                        </div>
+                <div class="control w80">
+                    <div class="inputPre">
+                        圖片註解
                     </div>
-                    @csrf
-                </form>
-        </div>
-    </section>
+                    <input class="input" type="text" name="alt" id="alt" placeholder="請輸入圖片註解（必填）" value="{{ $pageColumn->alt }}">
+                </div>
+                <div class="control w80">
+                    <div class="inputPre">
+                        圖片連結
+                    </div>
+                    <input class="input" type="text" name="url" placeholder="請輸入圖片連結網址" value="{{ $pageColumn->url }}">
+                </div>
+                <div class="control w80">
+                    <div class="inputPre">
+                        圖片比率
+                    </div>
+                    <input class="input" type="text" name="ratio" placeholder="請輸入圖片比率（3by4 / 4by6 / 4by3 ...）" value="{{ $pageColumn->ratio }}">
+                </div>
+                <div class="control w80">
+                    <label class="checkbox">
+                        <input type="checkbox" name="rounded" placeholder="" @if($pageColumn->rounded==1) checked @endif value="1">是否圓角
+                    </label>
+                </div>
+            </div>
 
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#body'), {
-                language: 'zh',
+            <div>
+                <div class="block m-10 p-10"  style="background-color: #fff">
+                    <div class="title">內容</div>
+                    <textarea id="body" name="body" class="body">{{ $pageColumn->body }}</textarea>
+                </div>
 
-                simpleUpload: {
-                    uploadUrl: '{{ route('vendor.ckeditor', ['table' => 'page_columns' ]) }}',
-                    // Enable the XMLHttpRequest.withCredentials property.
-                    // withCredentials: false,
-                    // Headers sent along with the XMLHttpRequest to the upload server.
-                    headers: {
-                        'X-CSRF-TOKEN': window.Laravel.csrfToken
-                        // Authorization: 'Bearer <JSON Web Token>'
-                    }
+                <div class="buttons" style="width:300px;margin:0 auto;position: relative;padding-top: 300px;">
+                    <button class="button is-link" type="submit">送出</button>
+                    <button class="button is-default close-window" type="button">關閉視窗，重新整理</button>
+                </div>
+            </div>
+            @csrf
+        </form>
+    </div>
+</section>
+
+<section class="section">
+    <div style="min-height: 400px">&nbsp;</div>
+</section>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#body'), {
+            language: 'zh',
+
+            simpleUpload: {
+                uploadUrl: '{{ route('vendor.ckeditor', ['table' => 'page_columns' ]) }}',
+                // Enable the XMLHttpRequest.withCredentials property.
+                // withCredentials: false,
+                // Headers sent along with the XMLHttpRequest to the upload server.
+                headers: {
+                    'X-CSRF-TOKEN': window.Laravel.csrfToken
+                    // Authorization: 'Bearer <JSON Web Token>'
                 }
-            })
-            .then(newEditor => {
-                editor = newEditor
-                console.log(editor);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            }
+        })
+        .then(newEditor => {
+            editor = newEditor
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
 
-        let elements = document.querySelectorAll( '.close-window');
-        for(var i=0; i<elements.length; i++) {
-            elements[i].addEventListener('click', () => {
-                opener.window.location.href = opener.window.location.href;
-                window.close();
-            });
+    let elements = document.querySelectorAll( '.close-window');
+    for(var i=0; i<elements.length; i++) {
+        elements[i].addEventListener('click', () => {
+            opener.window.location.href = opener.window.location.href;
+            window.close();
+        });
+    }
+    // let pic = ducument.getElementById('pic');
+    // pic.addEventListener('change', function () {
+    //     document.getElementById('alt').required = true;
+    // });
+
+    //let pic = ducument.getElementById('pic');
+
+    document.querySelector('#destroy-column').addEventListener('click', function () {
+        if(confirm("你確認要刪除此欄位嗎？")){
+            axios({
+                method: 'DELETE',
+                url: '{{ route('admin.system.pagecolumn.destroy', ['page_column' => $pageColumn]) }}',
+                'Content-Type': 'application/json',
+            })
+                .then((result) => {
+                    opener.location.href=opener.location.href;
+                    window.close();
+                    console.log(result.data)
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
         }
-        // let pic = ducument.getElementById('pic');
-        // pic.addEventListener('change', function () {
-        //     document.getElementById('alt').required = true;
-        // });
-    </script>
+    });
+
+    @if(!is_null($pageColumn->pic) && strlen($pageColumn->pic) > 0)
+    document.querySelector('#deleteImage').addEventListener('click', function () {
+        if(confirm("你確認要刪除此圖片嗎？")){
+            axios({
+                method: 'DELETE',
+                url: '{{ route('image.destroy.column', ['page_column' => $pageColumn]) }}',
+                'Content-Type': 'application/json',
+            })
+                .then((result) => {
+                    document.querySelector('#imageDisplayBlock').innerHTML = ''
+                    console.log(result.data)
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
+        }
+    });
+    @endif
+</script>
 </body>

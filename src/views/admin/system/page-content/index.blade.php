@@ -92,10 +92,9 @@
             <b-button type="is-primary" onclick="location.href='/admin/system/pagecontent/{{ $page->id }}/create'">新增版面</b-button>
         </div>
 
-
         @if($page->contents->count() > 0)
             @foreach($page->contents as $c)
-                <section id="section-{{$c->id}}">
+                <section id="section-{{$c->id}}" class="section">
                     @if(!is_null($c->title)) <h1 class="title">{{ $c->title }}</h1> @endif
                     @if(!is_null($c->subtitle)) <h1 class="subtitle">{{ $c->subtitle }}</h1> @endif
                     @if($c->container==1) <div class="container"> @endif
@@ -119,7 +118,7 @@
                                                 <a href="{{ $column->url }}">
                                                     @endif
                                                     <b-image
-                                                            src="{{ $column->pic }}"
+                                                            src="{{ asset('storage/'.$column->pic) }}"
                                                             alt="{{ $alt = !is_null($column->alt) ? $column->alt : 'picture'}}"
                                                             @if(!is_null($column->ratio))
                                                             ratio="{{ $column->ratio }}"
