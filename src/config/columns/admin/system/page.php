@@ -77,7 +77,7 @@ return [
         'layout' =>
             [
                 'name' => '佈局',
-                'description' => '可用版型：主頁 "main" / 內頁 "page" / 無 "empty"',
+                'description' => '可用版型： 內頁 "page" / 無 "empty"',
                 'type' => 'radio',
                 'rules' => [
                     'store' =>  'string',
@@ -88,7 +88,7 @@ return [
                     'page' => '內頁layout',
                     'empty' => '空layout',
                 ],
-                'defaultValue' => 'main',
+                'defaultValue' => 'page',
                 'params' => [
                 ],
             ],

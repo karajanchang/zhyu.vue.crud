@@ -1,4 +1,11 @@
-@extends('layouts.page')
+@php
+    $layout = 'page';
+    if(isset($page->layout) && !empty($page->layout)){
+        $layout = $page->layout;
+    }
+@endphp
+
+@extends('layouts.'.$layout)
 
 @push("css")
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
