@@ -18,7 +18,7 @@ return [
             'type'=> 'delete'
         ],
         [
-            'label' => '頁面管理',
+            'label' => '版面管理',
             'url' => '/admin/system/pagecontent/{id}/index',
             'css' => 'is-primary',
             'type' => 'button',
