@@ -78,11 +78,17 @@ return [
             [
                 'name' => '佈局',
                 'description' => '可用版型：主頁 "main" / 內頁 "page" / 無 "empty"',
-                'type' => 'text',
+                'type' => 'radio',
                 'rules' => [
                     'store' =>  'string',
                     'update' =>  'string',
                 ],
+                'values' => [
+                    'main' => '首頁layout',
+                    'page' => '內頁layout',
+                    'empty' => '空layout',
+                ],
+                'defaultValue' => 'main',
                 'params' => [
                 ],
             ],

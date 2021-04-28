@@ -53,6 +53,12 @@ class ColumnService
         return $this;
     }
 
+    public function defaultValue($defaultValue){
+        $this->column->defaultValue = $defaultValue;
+
+        return $this;
+    }
+
     public function rulesOnlyBackend(bool $rules_only_backend = null){
         $this->column->rules_only_backend = $rules_only_backend;
 

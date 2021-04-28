@@ -21,6 +21,7 @@ class Column implements \ArrayAccess
     private $model;
     private $relation;
     private $values; //radio或checkbox的內容
+    private $defaultValue; //預設值
     private $rules_only_backend = false;
 
     public function __construct(string $table_type, Model $model = null)
@@ -147,6 +148,7 @@ class Column implements \ArrayAccess
             ->rule($this->makeRule())
             ->relation($this->relation)
             ->values($this->values)
+            ->defaultValue($this->defaultValue)
             ->rulesOnlyBackend($this->rules_only_backend)
         ;
 
