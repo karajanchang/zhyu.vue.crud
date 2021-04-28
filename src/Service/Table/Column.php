@@ -12,6 +12,7 @@ class Column implements \ArrayAccess
 {
     private $field;
     private $name;
+    private $description;
     private $type;
     private $rules = [];
     private $params = [];
@@ -141,6 +142,7 @@ class Column implements \ArrayAccess
         $columnService
             ->model($this->model)
             ->name($this->name)
+            ->description($this->description)
             ->field($this->field)
             ->rule($this->makeRule())
             ->relation($this->relation)

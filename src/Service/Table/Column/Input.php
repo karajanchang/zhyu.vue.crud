@@ -9,7 +9,7 @@ class Input implements InterfaceColumn
     private $attributes = [];
 
     public function __set($name, $value){
-       $this->attributes[$name] = $value;
+        $this->attributes[$name] = $value;
     }
 
     public function __get($name){
@@ -34,6 +34,7 @@ class Input implements InterfaceColumn
 
         $str.='<b-field label="'.$this->name.'"'.$this->ValidationProviderField().'>
                     <b-input type="text" v-model="Model.'.$this->field.'" placeholder="請輸入'.$this->name.'" autocomplete="new-'.$this->field.'"></b-input>
+                    '.$this->description.'
                </b-field>';
 
         $str.=$this->ValidationProviderFooter();

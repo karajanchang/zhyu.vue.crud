@@ -31,7 +31,7 @@ class Checkbox extends Input implements InterfaceColumn
             return $this->relationLoop();
         }
 
-        return '<b-checkbox v-model="Model.'.$this->field.'" placeholder="請輸入'.$this->name.'" autocomplete="new-'.$this->field.'" true-value="1" false-value="0"></b-checkbox>';
+        return '<b-checkbox v-model="Model.'.$this->field.'" placeholder="請輸入'.$this->name.'" autocomplete="new-'.$this->field.'" true-value="1" false-value="0"></b-checkbox>'.$this->description;
     }
 
     private function valuesLoop(){

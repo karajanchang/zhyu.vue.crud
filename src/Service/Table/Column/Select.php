@@ -10,7 +10,7 @@ class Select extends Input implements InterfaceColumn
         $str = $this->ValidationProviderHeader();
 
         $str.='<b-field label="'.$this->name.'"'.$this->ValidationProviderField().'>
-                    <b-select type="select" v-model="Model.'.$this->field.'" placeholder="請選擇'.$this->name.'">'.$this->getOptions().'</b-input>
+                    <b-select type="select" v-model="Model.'.$this->field.'" placeholder="請選擇'.$this->name.'">'.$this->getOptions().'</b-select>'.$this->description.'
                </b-field>';
 
         $str.=$this->ValidationProviderFooter();

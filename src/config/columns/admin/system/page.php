@@ -74,6 +74,18 @@ return [
                     'sortable', 'searchable',
                 ],
             ],
+        'layout' =>
+            [
+                'name' => '佈局',
+                'description' => '可用版型：主頁 "main" / 內頁 "page" / 無 "empty"',
+                'type' => 'text',
+                'rules' => [
+                    'store' =>  'string',
+                    'update' =>  'string',
+                ],
+                'params' => [
+                ],
+            ],
         'menu_id' =>
             [
                 'name' => '選單',

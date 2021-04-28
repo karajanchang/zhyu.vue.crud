@@ -23,6 +23,12 @@ class ColumnService
         return $this;
     }
 
+    public function description($description){
+        $this->column->description = $description;
+
+        return $this;
+    }
+
     public function field($field){
         $this->column->field = $field;
 
