@@ -38,10 +38,10 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], f
 
 Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
     //--一定要有的
-    Route::post('/upload/{dir}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
+    Route::post('/upload/{dir}-{column}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
     Route::get('/ajax/select/{table}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
 
-    Route::post('/ckeditor/{table}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@ckeditor')->name('ckeditor');
+    Route::post('/ckeditor/{table}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@ckeditor')->name('ckeditor');
 
     Route::group( [ 'middleware' => [ ], 'prefix' => '/ajax', 'as' => 'ajax.' ], function (){
         Route::group( [ 'middleware' => [ ], 'prefix' => '/{module}', 'as' => 'admin.' ], function (){
@@ -56,7 +56,7 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
 });
 
 Route::group( [ 'middleware' => ['web'], 'prefix' => '/page', 'as' => 'page.' ], function () {
-    foreach(\Illuminate\Support\Facades\DB::table('pages')->where('is_online', 1)->cursor() as $page) {
+    foreach(\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
         Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
     }
 });

@@ -6,7 +6,7 @@
     </div>
 
     <hr />
-    <div class="title">段落設定</div>
+    <div class="title">版面設定</div>
 
     @if ($errors->any())
         <template>

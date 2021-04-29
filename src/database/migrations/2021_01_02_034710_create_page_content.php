@@ -18,9 +18,9 @@ class CreatePageContent extends Migration
             $table->string('title')->comment('段落主旨');
             $table->longText('body')->nullable(true)->comment('文章內容');
             $table->string('pic')->nullable(true)->comment('圖片');
-            $table->unsignedTinyInteger('pic_align')->default(1)->comment('1置左 2置中 3置右');
-            $table->unsignedInteger('orderby')->default(1)->comment('排序');
-            $table->boolean('is_online')->default(true)->comment('是否有效');
+            $table->unsignedTinyInteger('pic_align')->nullable(true)->default(1)->comment('1置左 2置中 3置右');
+            $table->unsignedInteger('orderby')->nullable(true)->default(1)->comment('排序');
+            $table->boolean('is_online')->nullable(true)->default(true)->comment('是否有效');
             $table->unsignedBigInteger('page_id')->comment('關連 page id');
             $table->timestamps();
 

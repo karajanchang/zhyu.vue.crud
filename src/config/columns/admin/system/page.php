@@ -115,8 +115,8 @@ return [
                 'name' => '是否發佈',
                 'type' => 'checkbox',
                 'rules' => [
-                    'store' =>  'integer',
-                    'update' =>  'integer',
+                    'store' =>  'nullable|integer',
+                    'update' =>  'nullable|integer',
                 ],
                 'params' => [
                     'sortable', 'searchable',

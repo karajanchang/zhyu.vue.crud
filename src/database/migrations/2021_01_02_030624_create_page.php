@@ -19,7 +19,7 @@ class CreatePage extends Migration
             $table->string('banner')->nullable(true)->comment('banner');
             $table->string('uri')->nullable(true)->comment('符合url');
             $table->string('layout')->nullable(true)->comment('layout的名稱');
-            $table->boolean('is_online')->default(false)->comment('是否有效');
+            $table->boolean('is_online')->default(0)->nullable(true)->comment('是否上架');
             $table->unsignedBigInteger('menu_id')->nullable(true)->comment('關連 menu id');
             $table->unsignedSmallInteger('orderby')->default(1)->comment('排序');
             $table->timestamps();

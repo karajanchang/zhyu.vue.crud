@@ -26,6 +26,23 @@ trait ProccessUploadTrait
         $real_path = storage_path('app/' . $path);
         Log::info('ProccessUploadTrait storage path: '.$path, [$real_path]);
 
+
+        $imageSize = getimagesize($real_path);
+        if(is_null($width) && is_null($height)) {
+            $width =  env('DEFAULT_IMAGE_RESIZE_WIDTH', 1024);
+        }
+
+        //---上傳的圖片比較小，不要去放大
+        if( !is_null($width) && ($width > $imageSize[0]) ){
+            $width = $imageSize[0];
+        }
+
+        //---上傳的圖片比較小，不要去放大
+        if( !is_null($height) && ($height > $imageSize[1]) ){
+            $height = $imageSize[1];
+        }
+
+
         $image = Image::make($real_path)->resize($width, $height, function($constraint){
             $constraint->aspectRatio();
         });

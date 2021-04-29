@@ -31,7 +31,7 @@
     @endif
 
     <div id="app" >
-        @if(Auth::check() || $page->is_online==1)
+        @if(Auth::check() || $page->is_online==1 || $preview===true)
             @php
                 $pageContents = $page->contents;
             @endphp
@@ -58,6 +58,7 @@
                                                 @if(!is_null($column->url))
                                                     <a href="{{ $column->url }}">
                                                         @endif
+
                                                         <b-image
                                                                 src="{{ asset('storage/'.$column->pic) }}"
                                                                 alt="{{ $alt = !is_null($column->alt) ? $column->alt : 'picture'}}"
