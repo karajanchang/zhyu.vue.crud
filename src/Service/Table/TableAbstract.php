@@ -86,8 +86,8 @@ class TableAbstract implements \ArrayAccess, Arrayable
         $ccs = [];
         $js = 'window.Model={';
         foreach($columns as $column => $value){
-            if(is_null($value) && !is_null($this->columns[$column]->defaultValue)) {
-                $value = $this->columns[$column]->defaultValue;
+            if(is_null($value) && @!is_null($this->columns[$column]->defaultValue)) {
+                @$value = $this->columns[$column]->defaultValue;
             }
             $datetime_columns = ['date', 'datetime'];
             if( isset($this->config['columns'][$column]['type']) && in_array(strtolower($this->config['columns'][$column]['type']), $datetime_columns) ){

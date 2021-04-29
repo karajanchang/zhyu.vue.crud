@@ -84,7 +84,6 @@ return [
                     'update' =>  'string',
                 ],
                 'values' => [
-                    'main' => '首頁layout',
                     'page' => '內頁layout',
                     'empty' => '空layout',
                 ],
