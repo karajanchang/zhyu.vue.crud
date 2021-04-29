@@ -112,7 +112,7 @@ return [
             ],
         'is_online' =>
             [
-                'name' => '是否有效',
+                'name' => '是否發佈',
                 'type' => 'checkbox',
                 'rules' => [
                     'store' =>  'integer',
