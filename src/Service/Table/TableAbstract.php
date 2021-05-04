@@ -92,7 +92,7 @@ class TableAbstract implements \ArrayAccess, Arrayable
             $datetime_columns = ['date', 'datetime'];
             if( isset($this->config['columns'][$column]['type']) && in_array(strtolower($this->config['columns'][$column]['type']), $datetime_columns) ){
                 if(isset($columns['id'])) {
-                    $ccs[] = '"' . $column . '": ' . 'new Date(\'' . $value . '\')';
+                    $ccs[] = '"' . $column . '": ' . 'Date.parseExact(\'' . $value . '\', \'yyyy-MM-dd HH:mm:ss\')';
                 }else{
                     $ccs[] = '"' . $column . '": ' . 'new Date()';
                 }
