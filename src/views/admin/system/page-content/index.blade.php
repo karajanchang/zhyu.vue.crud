@@ -22,8 +22,8 @@
 @endpush
 
 @push("js")
-    <script src="/ckeditor3/ckeditor.js" type="text/javascript"></script>
-    <script src="/ckeditor3/translations/zh.js"></script>
+    <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script src="/ckeditor/translations/zh.js"></script>
 @endpush
 
 @push("js_append")
