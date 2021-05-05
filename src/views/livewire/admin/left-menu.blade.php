@@ -50,7 +50,7 @@
         @endif
         <div id="logout">
             <b-menu-list label="Actions">
-                <b-menu-item label="登出" @click="logout"></b-menu-item>
+                <b-menu-item label="登出" onclick="logout()"></b-menu-item>
             </b-menu-list>
         </div>
 
@@ -59,6 +59,15 @@
 </div>
 <script>
     function logout(){
-        axios.post('/admin/logout');
+        axios.post('/admin/logout')
+            .then(({ data }) => {
+                this.loading = true
+                location.href='/admin/login'
+            })
+            .catch((error) => {
+                this.loading = false
+                console.log(error)
+                throw error
+            });
     }
 </script>
