@@ -2,14 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
-
-    //--logs
-    #Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
+Route::group( [ 'middleware' => ['auth'], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
+    //--後台首頁
+    Route::get('/', [ \ZhyuVueCurd\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
 
     //--網站設定
-    Route::group( [ 'middleware' => [ ], 'prefix' => '/system', 'as' => 'system.' ], function () {
+    Route::group( [ 'middleware' => [], 'prefix' => '/system', 'as' => 'system.' ], function () {
         //--設定
         Route::resource('/config', \ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class);
         Route::get('/config/{config}/namevalue', [\ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class, 'namevalue'])->name('namevalue');
@@ -36,7 +34,7 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], f
     Route::delete('/{page_column}/destroy-column', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroyByColumn')->name('destroy.column');
 });
 
-Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
+Route::group( [ 'middleware' => ['auth' ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
     //--一定要有的
     Route::post('/upload/{dir}-{column}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
     Route::get('/ajax/select/{table}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
@@ -55,8 +53,11 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/vendor', 'as' => 'vendor.' ],
 //    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
 });
 
-Route::group( [ 'middleware' => ['web'], 'prefix' => '/page', 'as' => 'page.' ], function () {
+//---頁面管理產生的uri
+Route::group( [ 'middleware' => [], 'prefix' => '/page', 'as' => 'page.' ], function () {
     foreach(\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
         Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
     }
 });
+
+//Auth::routes();
