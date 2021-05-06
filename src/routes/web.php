@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group( [ 'middleware' => ['auth'], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
+//---這裡不能在middleware放入auth，不然會拿不到auth csrf_token
+Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' ], function (){
     //--後台首頁
     Route::get('/', [ \ZhyuVueCurd\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
 
@@ -34,7 +35,7 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], f
     Route::delete('/{page_column}/destroy-column', '\\ZhyuVueCurd\\Http\\Controllers\\ImageController@destroyByColumn')->name('destroy.column');
 });
 
-Route::group( [ 'middleware' => ['auth' ], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
+Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
     //--一定要有的
     Route::post('/upload/{dir}-{column}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
     Route::get('/ajax/select/{table}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
