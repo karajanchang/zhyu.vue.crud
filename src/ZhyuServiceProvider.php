@@ -52,10 +52,6 @@ class ZhyuServiceProvider extends ServiceProvider
             return new ConfigsHelper();
         });
 
-        Gate::define('update-post', function (User $user, Post $post) {
-            return $user->id === $post->user_id;
-        });
-
         $this->registerAliases();
     }
 
