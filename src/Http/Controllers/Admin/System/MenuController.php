@@ -30,6 +30,8 @@ class MenuController extends CrulController implements CRULInterface
      * 列表
      */
     public function index(){
+        $this->authorize('menu:read');
+
         $parent_id = Request::get('parent_id');
         if(is_null($parent_id)){
 
@@ -45,6 +47,8 @@ class MenuController extends CrulController implements CRULInterface
      * 新增
      */
     public function create(){
+        $this->authorize('menu:create');
+
         $parent_id = (int) Request::get('parent_id');
         $menu = new Menu();
         $menu->parent_id = $parent_id;
@@ -60,6 +64,8 @@ class MenuController extends CrulController implements CRULInterface
      * 刪除
      */
     public function destroy(int $id){
+        $this->authorize('menu:delete');
+
         $service = app($this->service());
         $model = $service->findById($id);
         if($model->children()->count() > 0){

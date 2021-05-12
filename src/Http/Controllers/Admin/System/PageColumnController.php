@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use ZhyuVueCurd\Helper\ProccessUploadTrait;
 use ZhyuVueCurd\Models\PageColumn;
-use ZhyuVueCurd\Models\PageContent;
 use ZhyuVueCurd\Repositories\Admin\System\PageColumnRepository;
 
 class PageColumnController extends Controller
@@ -52,6 +51,7 @@ class PageColumnController extends Controller
 
 
     public function save(PageColumn $pageColumn, Request $request){
+
         $all = $request->all();
 
         $pageColumn->size = (int) $all['size'] ?? 6;

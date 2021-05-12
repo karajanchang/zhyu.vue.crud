@@ -10,6 +10,8 @@ namespace ZhyuVueCurd;
 
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use ZhyuVueCurd\Commands\AdminCleanCacheCommand;
+use ZhyuVueCurd\Commands\AdminCreateCommand;
 use ZhyuVueCurd\Commands\MakeColumnsCommand;
 use ZhyuVueCurd\Commands\MakeControllerCommand;
 use ZhyuVueCurd\Commands\MakeServiceCommand;
@@ -29,6 +31,8 @@ use ZhyuVueCurd\Http\Livewire\PageMenu;
 class ZhyuServiceProvider extends ServiceProvider
 {
     protected $commands = [
+        AdminCleanCacheCommand::class,
+        AdminCreateCommand::class,
         MakeControllerCommand::class,
         MakeColumnsCommand::class,
         MakeServiceCommand::class,
@@ -48,7 +52,9 @@ class ZhyuServiceProvider extends ServiceProvider
             return new ConfigsHelper();
         });
 
-
+        Gate::define('update-post', function (User $user, Post $post) {
+            return $user->id === $post->user_id;
+        });
 
         $this->registerAliases();
     }

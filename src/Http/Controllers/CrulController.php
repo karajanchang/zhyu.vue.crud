@@ -71,7 +71,7 @@ class CrulController extends Controller
      * 新增
      */
     public function create(){
-
+        $this->authorize($this->tag.':'.'create');
         $this->tableBind($this->module, $this->tag)->form();
 
         return $this->view($this->module.'.'.$this->tag.'.form');
@@ -81,6 +81,8 @@ class CrulController extends Controller
      * 儲存
      */
     public function store(Request $request){
+        $this->authorize($this->tag.':'.'create');
+
         $this->tableBind($this->module, $this->tag)->form();
 
         $this->validate($request, $this->rules_store());
@@ -106,6 +108,8 @@ class CrulController extends Controller
      * 修改
      */
     public function edit(int $id){
+        $this->authorize($this->tag.':'.'update');
+
         $model = app($this->service())->findById($id);
 
         $this->tableBind($this->module, $this->tag)->form($model);
@@ -126,6 +130,8 @@ class CrulController extends Controller
      */
     public function update(int $id, Request $request)
     {
+        $this->authorize($this->tag.':'.'update');
+
         $model = app($this->service())->findById($id);
         $this->tableBind($this->module, $this->tag)->form($model);
         $this->validateModel($model);
@@ -154,6 +160,8 @@ class CrulController extends Controller
      * 刪除
      */
     public function destroy(int $id){
+        $this->authorize($this->tag.':'.'delete');
+
         $service = app($this->service());
         $model = $service->findById($id);
         $this->validateModel($model);

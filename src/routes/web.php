@@ -61,4 +61,3 @@ Route::group( [ 'middleware' => [], 'prefix' => '/page', 'as' => 'page.' ], func
     }
 });
 
-//Auth::routes();
