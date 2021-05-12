@@ -62,6 +62,8 @@ class CrulController extends Controller
      * 列表
      */
     public function index(){
+        $this->auth('read');
+
         $this->tableBind($this->module, $this->tag)->index();
 
         return $this->view($this->module.'.'.$this->tag.'.index');
@@ -71,7 +73,8 @@ class CrulController extends Controller
      * 新增
      */
     public function create(){
-        $this->authorize($this->tag.':'.'create');
+        $this->auth('read');
+
         $this->tableBind($this->module, $this->tag)->form();
 
         return $this->view($this->module.'.'.$this->tag.'.form');
@@ -81,7 +84,7 @@ class CrulController extends Controller
      * 儲存
      */
     public function store(Request $request){
-        $this->authorize($this->tag.':'.'create');
+        $this->auth('create');
 
         $this->tableBind($this->module, $this->tag)->form();
 
@@ -108,7 +111,7 @@ class CrulController extends Controller
      * 修改
      */
     public function edit(int $id){
-        $this->authorize($this->tag.':'.'update');
+        $this->auth('update');
 
         $model = app($this->service())->findById($id);
 
@@ -117,6 +120,7 @@ class CrulController extends Controller
 
         $tags = explode('.', str_replace('-', '_', $this->tag));
         $tag = $tags[ (count($tags)-1)];
+
 
         $this->setEditUrl(route($this->module.'.'.$this->tag.'.update', [ $tag => $model ]));
 
@@ -130,7 +134,7 @@ class CrulController extends Controller
      */
     public function update(int $id, Request $request)
     {
-        $this->authorize($this->tag.':'.'update');
+        $this->auth('update');
 
         $model = app($this->service())->findById($id);
         $this->tableBind($this->module, $this->tag)->form($model);
@@ -160,7 +164,7 @@ class CrulController extends Controller
      * 刪除
      */
     public function destroy(int $id){
-        $this->authorize($this->tag.':'.'delete');
+        $this->auth('delete');
 
         $service = app($this->service());
         $model = $service->findById($id);
@@ -334,5 +338,10 @@ class CrulController extends Controller
     public function getModel(){
 
         return $this->tableService->model;
+    }
+
+    private function auth($act){
+        $tag = $this->getLastTag();
+        $this->authorize($tag.':'.$act);
     }
 }
