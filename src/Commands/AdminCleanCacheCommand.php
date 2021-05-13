@@ -14,7 +14,7 @@ class AdminCleanCacheCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:cleanCache';
+    protected $signature = 'admin:cleanCache {--force}';
 
     /**
      * The console command description.
@@ -26,7 +26,8 @@ class AdminCleanCacheCommand extends Command
     public function handle()
     {
         $confirm_text = 'Are you sure to clean cache (Authoriztion ...)?';
-        if ($this->confirm($confirm_text)) {
+        $force = $this->option('force');
+        if ($force===true || $this->confirm($confirm_text)) {
             $key = env('ADMIN_AUTHORIZATION_CACHE_KEY', '_ZhyuAuth_::Permissions');
             Cache::forget($key);
             $this->info('Cache have been cleaned');

@@ -70,13 +70,13 @@ class MenuRepository extends Repository
 
     }
 
-    public function fetchByParentId(int $parent_id){
 
-        return $this->where('id', $parent_id)->first();
-
-    }
-
-    public function menusByMenuId(int $menu_id){
+    /**
+     * 從 menu_id 去看同層有哪些menus
+     * @param int $menu_id
+     * @return mixed
+     */
+    public function menusSameLevelByMenuId(int $menu_id){
         $menus = $this->where('parent_id', function($query) use($menu_id){
             $query->from('menus')->where('id', $menu_id)->select('parent_id');
         })
@@ -86,7 +86,11 @@ class MenuRepository extends Repository
         return $menus;
     }
 
-
+    /**
+     * 從title去拿到上線的選單
+     * @param string $title
+     * @return mixed
+     */
     public function menusByTitle(string $title){
 
         return $this->where('parent_id', function($query) use($title){
@@ -97,4 +101,35 @@ class MenuRepository extends Repository
         })->where('is_online', 1)->orderby('orderby', 'asc')->get();
     }
 
+    /**
+     * 從 parent_id 去得到它下層的選單
+     * @param int $parent_id
+     * @return mixed
+     */
+    public function menusByParentId(int $parent_id){
+
+        return $this->where('parent_id', $parent_id)->orderby('id', 'asc')->get();
+    }
+
+    /**
+     * 遞迴去拿到所有最後的node
+     * @param int $menu_id
+     * @param array $lastNodes
+     * @return array
+     */
+    public function menusLastNodeById(int $menu_id, array $lastNodes = []){
+        $rows = $this->menusByParentId($menu_id);
+        if($rows->count() > 0){
+            foreach($rows as $row){
+                $count = $this->where('parent_id', $row->id)->count();
+                if($count == 0){
+                    array_push($lastNodes, $row);
+                }else{
+                    $lastNodes = $this->menusLastNodeById($row->id, $lastNodes);
+                }
+            }
+
+            return $lastNodes;
+        }
+    }
 }

@@ -13,7 +13,7 @@ class MenuBreadcrumb extends Component
 
     private function getParent(int $parent_id = null){
         if(!is_null($parent_id) && $parent_id > 0) {
-            $menu = app(MenuRepository::class)->fetchByParentId($parent_id);
+            $menu = app(MenuRepository::class)->find($parent_id);
             array_push($this->parents, $menu);
             $this->getParent($menu->parent_id);
         }

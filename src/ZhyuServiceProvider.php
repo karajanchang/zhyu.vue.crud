@@ -12,6 +12,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use ZhyuVueCurd\Commands\AdminCleanCacheCommand;
 use ZhyuVueCurd\Commands\AdminCreateCommand;
+use ZhyuVueCurd\Commands\AdminInitalCommand;
 use ZhyuVueCurd\Commands\MakeColumnsCommand;
 use ZhyuVueCurd\Commands\MakeControllerCommand;
 use ZhyuVueCurd\Commands\MakeServiceCommand;
@@ -33,6 +34,7 @@ class ZhyuServiceProvider extends ServiceProvider
     protected $commands = [
         AdminCleanCacheCommand::class,
         AdminCreateCommand::class,
+        AdminInitalCommand::class,
         MakeControllerCommand::class,
         MakeColumnsCommand::class,
         MakeServiceCommand::class,
