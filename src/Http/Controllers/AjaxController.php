@@ -41,7 +41,7 @@ class AjaxController extends Controller
     }
 
     private function resolveNamespace(string $capFunctionName){
-        $system_namespaces = ['system.menu', 'system.configs', 'system.page', 'system.pagecontent'];
+        $system_namespaces = ['permission.resource', 'permission.role', 'system.menu', 'system.configs', 'system.page', 'system.pagecontent'];
         if(in_array(strtolower($capFunctionName), $system_namespaces)){
 
             return 'ZhyuVueCurd';
@@ -135,7 +135,7 @@ class AjaxController extends Controller
     private function parseSelect(string $tag, string $repository, string $module = null){
         $tag = $this->parseIfHasDot($tag, $module, false, true);
 
-        $system_tags = ['admin/system/menu', 'admin/system/page'];
+        $system_tags = ['admin/permission/resource', 'admin/permission/role', 'admin/system/menu', 'admin/system/page'];
         if(!in_array($tag, $system_tags)) {
             $this->config = include base_path('config/columns/' . $tag . '.php');
         }else{

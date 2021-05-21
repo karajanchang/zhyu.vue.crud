@@ -7,6 +7,18 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
     //--後台首頁
     Route::get('/', [ \ZhyuVueCurd\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
 
+    //--權限設定
+    Route::group( [ 'middleware' => [], 'prefix' => '/permission', 'as' => 'permission.' ], function () {
+        //--資源管理
+        Route::resource('/resource', \ZhyuVueCurd\Http\Controllers\Admin\Permission\ResourceController::class);
+
+        //--角色管理
+        Route::resource('/role', \ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class);
+        //--角色管理 - 設定權限
+        Route::get('/role/{role}/permission-set', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class, 'permissionSet'])->name('role.permission.set');
+        Route::patch('/role/{role}/permission-save', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class, 'permissionSave'])->name('role.permission.save');
+    });
+
     //--網站設定
     Route::group( [ 'middleware' => [], 'prefix' => '/system', 'as' => 'system.' ], function () {
         //--設定
@@ -15,6 +27,7 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::get('/config/{config}/setvalue', [\ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class, 'setvalue'])->name('setvalue');
         //--選單管理
         Route::resource('/menu', \ZhyuVueCurd\Http\Controllers\Admin\System\MenuController::class);
+
         //--頁面管理
         Route::resource('/page', \ZhyuVueCurd\Http\Controllers\Admin\System\PageController::class);
 
@@ -22,11 +35,13 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::get('/pagecontent/{page}/create', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'create'])->name('pagecontent.create');
         Route::get('/pagecontent/{page}/{page_content}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'edit'])->name('pagecontent.edit');
 
-
         Route::get('/pagecolumn/{page_column}/edit', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'edit'])->name('pagecolumn.edit');
         Route::post('/pagecolumn/{page_column}/save', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'save'])->name('pagecolumn.save');
         Route::delete('/pagecolumn/{page_column}/destroy', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageColumnController::class, 'destroy'])->name('pagecolumn.destroy');
     });
+
+
+
 });
 
 Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], function () {
@@ -44,6 +59,14 @@ Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], 
 
     Route::group( [ 'middleware' => [ ], 'prefix' => '/ajax', 'as' => 'ajax.' ], function (){
         Route::group( [ 'middleware' => [ ], 'prefix' => '/{module}', 'as' => 'admin.' ], function (){
+
+            //--權限設定
+            Route::group( [ 'middleware' => [], 'prefix' => '/permission', 'as' => 'permission.' ], function () {
+                Route::get('{tag}/resource', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('resource');
+                Route::get('{tag}/role', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('role');
+            });
+
+            //--網站設定
             Route::group( [ 'middleware' => [ ], 'prefix' => '/system', 'as' => 'system.' ], function (){
                 Route::get('{tag}/menu', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('menu');
                 Route::get('{tag}/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('page');

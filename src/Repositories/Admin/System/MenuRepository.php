@@ -68,6 +68,32 @@ class MenuRepository extends Repository
             'orderby' => 3,
         ]);
 
+        $permission = $this->create([
+            'title' => 'permission',
+            'ctitle' => '權限管理',
+            'parent_id' => $admin->id,
+            'icon' => 'view-dashboard',
+            'is_can_delete' => 0,
+            'orderby' => 0,
+        ]);
+
+        $resource = $this->create([
+            'title' => 'resource',
+            'ctitle' => '資源管理',
+            'url' => '/admin/permission/resource',
+            'parent_id' => $permission->id,
+            'is_can_delete' => 0,
+            'orderby' => 1,
+        ]);
+        $role = $this->create([
+            'title' => 'role',
+            'ctitle' => '角色管理',
+            'url' => '/admin/permission/role',
+            'parent_id' => $permission->id,
+            'is_can_delete' => 0,
+            'orderby' => 2,
+        ]);
+
     }
 
 

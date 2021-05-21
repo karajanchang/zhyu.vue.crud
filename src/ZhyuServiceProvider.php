@@ -66,6 +66,14 @@ class ZhyuServiceProvider extends ServiceProvider
             __DIR__.'/config/columns/admin/system/page.php', 'zhyu.crud.system.page'
         );
 
+        $this->mergeConfigFrom(
+            __DIR__.'/config/columns/admin/permission/resource.php', 'zhyu.crud.permission.resource'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/config/columns/admin/permission/role.php', 'zhyu.crud.permission.role'
+        );
+
         $this->loadViewsFrom(__DIR__.'/views', 'ZhyuVueCurd');
         if ($this->isLumen()) {
             require_once 'Lumen.php';

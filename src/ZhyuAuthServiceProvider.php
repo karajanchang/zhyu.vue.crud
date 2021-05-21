@@ -12,6 +12,7 @@ use ZhyuVueCurd\Policies\RolePolicy;
 
 class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthServiceProvider
 {
+    private $roles;
     /**
      * The policy mappings for the application.
      *
@@ -29,34 +30,37 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
     public function boot()
     {
         $this->registerPolicies();
-        $permissions = $this->getPermissions();
+        $role_permissions = $this->getRolePermissions();
+        foreach($role_permissions as $role_id => $permissions) {
+            $act_lists = collect([]);
+            $permissions->map(function ($permission) use ($act_lists) {
+                $acts = json_decode($permission->acts);
+                foreach ($acts as $act) {
+                    $value = $permission->resource->slug . ':' . $act;
+                    $act_lists->push($value);
+                }
+            });
+            $role = $this->roles->where('id', $role_id)->first();
 
-        $permissions->map(function($permission){
-            $act_lists = json_decode($permission->acts);
-            $acts = array_map(function($act) use($permission){
-
-                return $permission->resource->slug.':'.$act;
-            }, $act_lists);
-
-            Jetstream::role($permission->role->slug, $permission->role->name,
-                $acts
+            Jetstream::role($role->slug, $role->name,
+                $act_lists->toArray()
             )->description('');
 
-            foreach($acts as $act) {
-                Gate::define($act, function (User $user) use($act){
-                    if(isset($user->teams)){
-                        foreach($user->teams as $team){
+            foreach ($act_lists as $act) {
+                Gate::define($act, function (User $user) use ($act) {
+                    if (isset($user->teams)) {
+                        foreach ($user->teams as $team) {
 
                             return $user->hasTeamPermission($team, $act);
                         }
-                    }else{
+                    } else {
 
                         return false;
                     }
                 });
             }
+        }
 
-        });
 
     }
 
@@ -75,17 +79,26 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
     /**
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|mixed
      */
-    private function getPermissions()
+    private function getRolePermissions()
     {
+        $this->roles = Role::all();
+
         $key = env('ADMIN_AUTHORIZATION_CACHE_KEY', '_ZhyuAuth_::Permissions');
         if (Cache::has($key)) {
 
             return Cache::get($key);
         } else {
-            $permissions = ResourceRolePermission::with('role', 'resource')->get();
-            Cache::put($key, $permissions, now()->addMinutes(env('ADMIN_AUTHORIZATION_EXPIRED_MINUTES', 60)));
 
-            return $permissions;
+            $role_permissions = [];
+            foreach($this->roles as $role) {
+                $permissions = ResourceRolePermission::with('resource')->where('role_id', $role->id)->get();
+                if($permissions->count() > 0) {
+                    $role_permissions[$role->id] = $permissions;
+                }
+            }
+            Cache::put($key, $role_permissions, now()->addMinutes(env('ADMIN_AUTHORIZATION_EXPIRED_MINUTES', 60)));
+
+            return $role_permissions;
         }
     }
 

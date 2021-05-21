@@ -23,7 +23,7 @@ class TableService
             $dir .= '.' . $tag;
         }
 
-        $system_tags = [ 'system.menu', 'system.page' ];
+        $system_tags = [ 'permission.resource', 'permission.role', 'system.menu', 'system.page' ];
         if(!in_array($tag, $system_tags)){
             $this->config = config($dir);
         }else {
