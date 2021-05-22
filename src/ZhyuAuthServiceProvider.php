@@ -40,7 +40,11 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
                     $act_lists->push($value);
                 }
             });
+
             $role = $this->roles->where('id', $role_id)->first();
+            if($role->is_online===false){
+                continue;
+            }
 
             Jetstream::role($role->slug, $role->name,
                 $act_lists->toArray()
@@ -59,6 +63,7 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
                     }
                 });
             }
+
         }
 
 

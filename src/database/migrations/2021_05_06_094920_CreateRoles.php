@@ -24,6 +24,12 @@ class CreateRoles extends Migration
             $table->id();
             $table->string('slug')->nullable(false)->comment('權限角色slug');
             $table->string('name')->nullable(false)->comment('權限角色名稱');
+            $table->boolean('is_online')->default(0)->nullable(true)->comment('是否有效');
+            $table->unsignedSmallInteger('orderby')->default(1)->comment('排序');
+
+            
+            $table->index(['is_online']);
+            $table->index(['is_online', 'orderby']);
 
             $table->timestamps();
         });
@@ -34,12 +40,16 @@ class CreateRoles extends Migration
             [
                 'name' => '超級管理員',
                 'slug' => 'super_admin',
+                'orderby' => 1,
+                'is_online' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'name' => '管理員',
                 'slug' => 'admin',
+                'orderby' => 2,
+                'is_online' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ]

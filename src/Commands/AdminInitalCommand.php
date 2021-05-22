@@ -43,14 +43,17 @@ class AdminInitalCommand extends Command
 
         //---後台的menu id 為 3
         $rows = $this->getAllResources(3);
+        $orderby = 1;
         foreach($rows as $row){
             $count = app(ResourceRepository::class)->countBySlug($row->title);
             if($count == 0){
                 app(ResourceRepository::class)->create([
                     'slug' => $row->title,
                     'name' => $row->ctitle,
+                    'orderby' => $orderby,
                 ]);
             }
+            $orderby++;
         }
 
         $resources = Resource::all();
@@ -65,7 +68,7 @@ class AdminInitalCommand extends Command
                 ]);
             }
         }
-        
+
         //--清除cache
         Artisan::call('admin:cleanCache', ['--force' => true]);
     }
