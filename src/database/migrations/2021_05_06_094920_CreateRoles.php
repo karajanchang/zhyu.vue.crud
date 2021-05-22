@@ -25,9 +25,9 @@ class CreateRoles extends Migration
             $table->string('slug')->nullable(false)->comment('權限角色slug');
             $table->string('name')->nullable(false)->comment('權限角色名稱');
             $table->boolean('is_online')->default(0)->nullable(true)->comment('是否有效');
-            $table->unsignedSmallInteger('orderby')->default(1)->comment('排序');
+            $table->unsignedSmallInteger('orderby')->nullable(true)->default(1)->comment('排序');
 
-            
+
             $table->index(['is_online']);
             $table->index(['is_online', 'orderby']);
 
