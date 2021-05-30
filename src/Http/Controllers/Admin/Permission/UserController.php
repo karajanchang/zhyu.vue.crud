@@ -51,14 +51,16 @@ class UserController extends CrulController implements CRULInterface
         $allTeams = $user->allTeams();
         if($allTeams->count() == 0){
 
-            return [
-                null,
-            ];
+            return null;
         }
         $team = $user->allTeams()->first();
         $role = $user->teamRole($team);
+        if(isset($role->key) && !empty($role->key)) {
 
-        return $role->key;
+            return $role->key;
+        }
+
+        return null;
     }
 
     /**
