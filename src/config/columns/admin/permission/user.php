@@ -1,34 +1,34 @@
 <?php
 
 return [
-    'model' => ZhyuVueCurd\Models\Role::class,
-    'title' => '⻆色管理',
+    'model' => App\Models\User::class,
+    'title' => '使用者管理',
     //'orderby' => ['id' => 'asc'],
     'index_buttons' => [
         'draggable' => true,
         'width' => 250,
         [
             'label' => '修改',
-            'url' => '/admin/permission/role/{id}/edit',
+            'url' => '/admin/permission/user/{id}/edit',
             'css' => 'is-info',
             'type'=> 'update'
         ],
         [
             'label' => '刪除',
-            'url' => '/admin/permission/role/{id}',
+            'url' => '/admin/permission/user/{id}',
             'css' => 'is-danger',
             'type'=> 'delete'
         ],
         [
-            'label' => '權限管理',
-            'url' => '/admin/permission/role/{id}/permission-set',
+            'label' => '角色管理',
+            'url' => '/admin/permission/user/{id}/role-set',
             'css' => 'is-primary',
         ],
     ],
     'form_buttons' => [
         [
             'label' => '取消',
-            'url' => '/admin/permission/role',
+            'url' => '/admin/permission/user',
             'css' => 'is-default',
             'type'=> 'cancel'
         ],
@@ -41,7 +41,7 @@ return [
     'columns' => [
         'name' =>
             [
-                'name' => '資源名稱',
+                'name' => '使用者名稱',
                 'type' => 'text',
                 'rules' => [
                     'store' =>  'required|string',
@@ -53,10 +53,24 @@ return [
                     'cell-class' => '',
                 ],
             ],
-        'slug' =>
+        'email' =>
             [
-                'name' => '資源slug',
+                'name' => 'E-Mail',
                 'type' => 'text',
+                'rules' => [
+                    'store' =>  'required|email',
+                    'update' =>  'required|email',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+            ],
+        'password' =>
+            [
+                'name' => '密碼',
+                'type' => 'password',
                 'rules' => [
                     'store' =>  'required|string',
                     'update' =>  'required|string',
@@ -66,6 +80,8 @@ return [
                     'header-class' => '',
                     'cell-class' => '',
                 ],
+                'display_index' => false,
+                'display_form' => true,
             ],
         'is_online' =>
             [

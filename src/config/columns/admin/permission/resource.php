@@ -62,6 +62,36 @@ return [
                     'cell-class' => '',
                 ],
             ],
+        'is_online' =>
+            [
+                'name' => '是否有效',
+                'type' => 'checkbox',
+                'rules' => [
+                    'store' =>  'nullable|integer',
+                    'update' =>  'nullable|integer',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+                'display_index' => true,
+                'display_form' => true,
+            ],
+        'orderby' =>
+            [
+                'name' => '排序',
+                'type' => 'integer',
+                'rules' => [
+                    'store' =>  'integer',
+                    'update' =>  'integer',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+            ],
 
     ],
     'joins' => [

@@ -18,13 +18,22 @@ class AjaxController extends Controller
     private $config;
     private $table;
 
+    /**
+     * AjaxController constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
 
-
+    /**
+     * @param $module
+     * @param null $tag
+     * @return mixed
+     * @throws \Exception
+     */
     public function index($module, $tag = null){
         $capFunctionName = $this->capName($tag);
 
@@ -40,41 +49,53 @@ class AjaxController extends Controller
         return $this->rowsOrderby($qb);
     }
 
-    private function resolveNamespace(string $capFunctionName){
-        $system_namespaces = ['permission.resource', 'permission.role', 'system.menu', 'system.configs', 'system.page', 'system.pagecontent'];
-        if(in_array(strtolower($capFunctionName), $system_namespaces)){
+    /**
+     * @param string $repository
+     * @return string|null
+     */
+    private function getRepositoryClass(string $repository) : ?string{
+        $r = 'App'.$repository;
+        if(class_exists($r)){
 
-            return 'ZhyuVueCurd';
+            return $r;
         }
 
-        return 'App';
+        $r = 'ZhyuVueCurd'.$repository;
+        if(class_exists($r)){
+
+            return $r;
+        }
+
+        return null;
     }
 
     /*
      * 拿到repository
      */
     private function getRepository($capFunctionName, $module = null) : string{
-        $namespace = $this->resolveNamespace($capFunctionName);
         if(strstr($capFunctionName, '.')) {
 
             $caps = explode('.', $capFunctionName);
-            $repository = $namespace.'\Repositories'.'\\'.ucfirst($module);
+            $repository = '\Repositories'.'\\'.ucfirst($module);
             foreach ($caps as $cap) {
                 $repository .= '\\' . $this->parseIfHasDot($cap);
             }
 
             $repository .= 'Repository';
-            if (class_exists($repository)) {
+            $r = $this->getRepositoryClass($repository);
+            if(!is_null($r)){
 
-                return $repository;
+                return $r;
             }
 
             $capFunctionName = $this->parseIfHasDot($capFunctionName, $module);
-            $repository = $namespace.'\Repositories\\' . $capFunctionName . 'Repository';
-
+            $repository = '\Repositories\\' . $capFunctionName . 'Repository';
         }else{
-            $repository = $namespace.'\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
+            $repository = '\Repositories\\'.$module.'\\'.$capFunctionName.'Repository';
         }
+
+        $repository = $this->getRepositoryClass($repository);
+
         return $repository;
     }
 
@@ -126,21 +147,51 @@ class AjaxController extends Controller
         return $res;
     }
 
+    /**
+     * @param $table
+     * @param $column
+     * @return array
+     */
     public function select($table, $column){
 
         return DB::table($table)->select('id', $column)->orderby($column, 'asc')->get()->all();
     }
 
+    /**
+     * @param $tag
+     * @return string
+     */
+    private function getConfig($tag){
+        $file = base_path('config/columns/' . $tag . '.php');
+        if(file_exists($file)){
 
+            return $file;
+        }
+
+        $file = base_path('vendor/zhyu/vue.crud/src/config/columns/' . $tag . '.php');
+
+        $this->config = include $file;
+    }
+
+    /**
+     * @param string $tag
+     * @param string $repository
+     * @param string|null $module
+     * @return mixed
+     */
     private function parseSelect(string $tag, string $repository, string $module = null){
         $tag = $this->parseIfHasDot($tag, $module, false, true);
 
+        /*
         $system_tags = ['admin/permission/resource', 'admin/permission/role', 'admin/system/menu', 'admin/system/page'];
         if(!in_array($tag, $system_tags)) {
             $this->config = include base_path('config/columns/' . $tag . '.php');
         }else{
             $this->config = include base_path('vendor/zhyu/vue.crud/src/config/columns/' . $tag . '.php');
         }
+        */
+        $this->getConfig($tag);
+
         $rep = app($repository);
         if(isset($this->config['joins']) && count($this->config['joins'])){
             $qb = $rep->getModel();
@@ -177,7 +228,10 @@ class AjaxController extends Controller
     }
 
 
-
+    /**
+     * @param $qb
+     * @return mixed
+     */
     private function rowsOrderby($qb){
         if($qb instanceof Repository){
             $qb = $qb->getModel();
@@ -214,6 +268,10 @@ class AjaxController extends Controller
         return $rows;
     }
 
+    /**
+     * @param $qb
+     * @param string|null $query
+     */
     private function processQuery($qb, string $query = null){
         if(is_null($query)) return ;
 

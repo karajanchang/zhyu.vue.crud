@@ -35,6 +35,8 @@ class CrulController extends Controller
 
     protected $seconds = 5;
 
+    protected $service = null;
+
     public function __construct()
     {
         if(method_exists($this, 'createUrl')){
@@ -50,6 +52,11 @@ class CrulController extends Controller
             $this->store_url = $this->storeUrl();
         }
         $this->seconds = env('ATOMIC_LOCK_A_SECONDS', 5);
+
+        if(method_exists($this, 'service')){
+            $this->service = app($this->service());
+        }
+
     }
 
     protected function cacheKey() : string{

@@ -14,9 +14,15 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
 
         //--角色管理
         Route::resource('/role', \ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class);
+
         //--角色管理 - 設定權限
         Route::get('/role/{role}/permission-set', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class, 'permissionSet'])->name('role.permission.set');
         Route::patch('/role/{role}/permission-save', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\RoleController::class, 'permissionSave'])->name('role.permission.save');
+
+        //--使用者管理
+        Route::resource('/user', \ZhyuVueCurd\Http\Controllers\Admin\Permission\UserController::class);
+        Route::get('/user/{user}/role-set', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\UserController::class, 'roleSet'])->name('user.role.set');
+        Route::patch('/user/{user}/role-save', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\UserController::class, 'roleSave'])->name('user.role.save');
     });
 
     //--網站設定
@@ -25,6 +31,7 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::resource('/config', \ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class);
         Route::get('/config/{config}/namevalue', [\ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class, 'namevalue'])->name('namevalue');
         Route::get('/config/{config}/setvalue', [\ZhyuVueCurd\Http\Controllers\Admin\System\ConfigController::class, 'setvalue'])->name('setvalue');
+
         //--選單管理
         Route::resource('/menu', \ZhyuVueCurd\Http\Controllers\Admin\System\MenuController::class);
 
@@ -64,6 +71,7 @@ Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], 
             Route::group( [ 'middleware' => [], 'prefix' => '/permission', 'as' => 'permission.' ], function () {
                 Route::get('{tag}/resource', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('resource');
                 Route::get('{tag}/role', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('role');
+                Route::get('{tag}/user', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('user');
             });
 
             //--網站設定

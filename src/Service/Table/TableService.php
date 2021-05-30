@@ -13,6 +13,12 @@ class TableService
     public $model;
     private static $service;
 
+    /**
+     * TableService constructor.
+     * @param string|null $module
+     * @param string|null $tag
+     * @throws \Exception
+     */
     public function __construct(string $module = null, string $tag = null)
     {
         $dir = 'columns';
@@ -23,10 +29,10 @@ class TableService
             $dir .= '.' . $tag;
         }
 
-        $system_tags = [ 'permission.resource', 'permission.role', 'system.menu', 'system.page' ];
-        if(!in_array($tag, $system_tags)){
-            $this->config = config($dir);
-        }else {
+        $config = config($dir);
+        if(!is_null($config)){
+            $this->config = $config;
+        }else{
             $tag = 'zhyu.crud.'.$tag;
             $this->config = config($tag);
         }
@@ -38,6 +44,9 @@ class TableService
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function index(){
         App::bind(InterfaceTable::class, TableIndex::class);
         $this->makeModel();
@@ -45,6 +54,10 @@ class TableService
         return $this;
     }
 
+    /**
+     * @param Model|null $model
+     * @return $this
+     */
     public function form(Model $model = null){
         App::bind(InterfaceTable::class, TableForm::class);
         $this->makeModel($model);
@@ -52,6 +65,10 @@ class TableService
         return $this;
     }
 
+    /**
+     * @param Model|null $model
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     private function makeModel(Model $model = null){
         $this->model = $model;
         if(is_null($model)) {
@@ -59,6 +76,10 @@ class TableService
         }
     }
 
+    /**
+     * @return mixed|InterfaceTable
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     private function getServiceInstance(){
         if(self::$service===null) {
             self::$service = app()->make(InterfaceTable::class, ['config' => $this->config, 'model' => $this->model]);
@@ -67,6 +88,12 @@ class TableService
         return self::$service;
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     public function __call($name, $arguments)
     {
         return $this->getServiceInstance()->{$name}($arguments);
