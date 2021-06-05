@@ -87,8 +87,10 @@ Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], 
 
 //---頁面管理產生的uri
 Route::group( [ 'middleware' => [], 'prefix' => '/page', 'as' => 'page.' ], function () {
-    foreach(\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
-        Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+    if(\Illuminate\Support\Facades\Schema::hasTable('pages')) {
+        foreach (\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
+            Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+        }
     }
 });
 
