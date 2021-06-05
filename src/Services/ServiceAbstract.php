@@ -6,7 +6,7 @@
  * Time: 12:24
  */
 
-namespace ZhyuVueCurd\Service;
+namespace ZhyuVueCurd\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
