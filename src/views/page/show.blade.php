@@ -39,8 +39,9 @@
             @if($pageContents->count() >0)
                 @foreach($pageContents as $content)
                     <section class="section">
-                        <h2 class="has-text-black has-text-left is-size-3">{{ $page->title ?? '' }}</h2>
-                        @if(!is_null($content->subtitle)) <h3 class="subtitle">{{ $content->subtitle }}</h3> @endif
+                        <h2 class="has-text-black has-text-left is-size-3"><b-icon icon="view-dashboard" size="is-tiny" type="is-info"></b-icon>{{ $page->title ?? '' }}</h2>
+                        @if(!is_null($content->title)) <h3 class="subtitle">{{ $content->title }} @if(!is_null($content->subtitle)) <span style="font-size: 0.75em">{{ $content->subtitle }}</span> @endif</h3> @endif
+
                         @if($content->container==1) <div class="container"> @endif
                             <hr style="border-top: 1px solid black;">
 
