@@ -347,7 +347,7 @@ class CrulController extends Controller
         return $this->tableService->model;
     }
 
-    private function auth($act){
+    protected function auth($act){
         $tag = $this->getLastTag();
         $this->authorize($tag.':'.$act);
     }

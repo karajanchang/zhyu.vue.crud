@@ -9,6 +9,7 @@
 namespace ZhyuVueCurd\Service\Admin\Permission;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use ZhyuVueCurd\Repositories\Admin\Permission\UserRepository;
 use ZhyuVueCurd\Service\AbstractCrulService;
 use ZhyuVueCurd\Service\TraitCrulService;
@@ -31,6 +32,12 @@ class UserService extends AbstractCrulService
     private function processParams(array $params, bool $is_update = false){
 //        $params['parent_id'] = !isset($params['parent_id']) ? 0 : (int) $params['parent_id'];
 //        $params['orderby'] = !isset($params['orderby']) ? 1 : (int) $params['orderby'];
+        if(is_null($params['password']) || strlen($params['password'])==0) {
+            unset($params['password']);
+        }else{
+            $params['password'] = Hash::make($params['password']);
+        }
+
         return $params;
     }
 

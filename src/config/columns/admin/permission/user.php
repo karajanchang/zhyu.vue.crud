@@ -73,7 +73,7 @@ return [
                 'type' => 'password',
                 'rules' => [
                     'store' =>  'required|string',
-                    'update' =>  'required|string',
+                    'update' =>  'nullable|string',
                 ],
                 'params' => [
                     'sortable', 'searchable',
@@ -104,8 +104,8 @@ return [
                 'name' => '排序',
                 'type' => 'integer',
                 'rules' => [
-                    'store' =>  'integer',
-                    'update' =>  'integer',
+                    'store' =>  'required|integer',
+                    'update' =>  'required|integer',
                 ],
                 'params' => [
                     'sortable', 'searchable',

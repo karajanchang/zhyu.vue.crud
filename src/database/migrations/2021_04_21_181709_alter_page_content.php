@@ -16,7 +16,7 @@ class AlterPageContent extends Migration
         Schema::table('page_contents', function (Blueprint $table) {
             $table->string('title')->nullable(true)->comment('主標')->after('id')->change();
             $table->string('subtitle')->nullable(true)->comment('副標')->after('title');
-            $table->unsignedTinyInteger('column_nums')->nullable(false)->comment('欄位數量')->after('subtitle');
+            $table->unsignedTinyInteger('column_nums')->nullable(false)->default(2)->comment('欄位數量')->after('subtitle');
             $table->unsignedTinyInteger('gap')->nullable(true)->comment('間距 is-0 .. is-8')->after('column_nums');
             $table->boolean('is_vcentered')->nullable(true)->comment('縮小時變多行 is-vcentered')->after('gap');
             $table->boolean('is_multiline')->nullable(true)->comment('垂直對齊 is-multiline')->after('is_vcentered');
