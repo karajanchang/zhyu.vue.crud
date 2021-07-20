@@ -11,12 +11,15 @@
         {!! $tableService->js() !!}
     </script>
 
-    <script src="/ckeditor/ckeditor.js"></script>
-    <script src="/ckeditor/translations/zh-TW.js"></script>
+    @if(env('WYSIWYG_EDITOR', 'froala')=='ckeditor')
+        <script src="/ckeditor/ckeditor.js"></script>
+        <script src="/ckeditor/translations/zh-TW.js"></script>
+    @else
+        <script type="text/javascript" src="{{ asset('js/froala_editor/froala_editor.pkgd.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/froala_editor/languages/zh_tw.js') }}"></script>
+    @endif
 
     <script src="{{ asset('/assets/js/form.js')}}" type="text/javascript"></script>
-
-
 
     <script type="text/javascript">
         {!! $tableService->js2() !!}
