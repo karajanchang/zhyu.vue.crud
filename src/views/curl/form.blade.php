@@ -1,8 +1,8 @@
 @extends('ZhyuVueCurd::layouts.base')
 
 
-@push("js")
-
+@push("css")
+    <link rel="stylesheet" href="{{ asset('css/froala_editor.pkgd.min.css')  }}">
 @endpush
 
 @push("js_append")
