@@ -109,13 +109,22 @@ class TableAbstract implements \ArrayAccess, Arrayable
 
         $js .= join(',', $ccs).'};';
 
-        $ckeditor_editorColumns = [];
+        $editorColumns = [];
         foreach($columns as $column => $value) {
             if( isset($this->config['columns'][$column]['type']) && strtolower($this->config['columns'][$column]['type'])=='richtext' ) {
-                $ckeditor_editorColumns[] = '\''.$column.'\'';
+                $editorColumns[] = '\''.$column.'\'';
             }
         }
-        $js .= 'window.ckeditorColumns = ['.join(',', $ckeditor_editorColumns).'];';
+
+        $js.="window.tag='".$this->model->getTable()."';";
+
+        if(env('WYSIWYG_EDITOR', 'froala')=='froala') {
+            $js .= 'window.ckeditorColumns = [];';
+            $js .= 'window.froalaColumns = [' . join(',', $editorColumns) . '];';
+        }else{
+            $js .= 'window.froalaColumns = [];';
+            $js .= 'window.ckeditorColumns = [' . join(',', $editorColumns) . '];';
+        }
 
 //        return 'window.Model ='. json_encode($columns);
         return $js;

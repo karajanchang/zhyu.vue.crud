@@ -13,7 +13,7 @@ class Textarea extends Input
         $str = $this->ValidationProviderHeader();
 
         $str.='<b-field label="'.$this->name.'"'.$this->ValidationProviderField().'>
-                    <b-input type="textarea" v-model="Model.'.$this->field.'" placeholder="請輸入'.$this->name.'" autocomplete="new-'.$this->field.'" ></b-input>
+                    <b-input type="textarea" v-model="Model.'.$this->field.'" placeholder="請輸入'.$this->name.'" autocomplete="new-'.$this->field.'" id="'.$this->field.'"></b-input>
                </b-field>';
 
         $str.=$this->ValidationProviderFooter();

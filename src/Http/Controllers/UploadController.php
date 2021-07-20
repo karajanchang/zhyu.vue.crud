@@ -59,4 +59,23 @@ class UploadController extends Controller
             'url' => '/storage/'.$path,
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param string $dir
+     * @param string $column
+     * @param int|null $width
+     * @param int|null $height
+     * @param int|null $quality
+     * @return string
+     */
+    public function froala(Request $request, string $dir, string $column, int $width = null, int $height = null, int $quality = 70){
+        $path = $this->proccessUpload($dir, $request->{$column}, $width, $height);
+        Log::info('response', [$dir, $column]);
+
+        return [
+            'link' => Storage::url($path),
+        ];
+    }
+
 }
