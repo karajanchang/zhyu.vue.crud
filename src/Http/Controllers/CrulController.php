@@ -342,13 +342,19 @@ class CrulController extends Controller
         return array_pop($array);
     }
 
+    private function parseTagForDot2Underline(){
+        $tags = explode('.', $this->tag);
+
+        return join('_', $tags);
+    }
+
     public function getModel(){
 
         return $this->tableService->model;
     }
 
     protected function auth($act){
-        $tag = $this->getLastTag();
-        $this->authorize($tag.':'.$act);
+        //$tag = $this->getLastTag();
+        $this->authorize($this->parseTagForDot2Underline().':'.$act);
     }
 }

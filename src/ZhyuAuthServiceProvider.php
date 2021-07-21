@@ -35,6 +35,7 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
             $act_lists = collect([]);
             $permissions->map(function ($permission) use ($act_lists) {
                 $acts = json_decode($permission->acts);
+
                 foreach ($acts as $act) {
                     $value = $permission->resource->slug . ':' . $act;
                     $act_lists->push($value);
@@ -45,7 +46,6 @@ class ZhyuAuthServiceProvider extends \Illuminate\Foundation\Support\Providers\A
             if($role->is_online===false){
                 continue;
             }
-
             Jetstream::role($role->slug, $role->name,
                 $act_lists->toArray()
             )->description('');
