@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 class ConfigController extends Controller
 {
     public function index(){
-        $this->authorize('config:read');
+        $this->authorize('system_config:read');
 
         $title = '設定列表';
 
@@ -21,7 +21,7 @@ class ConfigController extends Controller
     }
 
     public function create(){
-        $this->authorize('config:create');
+        $this->authorize('system_config:create');
         $title = '新增設定';
 
         return view('ZhyuVueCurd::admin.system.config.create', [
@@ -36,7 +36,7 @@ class ConfigController extends Controller
     }
 
     public function edit(int $id){
-        $this->authorize('config:update');
+        $this->authorize('system_config:update');
 
         $title = '修改設定';
         $config = $this->getConfigById($id);
@@ -48,7 +48,7 @@ class ConfigController extends Controller
     }
 
     public function namevalue(int $id){
-        $this->authorize('config:update');
+        $this->authorize('system_config:update');
         $title = '設定 - 屬性設定';
         $config = $this->getConfigById($id);
 
@@ -59,7 +59,7 @@ class ConfigController extends Controller
     }
 
     public function setvalue(int $id){
-        $this->authorize('config:create');
+        $this->authorize('system_config:create');
         $title = '設定 - 設定值';
         $config = $this->getConfigById($id);
 
