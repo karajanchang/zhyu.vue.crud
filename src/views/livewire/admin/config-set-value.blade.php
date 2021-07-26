@@ -59,19 +59,19 @@
                             @elseif($configs->type==3)
                                 @foreach($configValues as $key => $configValue)
                                     <b-checkbox wire:model="value" native-value="{{ $configValue['value'] }}">
-                                        {{ $configValue['value'] }}
+                                        {{ $configValue['name'] }}
                                     </b-checkbox>
                                 @endforeach
                             @elseif($configs->type==5)
                                 @foreach($configValues as $key => $configValue)
                                     <b-radio wire:model="value" native-value="{{ $configValue['value'] }}">
-                                        {{ $configValue['value'] }}
+                                        {{ $configValue['name'] }}
                                     </b-radio>
                                 @endforeach
                             @elseif($configs->type==6)
                                 <textarea wire:model="value" native-value="{{ $configs->value }}" rows="10" cols="50">{{ $configs->value }}</textarea>
                             @else
-                                <b-input wire:model="value" native-value="{{ $configs->value }}">
+                                <b-input wire:model="value" native-value="{{ $configs->value }}">{{ $configValue['name'] }}
                             @endif
                         </div>
                     </div>

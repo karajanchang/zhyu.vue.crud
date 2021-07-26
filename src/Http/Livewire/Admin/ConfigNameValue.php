@@ -35,17 +35,21 @@ class ConfigNameValue extends Component
         $now = Carbon::now()->toDatetimeString();
 
         try {
+            ray($this->configValues);
             array_map(function ($rows) use ($now) {
-                if (!empty($rows['name']) && !empty($rows['value'])) {
+                ray('map...........', $rows);
+                if (isset($rows['name']) && isset($rows['value'])) {
                     if (empty($rows['id'])) {
                         $datas = array_merge($rows, [
                             'config_id' => $this->configs->id,
                             'created_at' => $now,
                             'updated_at' => $now,
                         ]);
+                        ray('inserting....', $datas);
                         app(ConfigValueRepository::class)->insert($datas);
                     } else {
                         $rows['updated_at'] = $now;
+                        ray('updating....', $rows);
                         app(ConfigValueRepository::class)->where('id', $rows['id'])->update($rows);
                     }
                 }
