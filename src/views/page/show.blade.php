@@ -77,7 +77,7 @@
                                                 @endif
                                             @endif
                                             <div class="block">
-                                                {!! $column->body !!}
+                                                {!! str_replace(forala_front, '', $column->body) !!}
                                             </div>
                                         </div>
                                     </div>
