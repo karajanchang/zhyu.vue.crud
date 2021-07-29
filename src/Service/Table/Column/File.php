@@ -18,7 +18,7 @@ class File extends Input implements InterfaceColumn
         $str.='<input type="file" @change="uploadFile(\''.$dir.'\',\''.$this->field.'\')" ref="'.$this->field.'">'.$this->description;
 
         if($action=='edit') {
-            $str .= '<b-field><a href="window.open(\'/storage/\'+Model.' . $this->field . '\')">開新窗預覧</a></b-field>';
+            $str .= '<b-field><a href="javascript:;" OnClick="window.open(\'/storage\'+Model.' . $this->field . ')">開新窗預覧</a></b-field>';
         }
 
         $str.='</div></div>';

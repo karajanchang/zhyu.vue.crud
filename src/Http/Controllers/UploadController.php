@@ -33,6 +33,7 @@ class UploadController extends Controller
 //        $path = Storage::putFile('public/'.$dir, $request->{$column});
 //        $path = str_replace('public', '', $path);
 //        Log::info('upload in .............'.$path);
+        ray($dir, $request, $width, $height);
         $path = $this->proccessUpload($dir, $request->{$column}, $width, $height);
 
         return $path;
