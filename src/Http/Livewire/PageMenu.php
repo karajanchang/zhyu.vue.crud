@@ -18,7 +18,9 @@ class PageMenu extends Component
     protected $listeners = [];
 
     public function mount(){
-        $this->menus = app(MenuRepository::class)->menusSameLevelByMenuId($this->page->menu_id);
+        if(isset($this->page->menu_id)) {
+            $this->menus = app(MenuRepository::class)->menusSameLevelByMenuId($this->page->menu_id);
+        }
     }
 
 
