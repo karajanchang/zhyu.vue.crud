@@ -108,6 +108,9 @@ return [
                     'table' => 'menus',
                     'name' => 'menu',
                     'column' => 'ctitle',
+                    'wheres' => [
+                        ['menus.parent_id', '=', 0]
+                    ],
                 ],
             ],
         'is_online' =>
@@ -128,9 +131,9 @@ return [
             ],
     ],
     'joins' => [
-
         'menu_id' => [
             'menus', 'pages.menu_id', '=', 'menus.id'
         ],
     ],
+
 ];

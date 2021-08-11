@@ -14,6 +14,9 @@ class TableAbstract implements \ArrayAccess, Arrayable
     //---index or form
     protected $table_type = 'index';
 
+    protected $module;
+    protected $tag;
+
     protected $config;
     protected $model;
     protected $title;
@@ -25,10 +28,13 @@ class TableAbstract implements \ArrayAccess, Arrayable
     protected $footer = '';
     protected $js2 = '';
 
-    public function __construct($config = null, Model $model = null)
+    public function __construct($config = null, Model $model = null, $module = null, $tag = null)
     {
         $this->config = $config;
         $this->model = $model;
+        $this->module = $module;
+        $this->tag = $tag;
+
         $this->parseArray();
     }
 
@@ -158,6 +164,9 @@ class TableAbstract implements \ArrayAccess, Arrayable
             }
             */
             $relation = $this->model->{$column};
+            if($column=='menu_id') {
+                ray('relation.........', $relation, $column, $dd);
+            }
             if(method_exists($this->model, $column)){
                 if($relation->count()) {
                     foreach ($relation as $bb) {
@@ -179,11 +188,16 @@ class TableAbstract implements \ArrayAccess, Arrayable
         $js_selects = [];
         foreach($this->columns as $column => $dd) {
             if (is_array($dd->relation) && !empty($dd->relation['table']) && !empty($dd->relation['column']) && !empty($dd->relation['name'])) {
-                $url = url(route('vendor.ajax.select', [
-                    'table' => $dd->relation['table'],
-                    'column' => $dd->relation['column'],
-                ],
-                        ));
+                $url = url(
+                    route('vendor.ajax.select', [
+                        'table' => $dd->relation['table'],
+                        'column' => $dd->relation['column'],
+                        'module' => $this->module,
+                        'tag' => $this->tag,
+                        'from' => $this->model->getTable(),
+                        'field' => $dd->field,
+                    ])
+                );
                 //$consoleLog = env('APP_DEBUG')===true ? 'console.log(res.data);' : '';
                 $consoleLog = '';
                 $js_selects[] = "axios.get('" . $url . "').then((res) => { window." . $dd->relation['name'] . "s = res.data; " . $consoleLog . " })";

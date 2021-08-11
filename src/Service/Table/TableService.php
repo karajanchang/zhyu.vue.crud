@@ -11,6 +11,8 @@ class TableService
 {
     private $config;
     public $model;
+    private $module;
+    private $tag;
     private static $service;
 
     /**
@@ -21,6 +23,9 @@ class TableService
      */
     public function __construct(string $module = null, string $tag = null)
     {
+        $this->module = $module;
+        $this->tag = $tag;
+
         $dir = 'columns';
         if(!is_null($module)){
             $dir .= '.' . $module;
@@ -82,7 +87,7 @@ class TableService
      */
     private function getServiceInstance(){
         if(self::$service===null) {
-            self::$service = app()->make(InterfaceTable::class, ['config' => $this->config, 'model' => $this->model]);
+            self::$service = app()->make(InterfaceTable::class, ['config' => $this->config, 'model' => $this->model, 'module' => $this->module, 'tag' => $this->tag ]);
         }
 
         return self::$service;

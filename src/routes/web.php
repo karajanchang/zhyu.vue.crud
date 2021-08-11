@@ -60,7 +60,7 @@ Route::group( [ 'middleware' => [ ], 'prefix' => '/image', 'as' => 'image.' ], f
 Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], function () {
     //--一定要有的
     Route::post('/upload/{dir}-{column}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@store')->name('upload');
-    Route::get('/ajax/select/{table}-{column}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
+    Route::get('/ajax/select/{table}-{column}/{from}-{field}/{module?}/{tag?}', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@select')->name('ajax.select');
 
     Route::post('/froala/{dir}-{column}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@froala')->name('froala');
     Route::post('/ckeditor/{table}/{width?}/{height?}/{quailty?}', '\\ZhyuVueCurd\\Http\\Controllers\\UploadController@ckeditor')->name('ckeditor');

@@ -152,9 +152,23 @@ class AjaxController extends Controller
      * @param $column
      * @return array
      */
-    public function select($table, $column){
+    public function select($table, $column, $from, $field, $module = null, $tag = null){
 
-        return DB::table($table)->select('id', $column)->orderby($column, 'asc')->get()->all();
+        $from = substr($from, 0, strlen($from)-1);
+
+        $tag = $this->parseIfHasDot($tag, $module, false, true);
+        $this->getConfig($tag);
+        $qb = DB::table($table)->select('id', $column)->orderby($column, 'asc');
+        if(isset($this->config['columns'][$field]['relation']['wheres'])) {
+            $wheres = $this->config['columns'][$field]['relation']['wheres'];
+            if(count($wheres)){
+                foreach ($wheres as $where){
+                    call_user_func_array([$qb, 'where'], $where);
+                }
+            }
+        }
+
+        return $qb->get();
     }
 
     /**
@@ -236,7 +250,6 @@ class AjaxController extends Controller
         if($qb instanceof Repository){
             $qb = $qb->getModel();
         }
-        //dd($qb);
         $all = $this->request->all();
         $orderbys = [];
         if(isset($all['orderby'])){

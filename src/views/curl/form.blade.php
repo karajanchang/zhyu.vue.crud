@@ -19,11 +19,14 @@
         <script type="text/javascript" src="{{ asset('js/froala_editor/languages/zh_tw.js') }}"></script>
     @endif
 
-    <script src="{{ asset('/assets/js/form.js')}}" type="text/javascript"></script>
-
     <script type="text/javascript">
         {!! $tableService->js2() !!}
     </script>
+
+
+    <script src="{{ asset('/assets/js/form.js')}}" type="text/javascript"></script>
+
+
 
 @endpush
 
