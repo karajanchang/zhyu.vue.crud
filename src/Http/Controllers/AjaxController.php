@@ -212,12 +212,29 @@ class AjaxController extends Controller
             $this->table = $qb->getTable();
             $columns = $this->getTableColumns($this->table);
             $selects = [];
+
+            $qb_subs = [];
             foreach($this->config['columns'] as $col => $column){
                 if(!in_array($col, $columns)){
                     continue;
                 }
                 if(isset($column['relation'])) {
-                    $col = DB::raw($column['relation']['table'] . '.' . $column['relation']['column'] . ' as ' . $col);
+                    //$col = DB::raw($column['relation']['table'] . '.' . $column['relation']['column'] . ' as ' . $col);
+                    $qb_sub = DB::table($column['relation']['table'])->select($column['relation']['column']);
+                    if(count($column['relation']['wheres'])) {
+                        foreach($column['relation']['wheres'] as $where) {
+                            $qb_subs[$col] = call_user_func_array([$qb_sub, 'where'], $where);
+                            if(isset($this->config['joins'][$col])){
+//                                dump($this->config['joins'][$col]);
+                                $qb_subs[$col] = call_user_func_array([$qb_sub, 'whereColumn'], $this->config['joins'][$col]);
+                            }
+                        }
+                    }
+
+//                    dump($qb_sub->toSql(), $column);
+//                    dump('1111111111', $col, $column);
+//                    $qb = $qb->selectSub($qb_sub, $col);
+//                    dd($qb->toSql(), $column);
                 }else{
                     $col = $this->table.'.'.$col;
                 }
@@ -228,11 +245,20 @@ class AjaxController extends Controller
 
             }
 
-            foreach($this->config['joins'] as $col => $joins){
-                $qb = call_user_func_array([$qb, 'join'], $joins);
-            }
+
+            //foreach($this->config['joins'] as $col => $joins){
+            //$qb = call_user_func_array([$qb, 'join'], $joins);
+            //}
 
             $qb = $qb->select($selects);
+//            dump($qb->toSql());
+            if(count($qb_subs)){
+                foreach($qb_subs as $col => $qb_sub){
+                    $qb = $qb->selectSub($qb_sub, $col);
+                }
+            }
+            //dd($qb->toSql());
+
         }else{
             $this->table = $rep->makeModel()->getTable();
             $qb = $rep->select(['*']);
@@ -247,6 +273,7 @@ class AjaxController extends Controller
      * @return mixed
      */
     private function rowsOrderby($qb){
+//        dump($qb->toSql());
         if($qb instanceof Repository){
             $qb = $qb->getModel();
         }
@@ -275,6 +302,7 @@ class AjaxController extends Controller
         if(isset($all['query'])) {
             $this->processQuery($qb, $all['query']);
         }
+//        dd($qb->toSql());
 //        dd($qb->toSql(), $qb->getBindings());
         $rows = $qb->paginate();
 

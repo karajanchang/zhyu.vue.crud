@@ -113,6 +113,29 @@ return [
                     ],
                 ],
             ],
+        'left_menu_id' =>
+            [
+                'name' => '左側選單',
+                'type' => 'select',
+                'rules' => [
+                    'store' =>  'integer',
+                    'update' =>  'integer',
+                ],
+                'params' => [
+                    'sortable', 'searchable',
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+                'relation' => [
+                    'table' => 'menus',
+                    'name' => 'menu',
+                    'column' => 'ctitle',
+                    'wheres' => [
+                        ['menus.parent_id', '=', 0],
+                        ['menus.id', '>', 3]
+                    ],
+                ],
+            ],
         'is_online' =>
             [
                 'name' => '是否發佈',
@@ -129,10 +152,28 @@ return [
                 'display_index' => true,
                 'display_form' => true,
             ],
+        'left_bottom_text' =>
+            [
+                'name' => '左邊選單下方文字',
+                'type' => 'text',
+                'rules' => [
+                    'store' =>  'nullable|string',
+                    'update' =>  'nullable|string',
+                ],
+                'params' => [
+                    'header-class' => '',
+                    'cell-class' => '',
+                ],
+                'display_index' => false,
+                'display_form' => true,
+            ],
     ],
     'joins' => [
         'menu_id' => [
-            'menus', 'pages.menu_id', '=', 'menus.id'
+            'pages.menu_id', '=', 'menus.id'
+        ],
+        'left_menu_id' => [
+            'pages.left_menu_id', '=', 'menus.id'
         ],
     ],
 

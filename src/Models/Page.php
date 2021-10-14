@@ -15,4 +15,9 @@ class Page extends Model
 
         return $this->hasMany(PageContent::class);
     }
+
+    public function left_menu(){
+
+        return $this->belongsTo(Menu::class, 'left_menu_id');
+    }
 }
