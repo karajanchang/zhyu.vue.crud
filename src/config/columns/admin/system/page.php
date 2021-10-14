@@ -96,8 +96,8 @@ return [
                 'name' => '選單',
                 'type' => 'select',
                 'rules' => [
-                    'store' =>  'integer',
-                    'update' =>  'integer',
+                    'store' =>  'nullable|integer',
+                    'update' =>  'nullable|integer',
                 ],
                 'params' => [
                     'sortable', 'searchable',
@@ -118,8 +118,8 @@ return [
                 'name' => '左側選單',
                 'type' => 'select',
                 'rules' => [
-                    'store' =>  'integer',
-                    'update' =>  'integer',
+                    'store' =>  'nullable|integer',
+                    'update' =>  'nullable|integer',
                 ],
                 'params' => [
                     'sortable', 'searchable',
