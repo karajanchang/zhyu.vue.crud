@@ -106,7 +106,7 @@ return [
                 ],
                 'relation' => [
                     'table' => 'menus',
-                    'name' => 'menu',
+                    'name' => 'menu_id',
                     'column' => 'ctitle',
                     'wheres' => [
                         ['menus.parent_id', '=', 0]
@@ -128,7 +128,7 @@ return [
                 ],
                 'relation' => [
                     'table' => 'menus',
-                    'name' => 'menu',
+                    'name' => 'left_menu_id',
                     'column' => 'ctitle',
                     'wheres' => [
                         ['menus.parent_id', '=', 0],

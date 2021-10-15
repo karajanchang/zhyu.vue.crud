@@ -91,7 +91,9 @@
         <div class="buttons">
             <b-button type="is-info" onclick="location.href='/admin/system/pagecontent/{{ $page->id }}/create'">新增版面</b-button>
             @if(Route::has('page.'.$page->url))
-                <b-button type="is-warning" onclick="window.open('{{ route('page.'.$page->uri, ['uri' => $page->uri]) }}?preview=true')">預覽</b-button>
+                @if(!empty($page->uri))
+                    <b-button type="is-warning" onclick="window.open('{{ route('page.'.$page->uri, ['uri' => $page->uri]) }}?preview=true')">預覽</b-button>
+                @endif
             @endif
         </div>
 

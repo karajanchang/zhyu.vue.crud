@@ -159,6 +159,7 @@ class AjaxController extends Controller
         $tag = $this->parseIfHasDot($tag, $module, false, true);
         $this->getConfig($tag);
         $qb = DB::table($table)->select('id', $column)->orderby($column, 'asc');
+//        dd($table, $column, $from, $field, $this->config['columns'][$field], $tag);
         if(isset($this->config['columns'][$field]['relation']['wheres'])) {
             $wheres = $this->config['columns'][$field]['relation']['wheres'];
             if(count($wheres)){
@@ -179,12 +180,15 @@ class AjaxController extends Controller
         $file = base_path('config/columns/' . $tag . '.php');
         if(file_exists($file)){
 
-            return $file;
+            $this->config = include $file;
+
+            return $this->config;
         }
 
         $file = base_path('vendor/zhyu/vue.crud/src/config/columns/' . $tag . '.php');
 
         $this->config = include $file;
+        return $this->config;
     }
 
     /**
