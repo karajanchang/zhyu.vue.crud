@@ -26,8 +26,9 @@
 
 
 
-    <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script src="/ckeditor/translations/zh.js"></script>
+    {{--    <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>--}}
+    {{--    <script src="/ckeditor/translations/zh.js"></script>--}}
+    <link rel="stylesheet" href="http://cjps.new.test:8888/css/froala_editor.pkgd.min.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
@@ -63,6 +64,7 @@
             display: inline-block;
         }
     </style>
+
     <script type="text/javascript">
         window.Laravel = { "csrfToken": "{{ csrf_token() }}"};
     </script>
@@ -177,7 +179,14 @@
     <div style="min-height: 400px">&nbsp;</div>
 </section>
 
+<script type="text/javascript" src="http://cjps.new.test:8888/js/froala_editor/froala_editor.pkgd.min.js"></script>
+<script type="text/javascript" src="http://cjps.new.test:8888/js/froala_editor/languages/zh_tw.js"></script>
 <script>
+    // window.ckeditorColumns = [];
+    // window.froalaColumns = ['body'];
+    new FroalaEditor('#body');
+
+    /*
     ClassicEditor
         .create(document.querySelector('#body'), {
             language: 'zh',
@@ -200,6 +209,7 @@
         .catch(error => {
             console.error(error);
         });
+        */
 
 
     let elements = document.querySelectorAll( '.close-window');
