@@ -28,7 +28,7 @@
 
     {{--    <script src="/ckeditor/ckeditor.js" type="text/javascript"></script>--}}
     {{--    <script src="/ckeditor/translations/zh.js"></script>--}}
-    <link rel="stylesheet" href="http://cjps.new.test:8888/css/froala_editor.pkgd.min.css">
+    <link rel="stylesheet" href="/css/froala_editor.pkgd.min.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
@@ -179,8 +179,8 @@
     <div style="min-height: 400px">&nbsp;</div>
 </section>
 
-<script type="text/javascript" src="http://cjps.new.test:8888/js/froala_editor/froala_editor.pkgd.min.js"></script>
-<script type="text/javascript" src="http://cjps.new.test:8888/js/froala_editor/languages/zh_tw.js"></script>
+<script type="text/javascript" src="/js/froala_editor/froala_editor.pkgd.min.js"></script>
+<script type="text/javascript" src="/js/froala_editor/languages/zh_tw.js"></script>
 <script>
     // window.ckeditorColumns = [];
     // window.froalaColumns = ['body'];
