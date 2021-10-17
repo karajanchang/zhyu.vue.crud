@@ -42,9 +42,9 @@
                                         $icon_pack = $child->icon_pack ?? 'fas';
                                         $icon = $child->icon ?? 'square';
                                     @endphp
-                                    {{--                                    @if($child->is_online==1)--}}
-                                    <b-menu-item label="{{ $child->ctitle }}" icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" href="{{ $child->url }}" @if(ifMatchUrl($child->url)) active @endif></b-menu-item>
-                                    {{--                                    @endif--}}
+                                    @if($child->is_online==1)
+                                        <b-menu-item label="{{ $child->ctitle }}" icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" href="{{ $child->url }}" @if(ifMatchUrl($child->url)) active @endif></b-menu-item>
+                                    @endif
                                 @endforeach
                             </b-menu-item>
                         </b-menu-list>
