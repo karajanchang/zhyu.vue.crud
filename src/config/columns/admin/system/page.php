@@ -50,6 +50,7 @@ return [
                     'sortable', 'searchable',
                 ],
             ],
+        /*
         'banner' =>
             [
                 'name' => '頁面Banner',
@@ -62,6 +63,7 @@ return [
                     'sortable', 'searchable',
                 ],
             ],
+        */
         'uri' =>
             [
                 'name' => '網址uri',
@@ -104,6 +106,8 @@ return [
                     'header-class' => '',
                     'cell-class' => '',
                 ],
+                'display_index' => true,
+                'display_form' => false,
                 'relation' => [
                     'table' => 'menus',
                     'name' => 'menu_id',
@@ -126,6 +130,8 @@ return [
                     'header-class' => '',
                     'cell-class' => '',
                 ],
+                'display_index' => true,
+                'display_form' => false,
                 'relation' => [
                     'table' => 'menus',
                     'name' => 'left_menu_id',

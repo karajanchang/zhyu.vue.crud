@@ -87,7 +87,7 @@
 
 
 @section("content")
-    <div id="app" class="container">
+    <div id="app" class="container fr-view">
         <div class="buttons">
             <b-button type="is-info" onclick="location.href='/admin/system/pagecontent/{{ $page->id }}/create'">新增版面</b-button>
             @if(Route::has('page.'.$page->url))
@@ -103,6 +103,9 @@
                     @if(!is_null($c->title)) <h1 class="title">{{ $c->title }}</h1> @endif
                     @if(!is_null($c->subtitle)) <h1 class="subtitle">{{ $c->subtitle }}</h1> @endif
                     @if($c->container==1) <div class="container"> @endif
+                        <div class="m-2">
+                            [<a href="{{ route('admin.system.pagecontent.edit', ['page' => $page, 'page_content' => $c]) }}">修改參數</a>]
+                        </div>
                         <div class="columns
                         @if($c->is_vcentered==1) is-vcentered @endif
                         @if($c->is_multiline==1) is-multiline @endif

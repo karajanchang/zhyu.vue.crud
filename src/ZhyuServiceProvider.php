@@ -24,6 +24,7 @@ use ZhyuVueCurd\Http\Livewire\Admin\ConfigSetValue;
 use ZhyuVueCurd\Http\Livewire\Admin\LeftMenu;
 use ZhyuVueCurd\Http\Livewire\Admin\MenuBreadcrumb;
 use ZhyuVueCurd\Http\Livewire\Admin\PageContentForm;
+use ZhyuVueCurd\Http\Livewire\Admin\PageContentFormEdit;
 use ZhyuVueCurd\Http\Livewire\Admin\TableIndex;
 use ZhyuVueCurd\Http\Livewire\Admin\TableRowDrag;
 use ZhyuVueCurd\Http\Livewire\PageMenu;
@@ -104,6 +105,7 @@ class ZhyuServiceProvider extends ServiceProvider
         Livewire::component('admin.table-row-drag', TableRowDrag::class);
         Livewire::component('admin.page-content-index', PageContentIndex::class);
         Livewire::component('admin.page-content-form', PageContentForm::class);
+        Livewire::component('admin.page-content-form-edit', PageContentFormEdit::class);
         Livewire::component('page-menu', PageMenu::class);
 
         $this->publishes([
