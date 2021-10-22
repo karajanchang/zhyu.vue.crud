@@ -46,6 +46,7 @@
                                 @if($key==0 && !empty($page->left_menu_id))
                                     @inject('menuRepository', \ZhyuVueCurd\Repositories\Admin\System\MenuRepository::class)
                                     @php
+                                        $first_left_menu = null;
                                         $left_menus = $menuRepository->menusByParentId($page->left_menu_id);
                                     @endphp
                                     <div class="columns">
@@ -53,21 +54,26 @@
                                             <section class="section">
                                                 <ol style="list-style: none">
                                                     @foreach($left_menus as $left_menu)
+                                                        @php
+                                                            if(is_null($first_left_menu)){
+                                                                $first_left_menu = $left_menu;
+                                                            }
+                                                        @endphp
                                                         <li class="mb-2"><a href="{{ $left_menu->url }}" class="has-text-grey">{{ $left_menu->ctitle }}</a></li>
                                                     @endforeach
                                                 </ol>
 
 
                                             </section>
-                                            @if(!empty($page->left_bottom_text))
+                                            @if(!empty($first_left_menu->bottom_text))
                                                 <section class="has-background-info-dark p-5 mt-3 is-size-4 has-text-white has-text-centered">
-                                                    {{ $page->left_bottom_text }}
+                                                    {{ $first_left_menu->bottom_text }}
                                                 </section>
                                             @endif
                                         </div>
 
                                         <div class="column">
-                                            @endif
+                                @endif
 
                                             <h2 class="has-text-black has-text-left is-size-3 m-3"><b-icon icon="view-dashboard" size="is-tiny" type="is-info"></b-icon>{{ $page->title ?? '' }}</h2>
 
@@ -112,7 +118,7 @@
                                             </div>
 
 
-                                            @if($key==0 && !empty($page->left_menu_id))
+                                @if($key==0 && !empty($page->left_menu_id))
 
                                         </div>
                                     </div>
