@@ -17,6 +17,7 @@ use ZhyuVueCurd\Commands\MakeColumnsCommand;
 use ZhyuVueCurd\Commands\MakeControllerCommand;
 use ZhyuVueCurd\Commands\MakeServiceCommand;
 use ZhyuVueCurd\Helper\ConfigsHelper;
+use ZhyuVueCurd\Http\Livewire\Admin\BoardArrangement;
 use ZhyuVueCurd\Http\Livewire\Admin\ConfigForm;
 use ZhyuVueCurd\Http\Livewire\Admin\ConfigList;
 use ZhyuVueCurd\Http\Livewire\Admin\ConfigNameValue;
@@ -104,6 +105,7 @@ class ZhyuServiceProvider extends ServiceProvider
         Livewire::component('admin.menu-breadcrumb', MenuBreadcrumb::class);
         Livewire::component('admin.table-index', TableIndex::class);
         Livewire::component('admin.table-row-drag', TableRowDrag::class);
+        Livewire::component('admin.board-arrangement', BoardArrangement::class);
         Livewire::component('admin.page-arrangement', PageArrangement::class);
         Livewire::component('admin.page-content-index', PageContentIndex::class);
         Livewire::component('admin.page-content-form', PageContentForm::class);

@@ -25,6 +25,9 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
         Route::patch('/user/{user}/role-save', [\ZhyuVueCurd\Http\Controllers\Admin\Permission\UserController::class, 'roleSave'])->name('user.role.save');
     });
 
+    Route::group( [ 'middleware' => [], 'prefix' => '/announcement', 'as' => 'announcement.' ], function () {
+        Route::get('/board/{board}/arrangement', [\ZhyuVueCurd\Http\Controllers\Admin\Announcement\BoradController::class, 'arrangement'])->name('board.arrangement');
+    });
     //--網站設定
     Route::group( [ 'middleware' => [], 'prefix' => '/system', 'as' => 'system.' ], function () {
         //--設定
