@@ -54,23 +54,28 @@ class PageColumnController extends Controller
 
         $all = $request->all();
 
-        $pageColumn->size = (int) $all['size'] ?? 6;
-        $pageColumn->has_text_centered = isset($all['has_text_centered']) ? (int) $all['has_text_centered'] : 0;
-        $pageColumn->width = isset($all['width']) ? $all['width'] : null;
-        $pageColumn->height = isset($all['height']) ? $all['height'] : null;
-        $pageColumn->alt = (string) $all['alt'] ?? null;
-        $pageColumn->url = (string) $all['url'] ?? null;
-        $pageColumn->ratio = (string) $all['ratio'] ?? null;
-        $pageColumn->rounded = isset($all['rounded']) ? (int) $all['rounded'] : 0;
-        $pageColumn->body = $all['body'] ?? null;
+        //$pageColumn->size = (int) $all['size'] ?? 6;
+        try {
+            $pageColumn->has_text_centered = isset($all['has_text_centered']) ? (int)$all['has_text_centered'] : 0;
+            $pageColumn->width = isset($all['width']) ? $all['width'] : null;
+            $pageColumn->height = isset($all['height']) ? $all['height'] : null;
+            $pageColumn->alt = (string)$all['alt'] ?? null;
+            $pageColumn->url = (string)$all['url'] ?? null;
+            $pageColumn->ratio = (string)$all['ratio'] ?? null;
+            $pageColumn->rounded = isset($all['rounded']) ? (int)$all['rounded'] : 0;
+            $pageColumn->body = $all['body'] ?? null;
 
-        //----開始上傳
-        if(!is_null($request->pic)) {
-            $pageColumn->pic = $this->proccessImageUpload($pageColumn, $request);
+            //----開始上傳
+            if (!is_null($request->pic)) {
+                $pageColumn->pic = $this->proccessImageUpload($pageColumn, $request);
+            }
+            $pageColumn->save();
+
+            return redirect()->route('admin.system.pagecolumn.edit', ['page_column' => $pageColumn])->with('status', 'success');
+        }catch (\Exception $e){
+            Log::error(__METHOD__, [$e]);
+            return redirect()->route('admin.system.pagecolumn.edit', ['page_column' => $pageColumn])->with('status', 'fail');
         }
-        $pageColumn->save();
-
-        return redirect()->route('admin.system.pagecolumn.edit', ['page_column' => $pageColumn]);
 
     }
 

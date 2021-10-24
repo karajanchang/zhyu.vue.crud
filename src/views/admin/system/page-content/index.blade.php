@@ -100,8 +100,8 @@
         @if($page->contents->count() > 0)
             @foreach($page->contents as $c)
                 <section id="section-{{$c->id}}" class="section">
-                    @if(!is_null($c->title)) <h1 class="title">{{ $c->title }}</h1> @endif
-                    @if(!is_null($c->subtitle)) <h1 class="subtitle">{{ $c->subtitle }}</h1> @endif
+                    @if(!is_null($c->title)) <div class="title">{{ $c->title }}</div> @endif
+                    @if(!is_null($c->subtitle)) <div class="subtitle">{{ $c->subtitle }}</div> @endif
                     @if($c->container==1) <div class="container"> @endif
                         <div class="m-2">
                             [<a href="{{ route('admin.system.pagecontent.edit', ['page' => $page, 'page_content' => $c]) }}">修改參數</a>]

@@ -37,6 +37,8 @@ Route::group( [ 'middleware' => ['web'], 'prefix' => '/admin', 'as' => 'admin.' 
 
         //--頁面管理
         Route::resource('/page', \ZhyuVueCurd\Http\Controllers\Admin\System\PageController::class);
+        Route::get('/page/{page}/arrangement', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageController::class, 'arrangement'])->name('page.arrangement');
+
 
         Route::get('/pagecontent/{page}/index', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'index'])->name('pagecontent.index');
         Route::get('/pagecontent/{page}/create', [\ZhyuVueCurd\Http\Controllers\Admin\System\PageContentController::class, 'create'])->name('pagecontent.create');

@@ -23,6 +23,12 @@ return [
             'css' => 'is-primary',
             'type' => 'button',
         ],
+        [
+            'label' => '左選單',
+            'url' => '/admin/system/page/{id}/arrangement',
+            'css' => 'is-primary',
+            'type' => 'button',
+        ],
     ],
     'form_buttons' => [
         [
@@ -93,33 +99,10 @@ return [
                 'params' => [
                 ],
             ],
-        'menu_id' =>
-            [
-                'name' => '選單',
-                'type' => 'select',
-                'rules' => [
-                    'store' =>  'nullable|integer',
-                    'update' =>  'nullable|integer',
-                ],
-                'params' => [
-                    'sortable', 'searchable',
-                    'header-class' => '',
-                    'cell-class' => '',
-                ],
-                'display_index' => true,
-                'display_form' => false,
-                'relation' => [
-                    'table' => 'menus',
-                    'name' => 'menu_id',
-                    'column' => 'ctitle',
-                    'wheres' => [
-                        ['menus.parent_id', '=', 0]
-                    ],
-                ],
-            ],
+
         'left_menu_id' =>
             [
-                'name' => '左側選單',
+                'name' => '左選單',
                 'type' => 'select',
                 'rules' => [
                     'store' =>  'nullable|integer',
@@ -158,21 +141,7 @@ return [
                 'display_index' => true,
                 'display_form' => true,
             ],
-        'left_bottom_text' =>
-            [
-                'name' => '左邊選單下方文字',
-                'type' => 'text',
-                'rules' => [
-                    'store' =>  'nullable|string',
-                    'update' =>  'nullable|string',
-                ],
-                'params' => [
-                    'header-class' => '',
-                    'cell-class' => '',
-                ],
-                'display_index' => false,
-                'display_form' => true,
-            ],
+
     ],
     'joins' => [
         'menu_id' => [

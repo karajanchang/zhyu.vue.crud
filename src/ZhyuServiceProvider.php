@@ -23,6 +23,7 @@ use ZhyuVueCurd\Http\Livewire\Admin\ConfigNameValue;
 use ZhyuVueCurd\Http\Livewire\Admin\ConfigSetValue;
 use ZhyuVueCurd\Http\Livewire\Admin\LeftMenu;
 use ZhyuVueCurd\Http\Livewire\Admin\MenuBreadcrumb;
+use ZhyuVueCurd\Http\Livewire\Admin\PageArrangement;
 use ZhyuVueCurd\Http\Livewire\Admin\PageContentForm;
 use ZhyuVueCurd\Http\Livewire\Admin\PageContentFormEdit;
 use ZhyuVueCurd\Http\Livewire\Admin\TableIndex;
@@ -103,6 +104,7 @@ class ZhyuServiceProvider extends ServiceProvider
         Livewire::component('admin.menu-breadcrumb', MenuBreadcrumb::class);
         Livewire::component('admin.table-index', TableIndex::class);
         Livewire::component('admin.table-row-drag', TableRowDrag::class);
+        Livewire::component('admin.page-arrangement', PageArrangement::class);
         Livewire::component('admin.page-content-index', PageContentIndex::class);
         Livewire::component('admin.page-content-form', PageContentForm::class);
         Livewire::component('admin.page-content-form-edit', PageContentFormEdit::class);

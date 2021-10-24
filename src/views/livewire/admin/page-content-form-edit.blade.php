@@ -37,6 +37,17 @@
                     </b-field>
 
 
+                    <div class="columns mt-5" id="column_sizes">
+                        @foreach($column_sizes as $key => $c)
+                            <div class="column has-text-centered is-{{$c}}" style="border:1px solid #666666; background: #ccc">
+                                <div>欄位{{ $key+1 }}大小</div>
+                                <input type="number" wire:model="column_sizes.{{$key}}" value="{{ $c }}" style="border:1px solid #eee; width:100%" class="p-3 m-3"></input>
+                            </div>
+                        @endforeach
+                    </div>
+
+
+
                     <b-field label="排序" @error('page_content.subtitle') type="is-danger"
                              message="請輸入排序數字" @enderror>
                         <b-numberinput name="orderby" maxlength="9999" wire:model="page_content.orderby" size="is-small" controls-position="compact" controls-rounded type="is-warning"></b-numberinput>

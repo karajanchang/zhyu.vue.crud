@@ -63,6 +63,9 @@
             width: auto;
             display: inline-block;
         }
+        [data-f-id="pbf"] {
+            display: none;
+        }
     </style>
 
     <script type="text/javascript">
@@ -80,15 +83,26 @@
                 </div>
             </div>
 
+            @if (session('status'))
+                @if(session('status')=='success')
+                    <article class="message is-success">
+                        <div class="message-header">
+                            <p>儲存成功</p>
+                            <button class="delete" aria-label="delete"></button>
+                        </div>
+                    </article>
+                @else
+                    <article class="message is-danger">
+                        <div class="message-header">
+                            <p>儲存失敗</p>
+                            <button class="delete" aria-label="delete"></button>
+                        </div>
+                    </article>
+                @endif
+            @endif
+
             <div class="block m-10 p-10 rounded-full"  style="background-color: #c8eed6">
                 <div class="title">欄位設定</div>
-                <div class="control w80">
-                    <div class="inputPre">
-                        欄位大小
-                    </div>
-                    <input class="input" type="text" name="size" placeholder="請輸入欄位大小 1-12數字（必填）" value="{{ $pageColumn->size }}"required>
-                </div>
-
                 <div class="control w80">
                     <label class="checkbox">
                         <input type="checkbox" name="has_text_centered" @if($pageColumn->has_text_centered==1) checked @endif value="1">文字置中
@@ -165,7 +179,7 @@
                     <textarea id="body" name="body" class="body">{{ $pageColumn->body }}</textarea>
                 </div>
 
-                <div class="buttons" style="width:300px;margin:0 auto;position: relative;padding-top: 300px;">
+                <div class="buttons" style="width:300px;margin:0 auto;position: relative;">
                     <button class="button is-link" type="submit">送出</button>
                     <button class="button is-default close-window" type="button">關閉視窗，重新整理</button>
                 </div>

@@ -2,6 +2,7 @@
 namespace ZhyuVueCurd\Http\Controllers\Admin\System;
 
 
+use ZhyuVueCurd\Models\Page;
 use ZhyuVueCurd\Service\Admin\System\PageService;
 use ZhyuVueCurd\Http\Controllers\CRULInterface;
 use ZhyuVueCurd\Http\Controllers\CRULTrait;
@@ -23,6 +24,9 @@ class PageController extends CrulController implements CRULInterface
         return PageService::class;
     }
 
+    public function arrangement(Page $page){
 
+        return view('ZhyuVueCurd::admin.system.page.arrangement', compact('page'));
+    }
 
 }

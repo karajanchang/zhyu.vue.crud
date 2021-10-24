@@ -39,6 +39,11 @@
 
 
     @stack('js')
+    <style>
+        [data-f-id="pbf"] {
+            display: none;
+        }
+    </style>
 </head>
 <!--
 BODY TAG OPTIONS:
