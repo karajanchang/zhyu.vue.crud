@@ -9,4 +9,8 @@ class BoardItem extends Model
 {
     use HasFactory;
     protected $table = 'board_items';
+
+    public $timestamps = true;
+
+    protected $guarded = ['id'];
 }
