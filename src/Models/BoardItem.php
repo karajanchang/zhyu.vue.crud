@@ -2,8 +2,6 @@
 
 namespace ZhyuVueCurd\Models;
 
-use App\Models\Board;
-use App\Models\BoardItemPic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
