@@ -80,12 +80,12 @@
                                             @endif
 
 
-                                            <div class="columns"
+                                            <div class="columns
                                                  @if($content->is_vcentered==1) is-vcentered @endif
                                                  @if($content->is_multiline==1) is-multiline @endif
                                                  @if($content->is_centered==1) is-centered @endif
                                                  @if($content->is_fluid==1) is-fluid @endif
-                                                 is-{{ $content->gap }}
+                                                 is-{{ $content->gap }}"
                                             >
                                                 @foreach($content->columns as $column)
                                                     <div class="column is-{{ $column->size }} @if($column->has_text_centered==1) has-text-centered @endif">
