@@ -1,6 +1,6 @@
 <section class="is-hidden-mobile">
     <div class="p-1 is-pulled-right">
-        <div class="container is-fluid is-size-6">
+        <div class="container is-fluid is-size-6" style="z-index: 299">
             @if(isset($menus) && $menus->count() > 0)
                 @foreach($menus as $menu)
                     @php
