@@ -29,7 +29,7 @@
             <div style="background-color: #666; position: fixed; top: 100px; right: 0; z-index: 9999; " class="m-5 p-5 has-text-white-ter is-size-2">預覽模式</div>
         @endif
 
-        <div id="app" style="position: relative; top: -20px;">
+        <div id="app">
             @if(Auth::check() || $page->is_online==1 || $preview===true)
                 @php
                     $pageContents = $page->contents;
