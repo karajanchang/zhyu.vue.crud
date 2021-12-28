@@ -91,14 +91,18 @@ Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], 
 //    Route::get('/vendor/ajax/admin/system/page', '\\ZhyuVueCurd\\Http\\Controllers\\AjaxController@index')->name('ajax.admin.system.page');
 });
 
+Route::get('/page/enrollment05', '\\App\\Http\\Controllers\\PageController@schoolbus')->name('page.enrollment05');
+
 //---頁面管理產生的uri
 Route::group( [ 'middleware' => [], 'prefix' => '/page', 'as' => 'page.' ], function () {
     if(\Illuminate\Support\Facades\Schema::hasTable('pages')) {
         foreach (\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
-            if($page!='enrollment05') {
+            if($page->is_online!=1) continue;
+
+            if($page->uri!='enrollment05') {
                 Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
             }else{
-                Route::get('/{uri}', [\App\Http\Controllers\PageController::class, 'schoolbus'])->name($page->uri);
+                Route::get('/enrollment05', [\App\Http\Controllers\PageController::class, 'schoolbus'])->name('enrollment05');
             }
         }
     }
