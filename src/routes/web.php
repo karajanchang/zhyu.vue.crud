@@ -95,7 +95,11 @@ Route::group( [ 'middleware' => [], 'prefix' => '/vendor', 'as' => 'vendor.' ], 
 Route::group( [ 'middleware' => [], 'prefix' => '/page', 'as' => 'page.' ], function () {
     if(\Illuminate\Support\Facades\Schema::hasTable('pages')) {
         foreach (\Illuminate\Support\Facades\DB::table('pages')->cursor() as $page) {
-            Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+            if($page!='enrollment05') {
+                Route::get('/{uri}', '\\ZhyuVueCurd\\Http\\Controllers\\PageController@show')->name($page->uri);
+            }else{
+                Route::get('/{uri}', [\App\Http\Controllers\PageController::class, 'schoolbus'])->name($page->uri);
+            }
         }
     }
 });
