@@ -3,7 +3,7 @@
         $configs->typeWithName();
     @endphp
     <div class="title">設定名稱： {{ $configs->tag }} / {{ $configs->ctitle }}</div>
-    <span class="subtitle">類別：{{ $configs->type }}</span>
+    <span class="subtitle">類別：{{ $configs->type_name }}</span>
 
 
     <div class="m-5">
@@ -29,7 +29,6 @@
                 </b-notification>
             @endif
         </div>
-
 
         <form wire:submit.prevent="submitConfigSetValueForm">
             <div class="level">
@@ -58,20 +57,20 @@
                                 </b-upload>
                             @elseif($configs->type==3)
                                 @foreach($configValues as $key => $configValue)
-                                    <b-checkbox wire:model="value" native-value="{{ $configValue['value'] }}">
+                                    <b-checkbox wire:model="value" @if(isset($configValue['value'])) native-value="{{ $configValue['value'] }}" @endif>
                                         {{ $configValue['name'] }}
                                     </b-checkbox>
                                 @endforeach
                             @elseif($configs->type==5)
                                 @foreach($configValues as $key => $configValue)
-                                    <b-radio wire:model="value" native-value="{{ $configValue['value'] }}">
+                                    <b-radio wire:model="value" @if(isset($configValue['value'])) native-value="{{ $configValue['value'] }}" @endif>
                                         {{ $configValue['name'] }}
                                     </b-radio>
                                 @endforeach
                             @elseif($configs->type==6)
                                 <textarea wire:model="value" native-value="{{ $configs->value }}" rows="10" cols="50">{{ $configs->value }}</textarea>
                             @else
-                                <b-input wire:model="value" native-value="{{ $configs->value }}">{{ $configValue['name'] }}
+                                <b-input wire:model="value" native-value="{{ $configs->value }}">{{ $configValue['name'] ?? '' }}
                             @endif
                         </div>
                     </div>

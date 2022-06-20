@@ -37,9 +37,9 @@ class Config extends Model
             default:
                 $type = '1 文字';
         }
-        $this->type = $type;
+        $this->type_name = $type;
         if(!is_null($value)) {
-            $this->value = '<a href="'.$value.'"'.' target="_blank">按下預覽</a>';
+            //$this->value = '<a href="'.$value.'"'.' target="_blank">按下預覽</a>';
         }
     }
 }

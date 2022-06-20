@@ -3,7 +3,7 @@
         $configs->typeWithName();
     @endphp
     <div class="title">設定名稱： {{ $configs->tag }} / {{ $configs->ctitle }}</div>
-    <span class="subtitle">類別：{{ $configs->type }}</span>
+    <span class="subtitle">類別：{{ $configs->type_name }}</span>
 
     <div class="has-text-right"><b-button type="is-info" label="增加屬性 (+)" wire:click="increment" class="is-small is-m5"></b-button></div>
 
@@ -12,9 +12,9 @@
         <div>
             @if (session()->has('success_message'))
                 <b-notification
-                    type="is-success"
-                    has-icon
-                    aria-close-label="Close notification" closable class="m-5">
+                        type="is-success"
+                        has-icon
+                        aria-close-label="Close notification" closable class="m-5">
                     {{ session('success_message') }}
                 </b-notification>
             @endif
@@ -23,9 +23,9 @@
         <div>
             @if (session()->has('fail_message'))
                 <b-notification
-                    type="is-danger"
-                    has-icon
-                    aria-close-label="Close notification" closable class="m-5">
+                        type="is-danger"
+                        has-icon
+                        aria-close-label="Close notification" closable class="m-5">
                     {{ session('fail_message') }}
                 </b-notification>
             @endif
