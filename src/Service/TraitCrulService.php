@@ -4,6 +4,7 @@
 namespace ZhyuVueCurd\Service;
 
 
+use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 
 trait TraitCrulService
 {
+    use HasUUID;
+
     public function findById(int $id){
 
         return $this->repository->find($id);
@@ -21,6 +24,10 @@ trait TraitCrulService
      */
     private function processAllColumn(Model $model, array &$all){
         $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($model->getTable());
+        Log::info('columns', $columns);
+        if(isset($columns['uuid'])){
+            $all['uuid'] = null;
+        }
         foreach($columns as $name => $column){
             if(isset($all[$name])) {
                 if ($column->getType() instanceof \Doctrine\DBAL\Types\DateType) {
@@ -45,6 +52,10 @@ trait TraitCrulService
     public function store(){
         $all = $this->getParams(false);
         $this->processAllColumn(app(app($this->repository())->model()), $all);
+
+        if(key_exists('uuid', $all) && empty($all['uuid'])){
+            $all['uuid'] = self::generateUUID();
+        }
 
         if(method_exists($this->repository, 'insertByParams')){
 

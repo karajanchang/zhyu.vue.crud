@@ -72,6 +72,7 @@ class CrulController extends Controller
     public function index(){
         $this->auth('read');
 
+
         $this->tableBind($this->module, $this->tag)->index();
 
         return $this->view($this->module.'.'.$this->tag.'.index', [], RequestFacade::all());

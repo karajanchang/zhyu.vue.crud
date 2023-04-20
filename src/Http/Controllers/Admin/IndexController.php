@@ -4,11 +4,15 @@
 namespace ZhyuVueCurd\Http\Controllers\Admin;
 
 
+use Illuminate\Support\Facades\Auth;
 use ZhyuVueCurd\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
     public function index(){
+        if(!Auth::check()){
+            return redirect()->to('/admin/login');
+        }
         $redirect_route = env('ADMIN_LOGIN_REDIRECT_ROUTE', null);
         if(!is_null($redirect_route) && strlen($redirect_route) > 0) {
 
