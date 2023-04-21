@@ -49,13 +49,16 @@ trait TraitCrulService
         return $all;
     }
 
+    private function processUUID($all){
+        if(key_exists('uuid', $all) && empty($all['uuid'])){
+            unset($all['uuid']);
+        }
+    }
     public function store(){
         $all = $this->getParams(false);
         $this->processAllColumn(app(app($this->repository())->model()), $all);
 
-        if(key_exists('uuid', $all) && empty($all['uuid'])){
-            $all['uuid'] = self::generateUUID();
-        }
+        $this->processUUID($all);
 
         if(method_exists($this->repository, 'insertByParams')){
 
@@ -68,6 +71,8 @@ trait TraitCrulService
     public function update(Model $model){
         $all = $this->getParams(true);
         $this->processAllColumn($model, $all);
+
+        $this->processUUID($all);
 
         if(method_exists($this->repository, 'updateByParams')){
 
