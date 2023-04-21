@@ -49,7 +49,7 @@ trait TraitCrulService
         return $all;
     }
 
-    private function processUUID($all){
+    private function processUUID(&$all){
         if(key_exists('uuid', $all) && empty($all['uuid'])){
             unset($all['uuid']);
         }
