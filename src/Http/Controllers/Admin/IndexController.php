@@ -10,8 +10,11 @@ use ZhyuVueCurd\Repositories\Admin\System\MenuRepository;
 class IndexController extends Controller
 {
     public function index(){
-        $redirect_url = $this->getFirstUrl();
+        if(!auth()->check()){
+            return redirect('/admin/login');
+        }
 
+        $redirect_url = $this->getFirstUrl();
         return redirect()->to($redirect_url);
 
 //        return view()->first([
