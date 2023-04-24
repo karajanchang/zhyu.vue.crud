@@ -36,8 +36,6 @@ class UserController extends CrulController implements CRULInterface
     public function roleSet(User $user)
     {
         $roles = Role::all();
-//        $teams = Team::all();
-        //dd($user->allTeams(), $user->currentTeam);
         $teamRole = $this->getFirstTeamAndRoleFromUser($user);
 
         return view('ZhyuVueCurd::admin.permission.user.role-set', [
@@ -55,6 +53,7 @@ class UserController extends CrulController implements CRULInterface
         }
         $team = $user->allTeams()->first();
         $role = $user->teamRole($team);
+        //dd('tt', $role, $team);
         if(isset($role->key) && !empty($role->key)) {
 
             return $role->key;
@@ -69,7 +68,7 @@ class UserController extends CrulController implements CRULInterface
     public function roleSave(User $user, RoleSaveRequest $request){
         $all = $request->all();
 
-        $lock = Cache::lock('LockRoeSave'.$user->id, 10);
+        $lock = Cache::lock('LockRoeSave'.$user->id, 1);
 
         if($lock->get()) {
             $teamUserService = app(TeamUserService::class);

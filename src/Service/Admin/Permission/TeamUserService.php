@@ -62,18 +62,21 @@ class TeamUserService extends AbstractCrulService
         return false;
     }
 
+
     /**
      * @param int $role_id
      * @return mixed
      */
     private function generateParamsByUserAndRoleId(User $user, int $role_id){
         $role = Role::find($role_id);
-        //--admin
-        $team_id = 2;
 
         //--super_admin
         if($role->slug=='super_admin'){
             $team_id = 1;
+        }elseif($role->slug=='admin') {
+            $team_id = 2;
+        }else{
+            $team_id = $role->id;
         }
 
         return [

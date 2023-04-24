@@ -43,6 +43,11 @@ class RoleService extends AbstractCrulService
         return app(ResourceRolePermissionRepository::class)->allByRoleId($role->id);
     }
 
+    public function permissionsWithSlugByRole(Role $role){
+
+        return app(ResourceRolePermissionRepository::class)->allWithSlugByRoleId($role->id);
+    }
+
     public function permissionsSaveByRole(Role $role, array $all){
         try {
             if (count($all['resource_id']) > 0) {

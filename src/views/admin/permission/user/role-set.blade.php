@@ -32,6 +32,7 @@
         <div class="title">設定 {{ $user->slug }} "{{$user->name }}" 的角色</div>
 
         <section>
+
             <form action="{{ route('admin.permission.user.role.save', ['user' => $user]) }}" method="post">
                 @method('PATCH')
                 <div class="field">
@@ -41,7 +42,7 @@
                             <select name="role_id">
                                 <option value="0">-</option>
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id }}" @if($role->slug == $teamRole) selected @endif>{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}" @if($role->slug == $teamRole) selected @endif>{{ $role->name }} {{ $role->slug }}</option>
                                 @endforeach
                             </select>
                         </div>

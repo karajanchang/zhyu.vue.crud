@@ -2,8 +2,11 @@
     <div class="sidebar" id="menu">
         <b-menu>
             @php
+                $userPermissonSlugs = app(\ZhyuVueCurd\Service\Admin\Permission\RoleService::class)->permissionsWithSlugByRole(auth()->user()->role)->pluck('slug')->toArray();
                 $menu_active = [];
+                $menu_permissions = [];
             @endphp
+
             @if($menus->count() > 0)
                 @foreach($menus as $key => $menu)
                     @if($menu->is_online==1)
@@ -12,7 +15,12 @@
                             $menu_active[$key] = false;
                         @endphp
                         @if($children->count() > 0)
-                            @foreach($children as $child)
+                            @foreach($children as $key2 => $child)
+                                @if(in_array($child->title, $userPermissonSlugs))
+                                    @php
+                                        $menu_permissions[$menu->id][$child->id] = 'true';
+                                    @endphp
+                                @endif
                                 @if($child->is_online==1 && ifMatchUrl($child->url))
                                     @php
                                         $menu_active[$key] = true;
@@ -20,6 +28,12 @@
                                     @break
                                 @endif
                             @endforeach
+                        @else
+                            @if(in_array($menu->title, $userPermissonSlugs))
+                                @php
+                                    $menu_permissions[$menu->id] = 'true';
+                                @endphp
+                            @endif
                         @endif
                     @endif
                 @endforeach
@@ -31,26 +45,31 @@
                             $icon = $menu->icon ?? 'view-dashboard';
                             $children = $menu->children()->where('is_online', 1)->cursor();
                         @endphp
-                        @if($children->count() > 0)
-                            <b-menu-list label="">
-                                <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(isset($menu_active[$key]) && $menu_active[$key]===true) :active="true"  @endif :expanded="true" >
-                                    <template slot="label" slot-scope="props">
-                                        {{ $menu->ctitle }}
-                                        <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
-                                    </template>
-                                    @foreach($children as $child)
-                                        @php
-                                            $icon_pack = $child->icon_pack ?? 'fas';
-                                            $icon = $child->icon ?? 'square';
-                                        @endphp
-                                        @if($child->is_online==1)
-                                            <b-menu-item label="{{ $child->ctitle }}" icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" href="{{ $child->url }}" @if(ifMatchUrl($child->url)) active @endif></b-menu-item>
-                                        @endif
-                                    @endforeach
-                                </b-menu-item>
-                            </b-menu-list>
-                        @else
-                            <b-icon icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" class="m-1"></b-icon><a href="{{ $menu->url }}" aria-label="{{ $menu->ctitle }}">{{ $menu->ctitle }}</a>
+
+                        @if(isset($menu_permissions[$menu->id]))
+                            @if($children->count() > 0)
+                                <b-menu-list label="">
+                                    <b-menu-item icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" @if(isset($menu_active[$key]) && $menu_active[$key]===true) :active="true"  @endif :expanded="true" >
+                                        <template slot="label" slot-scope="props">
+                                            {{ $menu->ctitle }}
+                                            <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
+                                        </template>
+                                        @foreach($children as $child)
+                                            @if(isset($menu_permissions[$menu->id][$child->id]))
+                                                @php
+                                                    $icon_pack = $child->icon_pack ?? 'fas';
+                                                    $icon = $child->icon ?? 'square';
+                                                @endphp
+                                                @if($child->is_online==1)
+                                                    <b-menu-item label="{{ $child->ctitle }}" icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" href="{{ $child->url }}" @if(ifMatchUrl($child->url)) active @endif></b-menu-item>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </b-menu-item>
+                                </b-menu-list>
+                            @else
+                                <b-icon icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" class="m-1"></b-icon><a href="{{ $menu->url }}" aria-label="{{ $menu->ctitle }}">{{ $menu->ctitle }}</a>
+                            @endif
                         @endif
                     @endif
                 @endforeach

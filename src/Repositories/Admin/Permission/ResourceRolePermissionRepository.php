@@ -28,4 +28,9 @@ class ResourceRolePermissionRepository extends Repository
 
         return $this->where('role_id', $role_id)->get();
     }
+
+    public function allWithSlugByRoleId(int $role_id){
+
+        return $this->join('resources', 'resource_id', '=', 'resources.id')->where('role_id', $role_id)->addSelect('resources.slug')->get();
+    }
 }
