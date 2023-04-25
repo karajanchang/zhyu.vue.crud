@@ -9,33 +9,28 @@
 
             @if($menus->count() > 0)
                 @foreach($menus as $key => $menu)
-                    @if($menu->is_online==1)
-                        @php
+                    @php
+                        if($menu->is_online==1){
                             $children = $menu->children()->where('is_online', 1)->cursor();
-                            $menu_active[$key] = false;
-                        @endphp
-                        @if($children->count() > 0)
-                            @foreach($children as $key2 => $child)
-                                @if(in_array($child->title, $userPermissonSlugs))
-                                    @php
-                                        $menu_permissions[$menu->id][$child->id] = 'true';
-                                    @endphp
-                                @endif
-                                @if($child->is_online==1 && ifMatchUrl($child->url))
-                                    @php
+//                            $children = $menu->children;
+                            if($children->count() > 0){
+                                foreach($children as $key2 => $child){
+                                    if(in_array($child->title, $userPermissonSlugs)){
+                                            $menu_permissions[$menu->id][$child->id] = 'true';
+                                    }else{
+                                    }
+                                    if($child->is_online==1 && ifMatchUrl($child->url)){
                                         $menu_active[$key] = true;
-                                    @endphp
-                                    @break
-                                @endif
-                            @endforeach
-                        @else
-                            @if(in_array($menu->title, $userPermissonSlugs))
-                                @php
+                                        //@break
+                                    }
+                                }
+                            }else{
+                                if(in_array($menu->title, $userPermissonSlugs)){
                                     $menu_permissions[$menu->id] = 'true';
-                                @endphp
-                            @endif
-                        @endif
-                    @endif
+                                }
+                            }
+                        }
+                    @endphp
                 @endforeach
 
                 @foreach($menus as $key => $menu)
@@ -63,6 +58,8 @@
                                                 @if($child->is_online==1)
                                                     <b-menu-item label="{{ $child->ctitle }}" icon-pack="{{ $icon_pack }}" icon="{{ $icon }}" href="{{ $child->url }}" @if(ifMatchUrl($child->url)) active @endif></b-menu-item>
                                                 @endif
+                                            @else
+                                                {{--                                                @ray($child, $menu_permissions, 'menu_id:'.$menu->id.', child_id:'.$child->id)--}}
                                             @endif
                                         @endforeach
                                     </b-menu-item>
