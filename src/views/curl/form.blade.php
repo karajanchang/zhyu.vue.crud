@@ -3,6 +3,11 @@
 
 @push("css")
     <link rel="stylesheet" href="{{ asset('css/froala_editor.pkgd.min.css')  }}">
+    <style>
+        img{
+            width: 400px !important;
+        }
+    </style>
 @endpush
 
 @push("js_append")

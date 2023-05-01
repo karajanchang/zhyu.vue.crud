@@ -1,5 +1,13 @@
 @extends('ZhyuVueCurd::layouts.base')
 
+@push("css")
+    <style>
+        img{
+            width: 200px !important;
+        }
+    </style>
+@endpush
+
 @push("js")
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
 @endpush
@@ -7,6 +15,7 @@
     $all = \Request::all();
     $queryString = urlencode(\Zhyu\Facades\ZhyuTool::urlMakeQuery('#')->encode($all));
 @endphp
+
 @push("js_append")
     <script>
         // Livewire.on('draggIt', data => {
