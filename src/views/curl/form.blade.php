@@ -4,7 +4,7 @@
 @push("css")
     <link rel="stylesheet" href="{{ asset('css/froala_editor.pkgd.min.css')  }}">
     <style>
-        img{
+        #app img{
             width: 400px !important;
         }
     </style>

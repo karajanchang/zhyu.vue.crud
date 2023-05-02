@@ -2,7 +2,7 @@
 
 @push("css")
     <style>
-        img{
+        #app img{
             width: 200px !important;
         }
     </style>
