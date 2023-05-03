@@ -25,9 +25,8 @@ trait TraitCrulService
      */
     private function processAllColumn(Model $model, array &$all, bool $is_insert = false){
         $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($model->getTable());
-        Log::info('columns', $columns);
 
-        if($is_insert && isset($columns['uuid'])){
+        if($is_insert && key_exists('uuid', $columns)){
             $all['uuid'] = Str::uuid();
         }else{
             if(key_exists('uuid', $all) && empty($all['uuid'])){
@@ -36,29 +35,31 @@ trait TraitCrulService
         }
 
         foreach($columns as $name => $column){
-            if(isset($all[$name])) {
-                if ($column->getType() instanceof \Doctrine\DBAL\Types\DateType) {
-                    $dt = new Carbon($all[$name]);
+            if ($column->getType() instanceof \Doctrine\DBAL\Types\DateType) {
+                $dt = new Carbon($all[$name]);
+                if(isset($all[$name])){
                     $all[$name] = $dt->format('Y-m-d');
                 }
-                if ($column->getType() instanceof \Doctrine\DBAL\Types\DateTimeType) {
+            }
+            if ($column->getType() instanceof \Doctrine\DBAL\Types\DateTimeType) {
+                if(isset($all[$name])) {
                     $dt = new Carbon($all[$name]);
                     $all[$name] = $dt->format('Y-m-d H:i:s');
                 }
-                if ($column->getType() instanceof \Doctrine\DBAL\Types\BooleanType) {
-                    $all[$name] = $all[$name] ?? false;
-                }
+            }
+            if ($column->getType() instanceof \Doctrine\DBAL\Types\BooleanType) {
+                $all[$name] = (bool) $all[$name] ?? false;
             }
         }
 
-        Log::info('processAllColumn: ', [$all]);
+        Log::info(__METHOD__.': ', compact('all', 'columns'));
 
         return $all;
     }
 
     public function store(){
         $all = $this->getParams(false);
-        $this->processAllColumn(app(app($this->repository())->model()), $all);
+        $this->processAllColumn(app(app($this->repository())->model()), $all, true);
 
 
 
