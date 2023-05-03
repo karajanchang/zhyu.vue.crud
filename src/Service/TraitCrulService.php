@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 trait TraitCrulService
 {
@@ -22,12 +23,18 @@ trait TraitCrulService
     /*
      * 處理date 和 datetime
      */
-    private function processAllColumn(Model $model, array &$all){
+    private function processAllColumn(Model $model, array &$all, bool $is_insert = false){
         $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($model->getTable());
         Log::info('columns', $columns);
-        if(isset($columns['uuid'])){
-            $all['uuid'] = null;
+
+        if($is_insert && isset($columns['uuid'])){
+            $all['uuid'] = Str::uuid();
+        }else{
+            if(key_exists('uuid', $all) && empty($all['uuid'])){
+                unset($all['uuid']);
+            }
         }
+
         foreach($columns as $name => $column){
             if(isset($all[$name])) {
                 if ($column->getType() instanceof \Doctrine\DBAL\Types\DateType) {
@@ -49,16 +56,11 @@ trait TraitCrulService
         return $all;
     }
 
-    private function processUUID(&$all){
-        if(key_exists('uuid', $all) && empty($all['uuid'])){
-            unset($all['uuid']);
-        }
-    }
     public function store(){
         $all = $this->getParams(false);
         $this->processAllColumn(app(app($this->repository())->model()), $all);
 
-        $this->processUUID($all);
+
 
         if(method_exists($this->repository, 'insertByParams')){
 
