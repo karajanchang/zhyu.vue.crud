@@ -61,8 +61,6 @@ trait TraitCrulService
         $all = $this->getParams(false);
         $this->processAllColumn(app(app($this->repository())->model()), $all, true);
 
-
-
         if(method_exists($this->repository, 'insertByParams')){
 
             return $this->repository->insertByParams($all);
@@ -74,8 +72,6 @@ trait TraitCrulService
     public function update(Model $model){
         $all = $this->getParams(true);
         $this->processAllColumn($model, $all);
-
-        $this->processUUID($all);
 
         if(method_exists($this->repository, 'updateByParams')){
 
