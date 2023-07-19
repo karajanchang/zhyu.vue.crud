@@ -113,7 +113,15 @@
                                                                 @endif
                                                             @endif
                                                             <div class="block">
-                                                                {!! str_replace(forala_front, '', $column->body) !!}
+                                                                @php
+                                                                 $str = str_replace(forala_front, '', $column->body);
+                                                                 $str = preg_replace_callback('/([0-9.]+)px/', function ($matches) {
+                                                                                $pixels = (float) $matches[1];
+                                                                                $rem = $pixels / 16; // 計算rem值，假設根元素大小為16px
+                                                                                return $rem . 'rem';
+                                                                            }, $str);
+                                                                @endphp
+                                                                {!! $str !!}
                                                             </div>
                                                         </div>
                                                     </div>
