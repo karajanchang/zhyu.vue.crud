@@ -48,7 +48,11 @@ trait TraitCrulService
                 }
             }
             if ($column->getType() instanceof \Doctrine\DBAL\Types\BooleanType) {
-                $all[$name] = (bool) $all[$name] ?? false;
+                if(!isset($all[$name])) {
+                    $all[$name] = false;
+                }else{
+                    $all[$name] = (bool) $all[$name] ?? false;
+                }
             }
         }
 
