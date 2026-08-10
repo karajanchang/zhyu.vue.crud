@@ -107,6 +107,10 @@ class TableAbstract implements \ArrayAccess, Arrayable
                     $ccs [] = '"' . $column . '": `' . $value . '`';
                 }elseif(is_null($value)){
                     $ccs [] = '"' . $column . '": `' . $value . '`';
+                }elseif(is_bool($value)){
+                    // false 直接字串串接會變成空字串，產生壞掉的 JS；
+                    // 輸出 1/0 也能對應 checkbox 的 true-value/false-value
+                    $ccs [] = '"' . $column . '": ' . ($value ? 1 : 0);
                 }else{
                     $ccs [] = '"' . $column . '": ' . $value;
                 }
@@ -176,7 +180,12 @@ class TableAbstract implements \ArrayAccess, Arrayable
                     $columns[$column] = [];
                 }
             }else {
-                $columns[$column] = !empty($relation) ? $relation : null;
+                /*
+                 * 不可用 !empty() 判斷，否則 0、'0'、false 等「有意義的 falsy 值」
+                 * 會被當成 null，最後在 js() 輸出成空字串，
+                 * 送出後被 ConvertEmptyStringsToNull 轉成 null 而驗證失敗。
+                 */
+                $columns[$column] = $relation;
             }
         }
         //dd($columns);
